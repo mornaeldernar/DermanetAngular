@@ -1,0 +1,26 @@
+<h1>Nuevo diagnostico</h1>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/paciente']">Paciente</a></li>
+    <li class="breadcrumb-item active">Ver</li>
+    <li class="breadcrumb-item active" aria-current="page">Diagnostico Nuevo</li>
+  </ol>
+</nav>
+
+<div *ngIf="error" class="alert alert-danger" role="alert">
+  La informacion proporcionada no es correcta
+</div>
+
+<form [formGroup]="diagnostico" (ngSubmit)="save()">
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+    <input formControlName="name" type="text" class="form-control" id="name" placeholder="Nombre">
+    <span *ngIf="diagnostico.get('name')?.invalid && diagnostico.get('name')?.touched" class="text-danger">
+      El Nombre es requerido
+    </span>
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3 float-end">Guardar</button>
+  </div>
+  </form>

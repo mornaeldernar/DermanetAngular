@@ -1,0 +1,33 @@
+<h1>Paciente</h1>
+
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a [routerLink]="['/paciente']">Paciente</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Ver</li>
+  </ol>
+</nav>
+
+<div class="card">
+  <div class="card-header">
+    <div class="row mt-3">
+      <div class="col-lg-6">
+        <h5 class="card-title">{{paciente.name}} {{paciente.lastName}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{paciente.birthdate}}</h6>
+      </div>
+      <div class="col-lg-6">
+        <button class="btn btn-primary float-end" [routerLink]="['/paciente/diagnostico/'+paciente.id]">Nuevo Diagnostico</button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <ul class="list-group">
+      <li *ngFor="let diagnostico of diagnosticos" class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">{{diagnostico.name}}</div>
+        </div>
+        <button class="btn btn-primary">Ver</button>
+      </li>
+    </ul>
+  </div>
+</div>

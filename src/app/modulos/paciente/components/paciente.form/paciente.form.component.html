@@ -1,0 +1,31 @@
+<h1>Nuevo Paciente</h1>
+<div *ngIf="error" class="alert alert-danger" role="alert">
+  La informacion proporcionada no es correcta
+</div>
+
+<form [formGroup]="paciente" (ngSubmit)="save()">
+  <div class="mb-3">
+    <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+    <input formControlName="name" type="text" class="form-control" id="name" placeholder="Nombre">
+    <span *ngIf="paciente.get('name')?.invalid && paciente.get('name')?.touched" class="text-danger">
+      El Nombre es requerido
+    </span>
+  </div>
+  <div class="mb-3">
+    <label for="lastName" class="form-label">Apellidos</label>
+    <input formControlName="lastName" type="text" class="form-control" id="lastName" placeholder="Apellidos">
+    <span *ngIf="paciente.get('lastName')?.invalid && paciente.get('lastName')?.touched" class="text-danger">
+      Los apellidos son requeridos
+    </span>
+  </div>
+  <div class="mb-3">
+    <label for="birthdate" class="form-label">Fecha de nacimiento</label>
+    <input formControlName="birthdate" type="text" class="form-control" id="birthdate" placeholder="Fecha de Nacimiento">
+    <span *ngIf="paciente.get('birthdate')?.invalid && paciente.get('birthdate')?.touched" class="text-danger">
+      La fecha de nacimiento es requerida
+    </span>
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-primary mb-3 float-end">Guardar</button>
+  </div>
+  </form>
