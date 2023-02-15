@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
         console.log(this.tokenResponse.token)
         this.storage.almacenar("token",this.tokenResponse.token);
         this.isLoggedIn = true;
-        this.router.navigate(["/patients"]);
+        this.router.navigate(["/paciente"]);
       },
       error: (e) => {
         this.error= true;

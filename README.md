@@ -1,27 +1,45 @@
 # Dermanet
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.5.
+El proyecto se generó con [Angular CLI](https://github.com/angular/angular-cli) version 15.1.5. con la instruccion ng new dermanet
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Para correr el servidor de prueba se corre la instruccion `ng serve`. Abrir en el navegador la direccion `http://localhost:4200/`.
 
-## Code scaffolding
+## Codigo para generar nuevas interfaces, componentes y modulos
+En la terminal se corren las siguientes instrucciones para generar interfaces estas corresponden a los modelos de datos:
+ng g i ubicacion/nombre
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Para generar modulos se ejecuta la instruccion, esta empaqueta modulos que tienen sus propios componentes 
+ng g m ubicacion/nombre
 
-## Build
+Para generar un componente se ejecuta la instruccion:
+ng g c ubicacion/nombre
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Para generar un servicios se ejecuta la instruccion, estas sirven para accesar a los servicios como localstorage, los servicios de acceso a las api
+ng g s ubicacion/nombre
 
-## Running unit tests
+## Construir
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+`ng build` para construir el proyecto y se guardara en el directorio dist/
 
-## Running end-to-end tests
+## estructura
+Se generaron componentes en el modulo raiz como el nav-bar, que siempre aparecera en pantalla, y el not found que es a donde va cuando no encuentra ninguna ruta
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Se generaron los modelos de datos para recibir la informacion
 
-## Further help
+Se generaron los distintos modulos como son: doctor, paciente, usuario y diagnostico y dentro cada uno tiene sus componentes como listar, ver, y nuevo
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Se generaron los servicios para acceder al api generado en spring, al igual que el localstorage para guardar el JWT en la computadora, y poder acceder a los servicios que requieren autenticacion.
+
+Se utiliza '@angular/router' para generar las rutas y acceso a cada uno de los modulos.
+
+## Funcionamiento
+
+![Login](/img/login.png)
+![Login consulta al api](/img/loginConsulta.png)
+![Pacientes](/img/pacientes.png)
+![Pacientes consulta al api](/img/consulta_pacientes.png)
+![Ver paciente](/img/ver_paciente.png)
+![Nuevo Diagnostico](/img/diagnostico.png)
+![Doctores](/img/doctor.png)
