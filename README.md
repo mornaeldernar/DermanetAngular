@@ -38,6 +38,7 @@ Se utiliza '@angular/router' para generar las rutas y acceso a cada uno de los m
 
 ![Login](/img/login.png)
 ![Login consulta al api](/img/loginConsulta.png)
+![Local storage](/img/token.png)
 ![Pacientes](/img/pacientes.png)
 ![Pacientes consulta al api](/img/consulta_pacientes.png)
 ![Ver paciente](/img/ver_paciente.png)
