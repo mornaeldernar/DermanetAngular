@@ -24,11 +24,6 @@ export class PacienteListComponent implements OnInit{
   }
   ngOnInit(): void {
 
-    let token = this.storage.consultar('token');
-    console.log("token: " + token)
-    if(token === ""){
-      this.router.navigate(["login"])
-    }
 
     this.api.listPacientes().subscribe({
       next : datos => {

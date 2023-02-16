@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { TokenModel } from 'src/app/models/dto/token.model';
@@ -12,7 +12,7 @@ import { UserModule } from '../../user.module';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   error:boolean = false;
   user: FormGroup;
   tokenResponse? : TokenModel;
@@ -30,12 +30,6 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  ngOnInit(): void {
-    let token = this.storage.consultar('token');
-    if(token !== ""){
-      this.router.navigate(["/paciente"]);
-    }
-  }
   logout(){
     this.isLoggedIn = false;
     this.storage.borrar("token");

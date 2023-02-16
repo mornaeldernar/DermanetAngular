@@ -6,5 +6,10 @@
           <img src={{img}} alt="logo" width="150" height="70" >
         </a>
       </span>
+      <ul class="navbar-nav mr-auto" *ngIf="logged">
+        <li class="nav-item">
+          <a [routerLink]="['/logout']" class="nav-item">Logout</a>
+        </li>
+      </ul>
     </div>
   </nav>

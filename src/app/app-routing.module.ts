@@ -10,17 +10,20 @@ import { PacienteViewComponent } from './modulos/paciente/components/paciente.vi
 import { DiagnosticoFormComponent } from './modulos/diagnostico/components/diagnostico.form/diagnostico.form.component';
 import { LoginComponent } from './modulos/user/components/login/login.component';
 import { JwtGuard } from './guard/jwt.guard';
+import { LoggedInGuard } from './guard/logged-in.guard';
+import { LogoutComponent } from './modulos/user/components/logout/logout.component';
 
 const routes: Routes = [
-  { path : "", component: LoginComponent },
-  { path : "paciente", component: PacienteListComponent ,canActivate:[JwtGuard]},
-  { path : "paciente/view/:id", component: PacienteViewComponent ,canActivate:[JwtGuard]},
-  { path : "paciente/new", component: PacienteFormComponent ,canActivate:[JwtGuard]},
-  { path : "doctor", component: DoctorListaComponent ,canActivate:[JwtGuard]},
-  { path : "doctor/view/:id", component: DoctorViewComponent ,canActivate:[JwtGuard]},
-  { path : "doctor/new", component: DoctorFormComponent,canActivate:[JwtGuard] },
-  { path : "paciente/diagnostico/:id", component : DiagnosticoFormComponent ,canActivate:[JwtGuard]},
-  { path : "" , redirectTo: '/', pathMatch:'full'},
+  { path : "login", component: LoginComponent, canActivate:[LoggedInGuard]},
+  { path : "logout", component: LogoutComponent, canActivate:[JwtGuard]},
+  { path : "paciente", component: PacienteListComponent, canActivate:[JwtGuard]},
+  { path : "paciente/view/:id", component: PacienteViewComponent, canActivate:[JwtGuard]},
+  { path : "paciente/new", component: PacienteFormComponent, canActivate:[JwtGuard]},
+  { path : "doctor", component: DoctorListaComponent, canActivate:[JwtGuard]},
+  { path : "doctor/view/:id", component: DoctorViewComponent, canActivate:[JwtGuard]},
+  { path : "doctor/new", component: DoctorFormComponent, canActivate:[JwtGuard] },
+  { path : "paciente/diagnostico/:id", component : DiagnosticoFormComponent, canActivate:[JwtGuard]},
+  { path : "" , redirectTo: '/login', pathMatch:'full'},
   { path : "**", component: NotFoundComponent}
 ];
 
