@@ -40,6 +40,6 @@ export class PacienteApiService {
       'Authorization':'Bearer '+this.token()
     });
     let body = JSON.stringify(paciente);
-    return this.http.post(this.url,{"name":"juan","lastName":"pedro","birthdate":"2020-01-01"},{headers: headers});
+    return this.http.post(this.url,body,{headers: headers});
   }
 }
