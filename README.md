@@ -34,6 +34,11 @@ Se generaron los servicios para acceder al api generado en spring, al igual que 
 
 Se utiliza '@angular/router' para generar las rutas y acceso a cada uno de los modulos.
 
+## Security
+
+La aplicacion utiliza guards para proteger las rutas en caso de que se haya iniciado la sesion o no.
+
+
 ## Funcionamiento
 
 ![Login](/img/login.png)
