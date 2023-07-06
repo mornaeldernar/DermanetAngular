@@ -10,6 +10,7 @@ import { PacienteApiService } from 'src/app/services/api/paciente.api.service';
 })
 export class PacienteViewComponent  implements OnInit {
   id: number = 1;
+  titulo: string="";
   paciente:PacienteModel = {
     id:0,
     name:"",

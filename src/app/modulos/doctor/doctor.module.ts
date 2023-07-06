@@ -5,6 +5,8 @@ import { DoctorFormComponent } from './components/doctor.form/doctor.form.compon
 import { DoctorViewComponent } from './components/doctor.view/doctor.view.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DoctorComponent } from './doctor.component';
+import { DoctorRoutingModule } from './doctor-routing.module';
 
 
 
@@ -12,13 +14,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [
     DoctorListaComponent,
     DoctorFormComponent,
-    DoctorViewComponent
+    DoctorViewComponent,
+    DoctorComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DoctorRoutingModule
   ]
 })
 export class DoctorModule { }

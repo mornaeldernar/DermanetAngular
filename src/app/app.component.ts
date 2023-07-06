@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'dermanet';
+  title = environment.title;
+  apiUrl = environment.apiUrl;
 }

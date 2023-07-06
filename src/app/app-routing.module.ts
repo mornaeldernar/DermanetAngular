@@ -12,23 +12,32 @@ import { LoginComponent } from './modulos/user/components/login/login.component'
 import { JwtGuard } from './guard/jwt.guard';
 import { LoggedInGuard } from './guard/logged-in.guard';
 import { LogoutComponent } from './modulos/user/components/logout/logout.component';
+import { ImagenUbicacionComponent } from './modulos/paciente/components/imagen-ubicacion/imagen-ubicacion.component';
+import { UserRoutingModule } from './modulos/user/user-routing.module';
+import { PacienteRoutingModule } from './modulos/paciente/paciente-routing.module';
+import { DoctorRoutingModule } from './modulos/doctor/doctor-routing.module';
+import { DiagnosticoRoutingModule } from './modulos/diagnostico/diagnostico-routing.module';
+import { BodyRoutingModule } from './modulos/body/body-routing.module';
 
 const routes: Routes = [
-  { path : "login", component: LoginComponent, canActivate:[LoggedInGuard]},
-  { path : "logout", component: LogoutComponent, canActivate:[JwtGuard]},
-  { path : "paciente", component: PacienteListComponent, canActivate:[JwtGuard]},
-  { path : "paciente/view/:id", component: PacienteViewComponent, canActivate:[JwtGuard]},
-  { path : "paciente/new", component: PacienteFormComponent, canActivate:[JwtGuard]},
-  { path : "doctor", component: DoctorListaComponent, canActivate:[JwtGuard]},
+/*  { path : "doctor", component: DoctorListaComponent, canActivate:[JwtGuard]},
   { path : "doctor/view/:id", component: DoctorViewComponent, canActivate:[JwtGuard]},
   { path : "doctor/new", component: DoctorFormComponent, canActivate:[JwtGuard] },
   { path : "paciente/diagnostico/:id", component : DiagnosticoFormComponent, canActivate:[JwtGuard]},
+  { path : "paciente/ubicacion/:id", component : ImagenUbicacionComponent, canActivate:[JwtGuard]},*/
   { path : "" , redirectTo: '/login', pathMatch:'full'},
   { path : "**", component: NotFoundComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes,{enableTracing:true}),
+    UserRoutingModule,
+    PacienteRoutingModule,
+    DoctorRoutingModule,
+    DiagnosticoRoutingModule,
+    BodyRoutingModule
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

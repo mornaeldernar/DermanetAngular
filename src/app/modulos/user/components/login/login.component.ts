@@ -30,10 +30,7 @@ export class LoginComponent {
     })
   }
 
-  logout(){
-    this.isLoggedIn = false;
-    this.storage.borrar("token");
-  }
+
 
   login(){
     const usuario : UserModel = {

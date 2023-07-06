@@ -7,6 +7,8 @@ import { PacienteSubmit } from 'src/app/models/dto/paciente.submit';
 import { PatientsResponseModel } from 'src/app/models/dto/patients.response.model';
 import { PacienteModel } from 'src/app/models/paciente.model';
 import { LocalStorageService } from '../local-storage.service';
+import { environment } from 'src/environment/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,6 @@ export class PacienteApiService {
 
   constructor(private http : HttpClient, private storage : LocalStorageService) { }
 
-  url = "http://localhost:8988/patient";
   private token(): string{
     let token = this.storage.consultar("token");
 
@@ -26,20 +27,19 @@ export class PacienteApiService {
   }
 
   listPacientes() {
-    return this.http.get<PacienteModel[]>(this.url, {headers: {'Authorization':'Bearer '+this.token()}});
+    return this.http.get<PacienteModel[]>(environment.apiUrl+environment.paciente, {headers: {'Authorization':'Bearer '+this.token()}});
   }
   verPaciente(id:number) {
-    return this.http.get<PacienteModel>(this.url+"/"+id, {headers: {'Authorization':'Bearer '+this.token()}});
+    return this.http.get<PacienteModel>(environment.apiUrl+environment.paciente+"/"+id, {headers: {'Authorization':'Bearer '+this.token()}});
   }
   diagnostico(id:number){
 
-    return this.http.get<DiagnosticoResponseModel>(this.url+"/"+id+"/diagnostic", {headers: {'Authorization':'Bearer '+this.token()}});
+    return this.http.get<DiagnosticoResponseModel>(environment.apiUrl+environment.paciente+"/"+id+"/diagnostic", {headers: {'Authorization':'Bearer '+this.token()}});
   }
   guardar(paciente: PacienteSubmit) : Observable<any>{
-    let headers = new HttpHeaders({
-      'Authorization':'Bearer '+this.token()
-    });
-    let body = JSON.stringify(paciente);
-    return this.http.post(this.url,body,{headers: headers});
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+this.token()})
+    }
+    return this.http.post(environment.apiUrl+environment.paciente,JSON.stringify(paciente),httpOptions);
   }
 }

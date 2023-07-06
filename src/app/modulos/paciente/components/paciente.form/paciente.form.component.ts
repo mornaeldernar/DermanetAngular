@@ -25,6 +25,7 @@ export class PacienteFormComponent {
   }
   save(){
     const paciente : PacienteSubmit = {
+      id : 0,
       name : this.paciente.get("name")?.value,
       lastName : this.paciente.get("lastName")?.value,
       birthdate : new Date(this.paciente.get("birthdate")?.value),
@@ -36,7 +37,7 @@ export class PacienteFormComponent {
       },
       error: (e) => {
         this.error= true;
-        console.log(e)
+        console.log(paciente)
       }
     })
   }
