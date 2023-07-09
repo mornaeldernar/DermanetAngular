@@ -14,7 +14,6 @@ import { PacienteModule } from './modulos/paciente/paciente.module';
 import { UserModule } from './modulos/user/user.module';
 import { DoctorModule } from './modulos/doctor/doctor.module';
 import { DiagnosticoModule } from './modulos/diagnostico/diagnostico.module';
-import { BodyModule } from './modulos/body/body.module';
 import { SharedModule } from './shared/shared.module';
 
 @NgModule({
@@ -33,8 +32,7 @@ import { SharedModule } from './shared/shared.module';
     PacienteModule,
     UserModule,
     DoctorModule,
-    DiagnosticoModule,
-    BodyModule
+    DiagnosticoModule
 
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],

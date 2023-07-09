@@ -1,0 +1,15 @@
+.card {
+  margin: 1em;
+  width: 20em;
+}
+.item {
+  position:relative;
+  padding-top:20px;
+  display:inline-block;
+}
+.notify-badge{
+  position: absolute;
+  right:10px;
+  top:5px;
+  text-align: center;
+}

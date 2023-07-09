@@ -1,0 +1,17 @@
+[class*=sidebar-dark-] {
+  background-color: purple;
+  border-color: plum;
+}
+.brand-link .brand-image {
+  background-color: white
+}
+
+[class*=sidebar-dark-] .sidebar a {
+  color: plum;
+}
+[class*=sidebar-dark] .brand-link {
+  border-bottom: 1px solid plum;
+}
+[class*=sidebar-dark] .user-panel {
+  border-bottom: 1px solid plum;
+}

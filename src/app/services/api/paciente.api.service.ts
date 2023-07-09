@@ -8,6 +8,7 @@ import { PatientsResponseModel } from 'src/app/models/dto/patients.response.mode
 import { PacienteModel } from 'src/app/models/paciente.model';
 import { LocalStorageService } from '../local-storage.service';
 import { environment } from 'src/environment/environment';
+import { PageingResponseDto } from 'src/app/models/dto/pageing.response.dto';
 
 
 @Injectable({
@@ -26,8 +27,11 @@ export class PacienteApiService {
     return token;
   }
 
-  listPacientes() {
-    return this.http.get<PacienteModel[]>(environment.apiUrl+environment.paciente, {headers: {'Authorization':'Bearer '+this.token()}});
+  listPacientes(pagina:number) {
+    return this.http.get<PageingResponseDto<PacienteModel>>(environment.apiUrl+environment.paciente+"?page="+pagina+"&size=150", {headers: {'Authorization':'Bearer '+this.token()}});
+  }
+  filtraPacientes(nombre:string,pagina:number) {
+    return this.http.get<PageingResponseDto<PacienteModel>>(environment.apiUrl+environment.paciente+"?name="+nombre+"&page="+pagina+"&size=150", {headers: {'Authorization':'Bearer '+this.token()}});
   }
   verPaciente(id:number) {
     return this.http.get<PacienteModel>(environment.apiUrl+environment.paciente+"/"+id, {headers: {'Authorization':'Bearer '+this.token()}});
@@ -36,10 +40,11 @@ export class PacienteApiService {
 
     return this.http.get<DiagnosticoResponseModel>(environment.apiUrl+environment.paciente+"/"+id+"/diagnostic", {headers: {'Authorization':'Bearer '+this.token()}});
   }
-  guardar(paciente: PacienteSubmit) : Observable<any>{
+  guardar(paciente: PacienteSubmit) {
     const httpOptions = {
-      headers: new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+this.token()})
+      headers: new HttpHeaders({'content-type': 'application/json;charset=UTF-8','Authorization':'Bearer '+this.token()})
     }
-    return this.http.post(environment.apiUrl+environment.paciente,JSON.stringify(paciente),httpOptions);
+    return this.http.post<any>(environment.apiUrl+environment.paciente,JSON.stringify(paciente),httpOptions);
   }
+
 }

@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DoctorComponent } from './doctor.component';
 import { DoctorRoutingModule } from './doctor-routing.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -22,7 +23,8 @@ import { DoctorRoutingModule } from './doctor-routing.module';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    DoctorRoutingModule
+    DoctorRoutingModule,
+    SharedModule
   ]
 })
 export class DoctorModule { }

@@ -13,34 +13,30 @@ export class SidebarService {
       admin:false
     },
     {
-      titulo:'Cliente',
+      titulo:'Pacientes',
       icono:'nav-icon fas fa-user-tie',
-      url:"/cliente",
-      admin:true
+      url:"/paciente",
+      admin:false,
+      submenu:[
+        {
+          titulo:'Ver',
+          icono:'nav-icon fas fa-user-tie',
+          url:"/paciente",
+          admin:false,
+        },
+        {
+          titulo:'Agregar',
+          icono:'nav-icon fas fa-user-tie',
+          url:"/paciente/new",
+          admin:false,
+        }
+      ]
     },
     {
-      titulo:'Cuentas',
+      titulo:'Doctor',
       icono:'nav-icon fas fa-credit-card',
-      url:"/cuenta",
+      url:"/doctor",
       admin:false
-    },
-    {
-      titulo:'Pagos',
-      icono:'nav-icon fas fa-coins',
-      url:"/deposito",
-      admin:false
-    },
-    {
-      titulo:'Pago con Tarjeta',
-      icono:'nav-icon fas fa-coins',
-      url:"/pagoTarjeta/nuevo",
-      admin:false
-    },
-    {
-      titulo:'Subir Pagos',
-      icono: 'nav-icon fas fa-money-check',
-      url: '/deposito/add/file',
-      admin:true,
     },
   ]
 }

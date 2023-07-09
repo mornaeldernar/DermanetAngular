@@ -9,12 +9,26 @@
 <div class="alert alert-danger" role="alert" *ngIf="pacientes.length == 0">
   No hay pacientes
 </div>
+<div class="" style="display: flex;">
+  <form class="form-inline">
+    <div class="input-group input-group-sm">
+      <input class="form-control form-control-navbar" type="search" placeholder="Filtrar por nombre" aria-label="Search" [formControl]="nombre" >
+      <div class="input-group-append">
+        <button class="btn btn-navbar" type="button" (click)="searchPage(0)">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
 <table class="table table-hover mt-3" *ngIf="pacientes.length>0">
   <thead>
     <tr>
       <th>Nombre</th>
       <th>Apellidos</th>
       <th>Fecha de Nacimiento</th>
+      <th>Sexo</th>
+      <th>Edad</th>
       <th>Acciones</th>
     </tr>
     </thead>
@@ -22,8 +36,37 @@
       <tr *ngFor="let paciente of pacientes">
         <td>{{paciente.name}}</td>
         <td>{{paciente.lastName}}</td>
-        <td>{{paciente.birthdate}}</td>
+        <td>{{paciente.birthdate | date:"longDate":"UTC"}}</td>
+        <td>{{paciente.sex}}</td>
+        <td>{{edad(paciente.birthdate.toString())}}</td>
         <td><button [routerLink]="['/paciente/view/'+paciente.id]"  class="btn btn-primary">Ver</button></td>
       </tr>
     </tbody>
 </table>
+<nav aria-label="Page navigation example"*ngIf="!(nombre.value || '' !== '')">
+  <ul class="pagination justify-content-end">
+    <li class="page-item" *ngIf="!first">
+      <a class="page-link" role="button" (click)="getPage(page-1)" tabindex="-1">Previous</a>
+    </li>
+    <li class="page-item" *ngIf="!first"><a class="page-link" role="button" (click)="getPage(page-1)" >{{page}}</a></li>
+    <li class="page-item"><a class="page-link active" role="button" >{{page+1}}</a></li>
+    <li class="page-item" *ngIf="!last"><a class="page-link" role="button" (click)="getPage(page+1)">{{page+2}}</a></li>
+    <li class="page-item" *ngIf="!last">
+      <a class="page-link" role="button" (click)="getPage(page+1)">Next</a>
+    </li>
+  </ul>
+</nav>
+
+<nav aria-label="Page navigation example" *ngIf="nombre.value || '' !== ''">
+  <ul class="pagination justify-content-end">
+    <li class="page-item" *ngIf="!first">
+      <a class="page-link" role="button" (click)="searchPage(page-1)" tabindex="-1">Previous</a>
+    </li>
+    <li class="page-item" *ngIf="!first"><a class="page-link" role="button" (click)="searchPage(page-1)" >{{page}}</a></li>
+    <li class="page-item"><a class="page-link active" role="button" >{{page+1}}</a></li>
+    <li class="page-item" *ngIf="!last"><a class="page-link" role="button" (click)="searchPage(page+1)">{{page+2}}</a></li>
+    <li class="page-item" *ngIf="!last">
+      <a class="page-link" role="button" (click)="searchPage(page+1)">Next</a>
+    </li>
+  </ul>
+</nav>

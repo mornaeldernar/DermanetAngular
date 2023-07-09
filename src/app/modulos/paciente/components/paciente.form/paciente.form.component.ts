@@ -20,7 +20,10 @@ export class PacienteFormComponent {
     this.paciente = this.fb.group({
       name: ['',[Validators.required]],
       lastName: ['',[Validators.required]],
-      birthdate: ['',[Validators.required]]
+      birthdate: ['',[Validators.required]],
+      sex: ['',[Validators.required]],
+      phone: ['',[Validators.required]],
+      profesion: ['',[Validators.required]]
     })
   }
   save(){
@@ -29,11 +32,14 @@ export class PacienteFormComponent {
       name : this.paciente.get("name")?.value,
       lastName : this.paciente.get("lastName")?.value,
       birthdate : new Date(this.paciente.get("birthdate")?.value),
+      sex : this.paciente.get("sex")?.value,
+      phone : this.paciente.get("phone")?.value,
+      profesion : this.paciente.get("profesion")?.value,
     }
     this.api.guardar(paciente).subscribe({
       next: datos => {
         console.log(datos);
-        this.router.navigate(["/pactients"]);
+        this.router.navigate(["/paciente"]);
       },
       error: (e) => {
         this.error= true;

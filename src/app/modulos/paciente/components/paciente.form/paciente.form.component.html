@@ -1,31 +1,61 @@
-<h1>Nuevo Paciente</h1>
+
 <div *ngIf="error" class="alert alert-danger" role="alert">
   La informacion proporcionada no es correcta
 </div>
+<div class="card">
+  <div class="card-header">
+    <h1>Nuevo Paciente</h1>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="paciente" (ngSubmit)="save()">
+      <div class="mb-3">
+        <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+        <input formControlName="name" type="text" class="form-control" id="name" placeholder="Nombre">
+        <span *ngIf="paciente.get('name')?.invalid && paciente.get('name')?.touched" class="text-danger">
+          El Nombre es requerido
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="lastName" class="form-label">Apellidos</label>
+        <input formControlName="lastName" type="text" class="form-control" id="lastName" placeholder="Apellidos">
+        <span *ngIf="paciente.get('lastName')?.invalid && paciente.get('lastName')?.touched" class="text-danger">
+          Los apellidos son requeridos
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="birthdate" class="form-label">Fecha de nacimiento</label>
+        <input formControlName="birthdate" type="date" class="form-control" id="birthdate" placeholder="Fecha de Nacimiento">
+        <span *ngIf="paciente.get('birthdate')?.invalid && paciente.get('birthdate')?.touched" class="text-danger">
+          La fecha de nacimiento es requerida
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="sex" class="form-label">Sexo</label>
+        <input formControlName="sex" type="text" class="form-control" id="sex" placeholder="Sexo">
+        <span *ngIf="paciente.get('sex')?.invalid && paciente.get('sex')?.touched" class="text-danger">
+          El sexo es requerida
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="phone" class="form-label">Teléfono</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+          </div>
+          <input type="text" formControlName="phone" id="phone"class="form-control" data-inputmask="'alias': '(999) 999-9999'" data-mask>
+        </div>
+        <span *ngIf="paciente.get('phone')?.invalid && paciente.get('phone')?.touched" class="text-danger">
+          El teléfono es requerida
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="profesion" class="form-label">Profesion</label>
+        <input formControlName="profesion" type="text" class="form-control" id="profesion" placeholder="Profesion">
+      </div>
+      <div class="col-auto">
+        <button type="submit" class="btn btn-primary mb-3 float-end">Guardar</button>
+      </div>
+    </form>
 
-<form [formGroup]="paciente" (ngSubmit)="save()">
-  <div class="mb-3">
-    <label for="exampleFormControlInput1" class="form-label">Nombre</label>
-    <input formControlName="name" type="text" class="form-control" id="name" placeholder="Nombre">
-    <span *ngIf="paciente.get('name')?.invalid && paciente.get('name')?.touched" class="text-danger">
-      El Nombre es requerido
-    </span>
   </div>
-  <div class="mb-3">
-    <label for="lastName" class="form-label">Apellidos</label>
-    <input formControlName="lastName" type="text" class="form-control" id="lastName" placeholder="Apellidos">
-    <span *ngIf="paciente.get('lastName')?.invalid && paciente.get('lastName')?.touched" class="text-danger">
-      Los apellidos son requeridos
-    </span>
-  </div>
-  <div class="mb-3">
-    <label for="birthdate" class="form-label">Fecha de nacimiento</label>
-    <input formControlName="birthdate" type="text" class="form-control" id="birthdate" placeholder="Fecha de Nacimiento">
-    <span *ngIf="paciente.get('birthdate')?.invalid && paciente.get('birthdate')?.touched" class="text-danger">
-      La fecha de nacimiento es requerida
-    </span>
-  </div>
-  <div class="col-auto">
-    <button type="submit" class="btn btn-primary mb-3 float-end">Guardar</button>
-  </div>
-  </form>
+</div>

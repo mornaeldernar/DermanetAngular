@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { SidebarService } from '../sidebar.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';

@@ -5,4 +5,5 @@ export interface PacienteModel {
   name:string;
   lastName:string;
   birthdate:Date;
+  sex:string;
 }

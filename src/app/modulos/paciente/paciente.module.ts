@@ -26,7 +26,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     PacienteRoutingModule,
-    SharedModule
+    SharedModule,
+
   ]
 })
 export class PacienteModule { }
