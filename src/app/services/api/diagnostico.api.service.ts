@@ -10,11 +10,11 @@ import { environment } from 'src/environment/environment';
 export class DiagnosticoApiService {
 
   constructor(private http : HttpClient, private storage : LocalStorageService) { }
-  listDoctors() {
+  listDiagnostics() {
     let token = localStorage.getItem("token") || "";
     if(token.startsWith("\"")){
       token = token.slice(1,-1)
     }
-    return this.http.get<DiagnosticoModel[]>(environment.apiUrl+environment.diagnostic, {headers: {'Authorization':'Bearer '+token}});
+    return this.http.get<DiagnosticoModel[]>(environment.apiUrl+environment.image, {headers: {'Authorization':'Bearer '+token}});
   }
 }

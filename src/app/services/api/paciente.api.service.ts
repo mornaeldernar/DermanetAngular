@@ -38,7 +38,7 @@ export class PacienteApiService {
   }
   diagnostico(id:number){
 
-    return this.http.get<DiagnosticoResponseModel>(environment.apiUrl+environment.paciente+"/"+id+"/diagnostic", {headers: {'Authorization':'Bearer '+this.token()}});
+    return this.http.get<DiagnosticoResponseModel>(environment.apiUrl+environment.image+"/"+id, {headers: {'Authorization':'Bearer '+this.token()}});
   }
   guardar(paciente: PacienteSubmit) {
     const httpOptions = {
