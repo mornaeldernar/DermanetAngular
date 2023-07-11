@@ -7,6 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { BodylistComponent } from './bodylist/bodylist.component';
 import { BodyitemComponent } from './bodylist/bodyitem/bodyitem.component';
+import { MicrolistComponent } from './microlist/microlist.component';
 
 
 
@@ -17,7 +18,8 @@ import { BodyitemComponent } from './bodylist/bodyitem/bodyitem.component';
     BreadcrumbsComponent,
     FooterComponent,
     BodylistComponent,
-    BodyitemComponent
+    BodyitemComponent,
+    MicrolistComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { BodyitemComponent } from './bodylist/bodyitem/bodyitem.component';
     BreadcrumbsComponent,
     FooterComponent,
     BodylistComponent,
-    BodyitemComponent
+    BodyitemComponent,
+    MicrolistComponent
   ]
 })
 export class SharedModule { }

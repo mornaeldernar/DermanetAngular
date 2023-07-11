@@ -15,7 +15,7 @@
         <h5 class="card-title">{{paciente.name | uppercase}} {{paciente.lastName | uppercase}} ({{edad(paciente.birthdate.toString())}} años)</h5>
       </div>
       <div class="col-lg-6">
-        <button class="btn btn-primary float-end" [routerLink]="['/paciente/diagnostico/'+paciente.id]">Nuevo Diagnostico</button>
+        <button class="btn btn-primary float-end" [routerLink]="['/paciente/diagnostico/'+paciente.id]">Nueva Imagen Macro</button>
       </div>
     </div>
     <div class="row mt-3">
@@ -25,14 +25,43 @@
     </div>
   </div>
   <div class="card-body">
-    <app-bodylist [items]="items"></app-bodylist>
-    <ul class="list-group">
-      <li *ngFor="let diagnostico of diagnosticos" class="list-group-item d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto">
-          <div class="fw-bold">{{diagnostico.name}}</div>
-        </div>
-        <button class="btn btn-primary">Ver</button>
-      </li>
-    </ul>
+    <div class="row">
+      <div class="col-md-4">
+        <app-bodylist [items]="diagnosticos" [total]="totalPages" [cuantos]="page+1" [page]="page" [first]="first" [last]="last" (getMicro)="getMicro($event)"></app-bodylist>
+
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end">
+            <li class="page-item" *ngIf="!first">
+              <a class="page-link" role="button" (click)="getDiagnosticPage(page-1)" tabindex="-1">Previous</a>
+            </li>
+            <li class="page-item" *ngIf="!first"><a class="page-link" role="button" (click)="getDiagnosticPage(page-1)" >{{page}}</a></li>
+            <li class="page-item"><a class="page-link active" role="button" >{{page+1}}</a></li>
+            <li class="page-item" *ngIf="!last"><a class="page-link" role="button" (click)="getDiagnosticPage(page+1)">{{page+2}}</a></li>
+            <li class="page-item" *ngIf="!last">
+              <a class="page-link" role="button" (click)="getDiagnosticPage(page+1)">Next</a>
+            </li>
+          </ul>
+        </nav>
+
+      </div>
+
+      <div class="col-md-4">
+        <app-microlist [items]="diagnosticos" [total]="totalPages" [cuantos]="page+1"  (getMicro)="getMicroPage"></app-microlist>
+
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end">
+            <li class="page-item" *ngIf="!first">
+              <a class="page-link" role="button" (click)="getDiagnosticPage(page-1)" tabindex="-1">Previous</a>
+            </li>
+            <li class="page-item" *ngIf="!first"><a class="page-link" role="button" (click)="getDiagnosticPage(page-1)" >{{page}}</a></li>
+            <li class="page-item"><a class="page-link active" role="button" >{{page+1}}</a></li>
+            <li class="page-item" *ngIf="!last"><a class="page-link" role="button" (click)="getDiagnosticPage(page+1)">{{page+2}}</a></li>
+            <li class="page-item" *ngIf="!last">
+              <a class="page-link" role="button" (click)="getDiagnosticPage(page+1)">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   </div>
 </div>

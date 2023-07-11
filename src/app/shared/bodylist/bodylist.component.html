@@ -1,8 +1,10 @@
 <div class="card">
   <div class="card-header">
-    Cabeza
+    Macro {{cuantos}} de {{total}}
   </div>
   <div class="card-body">
-      <app-bodyitem *ngFor="let item of items" [item]="item"/>
+      <app-bodyitem *ngFor="let item of items" [item]="item.image" [micros]="item.micro.length" (getMicro)="changeMicroId($event)"/>
+  </div>
+  <div class="card-footer">
   </div>
 </div>

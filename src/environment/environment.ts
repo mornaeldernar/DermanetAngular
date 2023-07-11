@@ -4,7 +4,9 @@ export const environment = {
   apiUrl : 'http://localhost:8988',
   login : '/login',
   register : '/register',
-  paciente : '/patient/',
-  doctor : '/doctor/',
-  image : '/image/'
+  paciente : '/patient',
+  doctor : '/doctor',
+  image : '/image',
+  viewImage : '/find',
+  macro: '/macro'
 }
