@@ -13,6 +13,12 @@ export class SidebarService {
       admin:false
     },
     {
+      titulo:'Calendario',
+      icono:'nav-icon fas fa-calendar-alt',
+      url:"/calendario",
+      admin:false
+    },
+    {
       titulo:'Pacientes',
       icono:'nav-icon fas fa-user-tie',
       url:"/paciente",

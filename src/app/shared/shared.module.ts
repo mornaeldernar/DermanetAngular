@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { BodylistComponent } from './bodylist/bodylist.component';
 import { BodyitemComponent } from './bodylist/bodyitem/bodyitem.component';
 import { MicrolistComponent } from './microlist/microlist.component';
+import { HistoriaClinicaComponent } from './historia-clinica/historia-clinica.component';
 
 
 
@@ -19,7 +20,8 @@ import { MicrolistComponent } from './microlist/microlist.component';
     FooterComponent,
     BodylistComponent,
     BodyitemComponent,
-    MicrolistComponent
+    MicrolistComponent,
+    HistoriaClinicaComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { MicrolistComponent } from './microlist/microlist.component';
     FooterComponent,
     BodylistComponent,
     BodyitemComponent,
-    MicrolistComponent
+    MicrolistComponent,
+    HistoriaClinicaComponent
   ]
 })
 export class SharedModule { }

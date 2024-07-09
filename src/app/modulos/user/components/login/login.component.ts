@@ -6,6 +6,7 @@ import { UserModel } from 'src/app/models/user.model';
 import { UserApiService } from 'src/app/services/api/user.api.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { UserModule } from '../../user.module';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent {
   constructor(private fb: FormBuilder,
       private api :UserApiService,
       private storage: LocalStorageService,
-      private router : Router
+      private router : Router,
+      private loginService: LoginService
     ) {
       this.user = this.fb.group({
       email: ['',[Validators.required,Validators.email]],
@@ -43,6 +45,7 @@ export class LoginComponent {
         console.log(this.tokenResponse.token)
         this.storage.almacenar("token",this.tokenResponse.token);
         this.isLoggedIn = true;
+        this.loginService.updateLoggedIn(true);
         this.router.navigate(["/paciente"]);
       },
       error: (e) => {

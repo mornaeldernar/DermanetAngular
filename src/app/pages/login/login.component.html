@@ -1,0 +1,23 @@
+<h1>Login</h1>
+<div *ngIf="error" class="alert alert-danger" role="alert">
+  Usuario o contraseña erroneos
+</div>
+<form [formGroup]="user" (ngSubmit)="login()">
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Email address</label>
+  <input formControlName="email" type="email" class="form-control" id="email" placeholder="name@example.com">
+  <span *ngIf="user.get('email')?.invalid && user.get('email')?.touched" class="text-danger">
+    El email no es válido
+  </span>
+</div>
+<div class="mb-3">
+  <label for="password" class="form-label">Password</label>
+  <input formControlName="password" type="password" class="form-control" id="password">
+  <span *ngIf="user.get('password')?.invalid && user.get('password')?.touched" class="text-danger">
+    El password es requerido
+  </span>
+</div>
+<div class="col-auto">
+  <button type="submit" class="btn btn-primary mb-3 float-end">Login</button>
+</div>
+</form>

@@ -1,10 +1,5 @@
-<div class="card">
-  <div class="card-header">
-    Macro {{cuantos}} de {{total}}
-  </div>
-  <div class="card-body">
-      <app-bodyitem *ngFor="let item of items" [item]="item.image" [micros]="item.micro.length" (getMicro)="changeMicroId($event)"/>
-  </div>
-  <div class="card-footer">
-  </div>
+
+<div class="timeline timeline-inverse">
+  <h3 class="card-title">Macro {{cuantos}} de {{total}}</h3>
+  <app-bodyitem *ngFor="let item of items" [item]="item.image" [micros]="item.micro.length" [macroId]="item.id" (getMicro)="changeMicroId($event)"/>
 </div>

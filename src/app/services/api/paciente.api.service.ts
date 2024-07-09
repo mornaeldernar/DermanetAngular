@@ -44,11 +44,29 @@ export class PacienteApiService {
   micro(id:number, page:number){
     return this.http.get<PageingResponseDto<MicroModel>>(environment.apiUrl+environment.micro+"?macro_id="+id+"&page="+page+"&size=50", {headers: {'Authorization':'Bearer '+this.token()}});
   }
+
   guardar(paciente: PacienteSubmit) {
     const httpOptions = {
-      headers: new HttpHeaders({'content-type': 'application/json;charset=UTF-8','Authorization':'Bearer '+this.token()})
+      headers: new HttpHeaders({'content-type': 'application/json;charset=UTF-8','Authorization':'Bearer '+this.token()}),
     }
     return this.http.post<any>(environment.apiUrl+environment.paciente,JSON.stringify(paciente),httpOptions);
   }
+  subirHistoriaClinica(paciente: number, file: FormData) {
+    const httpOptions = {
+      headers: new HttpHeaders({'Authorization':'Bearer '+this.token()})
+    }
+    return this.http.post<any>(environment.apiUrl+environment.file+"/"+paciente,file,httpOptions);
+  }
+  getHistoriaClinica(paciente: number,page:number) {
+    const httpOptions = {
+      headers: new HttpHeaders({'Authorization':'Bearer '+this.token()})
+    }
+    return this.http.get<any>(environment.apiUrl+environment.file+"/"+paciente+"?page="+page+"&size=50",httpOptions);
+  }
+  verHistoriaClinica(pacienteId:number, historiaClinica:number){
+    const httpOptions = {
+    }
+    return this.http.get<any>(environment.apiUrl+environment.file+"/download/"+pacienteId+"/"+historiaClinica,httpOptions);
 
+  }
 }

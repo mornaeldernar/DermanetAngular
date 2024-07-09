@@ -1,16 +1,15 @@
-
 <div>
-  <div class="row">
-    <div class="item col-md-3">
-      <img src="{{location}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+  <img src="{{location}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
       <span class="badge badge-danger notify-badge">{{micros}}</span>
+  <div class="timeline-item">
+    <h3 class="timeline-header"></h3>
+    <div class="timeline-body">
+      <a (click)="changeId(macroId)" class="btn"><i class="fas fa-search"></i></a>
+      <a href="{{item.id}}" class="btn"><i class="fa fa-camera"></i></a>
     </div>
-    <div class="col">
-      <span class="text-sm text-muted"><i class="fa fa-allergies mr-1"></i> {{item.location_text}}</span>
-      <span class="float-right text-muted text-sm">
-        <a (click)="changeId(item.id)" class="btn"><i class="fas fa-search"></i></a>
-        <a href="{{item.id}}" class="btn"><i class="fa fa-camera"></i></a>
-      </span>
+    <div class="timeline-footer">
+      <a href="#" class="btn btn-primary btn-sm">Read more</a>
+      <a href="#" class="btn btn-danger btn-sm">Delete</a>
     </div>
   </div>
 </div>

@@ -6,4 +6,6 @@ export interface PacienteModel {
   lastName:string;
   birthdate:Date;
   sex:string;
+  phone:string;
+  profesion:string;
 }

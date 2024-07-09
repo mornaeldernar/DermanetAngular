@@ -6,6 +6,7 @@ describe('PacienteViewComponent', () => {
   let component: PacienteViewComponent;
   let fixture: ComponentFixture<PacienteViewComponent>;
 
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ PacienteViewComponent ]

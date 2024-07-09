@@ -1,7 +1,9 @@
+
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DiagnosticoModel } from 'src/app/models/diagnostico.model';
+import { Subscription, finalize } from 'rxjs';
 import { BodyitemDto } from 'src/app/models/dto/bodyitem.dto';
+import { HistoriaClinicaModel } from 'src/app/models/historia-clinica.model';
 import { MacroModel } from 'src/app/models/macro.model';
 import { MicroModel } from 'src/app/models/micro.model';
 import { PacienteModel } from 'src/app/models/paciente.model';
@@ -16,12 +18,20 @@ import { PacienteApiService } from 'src/app/services/api/paciente.api.service';
 export class PacienteViewComponent  implements OnInit {
   id: number;
   titulo: string="";
+  fileName:string = '';
+  uploadProgress?:number;
+  uploadSub?: Subscription;
+  data?: string;
+  historiasClinicas: HistoriaClinicaModel[] = [];
+
   paciente:PacienteModel = {
     id:0,
     name:"",
     lastName:"",
     birthdate:new Date(),
-    sex:""
+    sex:"",
+    profesion:"",
+    phone:""
   };
   items:BodyitemDto[] = [];
   diagnosticos:MacroModel[] = [];
@@ -35,10 +45,18 @@ export class PacienteViewComponent  implements OnInit {
   numberOfElements:number=150;
   totalPages:number=0;
 
+
+  hcPage:number = 0;
+  hcFirst:boolean=false;
+  hcLast:boolean=false;
+  hcNumberOfElements:number=150;
+  hcTotalPages:number=0;
+
   constructor(
     private api : PacienteApiService,
     private apiBody : BodyApiService,
-    private route : ActivatedRoute) {
+    private route : ActivatedRoute,
+  ) {
       this.id = this.route.snapshot.params['id']
 
   }
@@ -54,6 +72,7 @@ export class PacienteViewComponent  implements OnInit {
     this.getDiagnosticPage(this.page)
 
     this.items = this.apiBody.getElements(this.id);
+    this.getHistoriasClinicas(0);
   }
   getDiagnosticPage(page:number){
     console.log("Diagnostic",page)
@@ -89,9 +108,51 @@ export class PacienteViewComponent  implements OnInit {
 
   }
 
+  getHistoriasClinicas(page:number){
+    this.api.getHistoriaClinica(this.id,page).subscribe({
+      next : datos => {
+        this.historiasClinicas = datos['content'];
+        this.hcLast=datos.last;
+        this.hcFirst=datos.first;
+        this.hcTotalPages=datos.totalPages;
+        this.hcPage=datos.number;
+      },
+      error: (e) => {
+      }
+    })
+
+  }
+
   edad(fechaNacimiento:string){
     let timeDiff = Math.abs(Date.now() - new Date(fechaNacimiento).getTime());
     let age = Math.floor((timeDiff / (1000 * 3600 * 24))/365.25);
     return age;
+  }
+
+  onFileSelected(event:any){
+    const file:File = event.target.files[0];
+    if(file) {
+      this.fileName = file.name;
+      const formData = new FormData();
+      formData.append("file",file);
+
+      const upload$ = this.api.subirHistoriaClinica(this.id, formData).subscribe({
+        next: datos => {
+          this.fileName = "";
+          var x = {id:datos.id,name:datos.fileName,location:datos.location, createdAt:new Date};
+          this.historiasClinicas.unshift(x);
+          //this.historiasClinicas.concat(x);
+        },
+        error: (e) => {
+        }
+      })
+    }
+  }
+  cancelUpload(){
+    this.reset();
+  }
+  reset() {
+    this.uploadProgress = undefined;
+    this.uploadSub = undefined;
   }
 }

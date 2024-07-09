@@ -6,6 +6,7 @@ import { PacienteListComponent } from "./components/paciente.list/paciente.list.
 import { PacienteFormComponent } from "./components/paciente.form/paciente.form.component";
 import { PacienteViewComponent } from "./components/paciente.view/paciente.view.component";
 import { PacienteComponent } from "./paciente.component";
+import { VerHistoriaClinicaComponent } from "./components/ver-historia-clinica/ver-historia-clinica.component";
 
 const routes : Routes = [
   {
@@ -14,6 +15,7 @@ const routes : Routes = [
       {path : '',component:PacienteListComponent, data:{title:'Lista de pacientes'}},
       {path : 'view/:id', component:PacienteViewComponent},
       {path : 'new', component: PacienteFormComponent,data:{title:'Nuevo paciente'}},
+      {path : 'view/:id/historiaClinica/:hcid', component:VerHistoriaClinicaComponent,data:{title:'Historia Clinica'}},
     ]
   }
 ]

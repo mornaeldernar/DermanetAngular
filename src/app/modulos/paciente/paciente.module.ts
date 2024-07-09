@@ -10,6 +10,7 @@ import { ImagenUbicacionComponent } from './components/imagen-ubicacion/imagen-u
 import { PacienteComponent } from './paciente.component';
 import { PacienteRoutingModule } from './paciente-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { VerHistoriaClinicaComponent } from './components/ver-historia-clinica/ver-historia-clinica.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     PacienteViewComponent,
     PacienteFormComponent,
     ImagenUbicacionComponent,
-    PacienteComponent
+    PacienteComponent,
+    VerHistoriaClinicaComponent
   ],
   imports: [
     CommonModule,

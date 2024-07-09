@@ -20,7 +20,6 @@ export class BodylistComponent {
 
   }
   changeMicroId(microId:number){
-    console.log("list micro id: "+microId)
     this.getMicro.emit(microId);
   }
 }

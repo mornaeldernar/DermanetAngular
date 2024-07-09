@@ -6,7 +6,10 @@ export const environment = {
   register : '/register',
   paciente : '/patient',
   doctor : '/doctor',
+  file : '/file',
   image : '/image',
   viewImage : '/find',
-  macro: '/macro'
+  macro: '/macro',
+  micro: '/micro',
+  historiaClinica:'/file'
 }

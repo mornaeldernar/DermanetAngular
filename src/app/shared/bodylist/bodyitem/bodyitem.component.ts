@@ -10,6 +10,7 @@ import { environment } from 'src/environment/environment';
 export class BodyitemComponent implements OnInit{
   @Input() item:DiagnosticoModel ={name:"",location_text:"",location:"",id:0};
   @Input() micros:number=0;
+  @Input() macroId:number=0;
   @Output() getMicro: EventEmitter<any> = new EventEmitter();
   microId:number=0;
   location:string = "";
@@ -17,7 +18,6 @@ export class BodyitemComponent implements OnInit{
       this.location = environment.apiUrl+environment.image+environment.viewImage+"/"+this.item.id
   }
   changeId(microId:number){
-    console.log(microId);
     this.getMicro.emit(microId);
   }
 }

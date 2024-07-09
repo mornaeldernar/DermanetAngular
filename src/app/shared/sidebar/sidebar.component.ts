@@ -18,12 +18,16 @@ export class SidebarComponent implements OnInit {
   constructor( private storage: LocalStorageService, private sideBarServices: SidebarService, private router:Router) {
     this.menuItems.set(this.sideBarServices.menu);
     this.jwt.set(this.storage.consultar("token"));
-    let decodedJwt = JSON.parse(window.atob(this.jwt().split(".")[1]));
-    this.email.set(decodedJwt['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'])
+    if(this.jwt()==""){
 
-    if(typeof decodedJwt['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] !== 'undefined') {
-      this.claims.set(decodedJwt['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
-      this.isAdmin.set(this.claims().includes("admin"))
+    }else{
+      let decodedJwt = JSON.parse(window.atob(this.jwt().split(".")[1]));
+      this.email.set(decodedJwt['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'])
+
+      if(typeof decodedJwt['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] !== 'undefined') {
+        this.claims.set(decodedJwt['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
+        this.isAdmin.set(this.claims().includes("admin"))
+      }
     }
   }
   ngOnInit(): void {

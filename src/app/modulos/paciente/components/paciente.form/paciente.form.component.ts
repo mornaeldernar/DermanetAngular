@@ -38,12 +38,12 @@ export class PacienteFormComponent {
     }
     this.api.guardar(paciente).subscribe({
       next: datos => {
-        console.log(datos);
-        this.router.navigate(["/paciente"]);
+        console.log(datos.id);
+        this.router.navigate(["/paciente/view/"+datos.id]);
       },
       error: (e) => {
         this.error= true;
-        console.log(paciente)
+        console.error(e)
       }
     })
   }
