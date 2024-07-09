@@ -25,7 +25,6 @@ import { registerLocaleData } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule } from './modulos/calendar/calendar.module';
 import { PagesModule } from './pages/pages.module';
-import { SecurePipe } from './pipe/secure.pipe';
 
 @NgModule({
   declarations: [
@@ -33,7 +32,6 @@ import { SecurePipe } from './pipe/secure.pipe';
     NavbarComponent,
     NotFoundComponent,
     DashboardComponent,
-    SecurePipe,
   ],
   imports: [
     BrowserModule,
