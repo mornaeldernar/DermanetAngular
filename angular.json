@@ -81,10 +81,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "dermanet:build:production"
+              "buildTarget": "dermanet:build:production"
             },
             "development": {
-              "browserTarget": "dermanet:build:development"
+              "buildTarget": "dermanet:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -92,7 +92,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "dermanet:build"
+            "buildTarget": "dermanet:build"
           }
         },
         "test": {
