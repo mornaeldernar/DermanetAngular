@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,34 +26,28 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule } from './modulos/calendar/calendar.module';
 import { PagesModule } from './pages/pages.module';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    NotFoundComponent,
-    DashboardComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    SharedModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule,
-    PacienteModule,
-    UserModule,
-    CalendarModule,
-    DoctorModule,
-    DiagnosticoModule,
-    FullCalendarModule,
-    PagesModule,
-  ],
-  providers: [
-    {provide: LOCALE_ID, useValue: navigator.language ?? 'es' },
-    {provide: LocationStrategy, useClass: HashLocationStrategy}
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        NavbarComponent,
+        NotFoundComponent,
+        DashboardComponent,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        SharedModule,
+        ReactiveFormsModule,
+        FormsModule,
+        PacienteModule,
+        UserModule,
+        CalendarModule,
+        DoctorModule,
+        DiagnosticoModule,
+        FullCalendarModule,
+        PagesModule], providers: [
+        { provide: LOCALE_ID, useValue: navigator.language ?? 'es' },
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule {
   constructor() {
     // 2. Register the locales
