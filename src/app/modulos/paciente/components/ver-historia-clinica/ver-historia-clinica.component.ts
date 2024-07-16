@@ -13,6 +13,7 @@ import { environment } from 'src/environment/environment';
 export class VerHistoriaClinicaComponent {
   id: number;
   hcId: number;
+  nombre: string='Paciente';
   url:any;
 
   constructor(
@@ -21,8 +22,10 @@ export class VerHistoriaClinicaComponent {
     private route : ActivatedRoute
   ) {
     this.id = this.route.snapshot.params['id'];
-    this.hcId = this.route.snapshot.params['hcid']
+    this.hcId = this.route.snapshot.params['hcid'];
+    this.nombre = this.route.snapshot.params['nombre'];
     this.url = environment.apiUrl+environment.file+"/download/"+this.id+"/"+this.hcId;
+
   }
 
   back(): void {

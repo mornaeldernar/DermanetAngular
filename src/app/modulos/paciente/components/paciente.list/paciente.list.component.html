@@ -13,6 +13,7 @@
   <form class="form-inline">
     <div class="input-group input-group-sm">
       <input class="form-control form-control-navbar" type="search" placeholder="Filtrar por nombre" aria-label="Search" [formControl]="nombre" >
+      <input class="form-control form-control-navbar" type="search" placeholder="Filtrar por apellidos" aria-label="Search" [formControl]="apellidos" >
       <div class="input-group-append">
         <button class="btn btn-navbar" type="button" (click)="searchPage(0)">
           <i class="fas fa-search"></i>

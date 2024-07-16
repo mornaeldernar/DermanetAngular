@@ -9,6 +9,7 @@ import { HistoriaClinicaModel } from 'src/app/models/historia-clinica.model';
 export class HistoriaClinicaComponent {
   @Input() pacienteId:number = 0;
   @Input() historiaClinica?:HistoriaClinicaModel;
+  @Input() nombre?:string;
 
   constructor(){
   }

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +25,7 @@ import { registerLocaleData } from '@angular/common';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { CalendarModule } from './modulos/calendar/calendar.module';
 import { PagesModule } from './pages/pages.module';
+import { MyHttpInterceptor } from './interceptor/my-http.interceptor';
 
 @NgModule({ declarations: [
         AppComponent,
@@ -32,7 +33,9 @@ import { PagesModule } from './pages/pages.module';
         NotFoundComponent,
         DashboardComponent,
     ],
-    bootstrap: [AppComponent], imports: [BrowserModule,
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
         AppRoutingModule,
         SharedModule,
         ReactiveFormsModule,
@@ -43,9 +46,12 @@ import { PagesModule } from './pages/pages.module';
         DoctorModule,
         DiagnosticoModule,
         FullCalendarModule,
-        PagesModule], providers: [
+        PagesModule
+      ],
+      providers: [
         { provide: LOCALE_ID, useValue: navigator.language ?? 'es' },
         { provide: LocationStrategy, useClass: HashLocationStrategy },
+        { provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi:true},
         provideHttpClient(withInterceptorsFromDi())
     ] })
 export class AppModule {

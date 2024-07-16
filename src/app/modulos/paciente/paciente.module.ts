@@ -11,6 +11,7 @@ import { PacienteComponent } from './paciente.component';
 import { PacienteRoutingModule } from './paciente-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { VerHistoriaClinicaComponent } from './components/ver-historia-clinica/ver-historia-clinica.component';
+import { SecureImageComponent } from 'src/app/shared/secure-image/secure-image.component';
 
 
 @NgModule({
@@ -20,7 +21,7 @@ import { VerHistoriaClinicaComponent } from './components/ver-historia-clinica/v
     PacienteFormComponent,
     ImagenUbicacionComponent,
     PacienteComponent,
-    VerHistoriaClinicaComponent
+    VerHistoriaClinicaComponent,
   ],
   imports: [
     CommonModule,
@@ -29,7 +30,6 @@ import { VerHistoriaClinicaComponent } from './components/ver-historia-clinica/v
     ReactiveFormsModule,
     PacienteRoutingModule,
     SharedModule,
-
   ]
 })
 export class PacienteModule { }

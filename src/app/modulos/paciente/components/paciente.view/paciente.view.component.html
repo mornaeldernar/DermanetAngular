@@ -48,8 +48,8 @@
           <div class="card-header">
             <ul class="nav nav-pills">
               <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Historia Clínica</a></li>
-              <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
-              <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li>
+              <li class="nav-item"><a class="nav-link" href="#macro" data-toggle="tab">Macros</a></li>
+              <!--li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Settings</a></li-->
             </ul>
           </div>
           <div class="card-body">
@@ -79,14 +79,14 @@
                   <div class="card">
                     <div class="card-body">
                       <ul class="products-list product-list-in-card pl-2 pr-2" *ngFor="let historiaClinica of historiasClinicas">
-                        <app-historia-clinica [historiaClinica]="historiaClinica" [pacienteId]="id"></app-historia-clinica>
+                        <app-historia-clinica [historiaClinica]="historiaClinica" [pacienteId]="id" [nombre]="nombreCompleto"></app-historia-clinica>
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div class="tab-pane" id="timeline">
+              <div class="tab-pane" id="macro">
                 <app-bodylist [items]="diagnosticos" [total]="totalPages" [cuantos]="page+1" [page]="page" [first]="first" [last]="last" (getMicro)="getMicro($event)"></app-bodylist>
 
                 <nav aria-label="Page navigation example">

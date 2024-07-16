@@ -9,6 +9,7 @@ import { BodylistComponent } from './bodylist/bodylist.component';
 import { BodyitemComponent } from './bodylist/bodyitem/bodyitem.component';
 import { MicrolistComponent } from './microlist/microlist.component';
 import { HistoriaClinicaComponent } from './historia-clinica/historia-clinica.component';
+import { SecureImageComponent } from './secure-image/secure-image.component';
 
 
 
@@ -21,13 +22,15 @@ import { HistoriaClinicaComponent } from './historia-clinica/historia-clinica.co
     BodylistComponent,
     BodyitemComponent,
     MicrolistComponent,
-    HistoriaClinicaComponent
+    HistoriaClinicaComponent,
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    SecureImageComponent
   ],
   exports: [
+    CommonModule,
     HeaderComponent,
     SidebarComponent,
     BreadcrumbsComponent,
@@ -35,7 +38,8 @@ import { HistoriaClinicaComponent } from './historia-clinica/historia-clinica.co
     BodylistComponent,
     BodyitemComponent,
     MicrolistComponent,
-    HistoriaClinicaComponent
+    HistoriaClinicaComponent,
+    SecureImageComponent
   ]
 })
 export class SharedModule { }

@@ -23,6 +23,7 @@ export class PacienteListComponent implements OnInit{
   numberOfElements:number=150;
   totalPages:number=0;
   nombre=new FormControl("");
+  apellidos=new FormControl("");
   constructor(private fb: FormBuilder,
     private router: Router,
     private api : PacienteApiService,
@@ -46,8 +47,9 @@ export class PacienteListComponent implements OnInit{
   }
   searchPage(page:number){
     console.log(page)
-    let nombre = this.nombre.value || ""
-    this.api.filtraPacientes(nombre,page).subscribe({
+    let nombre = this.nombre.value || "";
+    let apellidos = this.apellidos.value || "";
+    this.api.filtraPacientes(nombre,apellidos,page).subscribe({
       next : datos => {
         this.pacientes = datos['content'];
         this.last=datos.last;

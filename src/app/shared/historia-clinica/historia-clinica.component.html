@@ -6,7 +6,7 @@
     <a
     [routerLink]="['historiaClinica',historiaClinica?.id]" class="product-title">
       {{historiaClinica?.name}}
-      <span class="btn btn-primary float-right">Ver</span>
+      <span class="btn btn-primary float-right"><i class="fas fa-eye"></i> Ver</span>
     </a>
     <span class="product-description">
       {{historiaClinica?.createdAt | date : "dd MMM yyyy hh:mm a"}}

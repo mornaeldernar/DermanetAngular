@@ -1,15 +1,23 @@
-<div>
-  <img src="{{location}}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-      <span class="badge badge-danger notify-badge">{{micros}}</span>
-  <div class="timeline-item">
-    <h3 class="timeline-header"></h3>
-    <div class="timeline-body">
-      <a (click)="changeId(macroId)" class="btn"><i class="fas fa-search"></i></a>
-      <a href="{{item.id}}" class="btn"><i class="fa fa-camera"></i></a>
-    </div>
-    <div class="timeline-footer">
-      <a href="#" class="btn btn-primary btn-sm">Read more</a>
-      <a href="#" class="btn btn-danger btn-sm">Delete</a>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-danger notify-badge">Micros: {{micros}}</span>
+        <h3 class="header">{{item.name}}</h3>
+      </div>
+      <div class="card-body">
+        <img src="{{location}}" alt="Macro Image is Missing" class="">
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="col-md-6">
+            <a (click)="changeId(macroId)" class="btn btn-primary"><i class="fas fa-eye"></i> Ver Micros</a>
+          </div>
+          <div class="col-md-6">
+            <a href="{{item.id}}" class="btn btn-primary"><i class="fas fa-camera"></i> Agregar Micro</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

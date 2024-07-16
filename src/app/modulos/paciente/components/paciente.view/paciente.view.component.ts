@@ -33,6 +33,7 @@ export class PacienteViewComponent  implements OnInit {
     profesion:"",
     phone:""
   };
+  nombreCompleto = '';
   items:BodyitemDto[] = [];
   diagnosticos:MacroModel[] = [];
   micros:MicroModel[] = [];
@@ -64,6 +65,7 @@ export class PacienteViewComponent  implements OnInit {
     this.api.verPaciente(this.id).subscribe({
       next : datos => {
         this.paciente = datos;
+        this.nombreCompleto = this.paciente.name  + this.paciente.lastName
       },
       error: (e) => {
       }
