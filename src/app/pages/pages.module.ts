@@ -1,23 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LoginComponent } from './login/login.component';
-import { PagesRoutingModule } from './pages-routing.module';
-import { PagesComponent } from './pages.component';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
-
+import { PagesRoutingModule } from './pages-routing.module';
+import { SharedModule } from '../shared/shared.module';
+import { LockscreenComponent } from './lockscreen/lockscreen.component';
 
 @NgModule({
   declarations: [
-    LoginComponent,
-    PagesComponent
+    // Aquí irían componentes específicos de pages si los hay
+    LockscreenComponent
   ],
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
+    SharedModule,
     PagesRoutingModule
   ]
 })

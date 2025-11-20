@@ -23,4 +23,18 @@ export class LocalStorageService {
   lipiarTodo(){
     localStorage.clear();
   }
+
+  setItem(key: string, value: any): void {
+    this.almacenar(key,value);
+  }
+
+  getItem(key: string): any {
+    return this.consultar(key);
+  }
+  removeItem(key: string): void {
+    this.borrar(key);
+  }
+  clear(): void {
+    this.lipiarTodo();
+  }
 }

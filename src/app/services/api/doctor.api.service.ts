@@ -17,6 +17,6 @@ export class DoctorApiService {
     if(token.startsWith("\"")){
       token = token.slice(1,-1)
     }
-    return this.http.get<DoctorModel[]>(environment.apiUrl+environment.doctor, {headers: {'Authorization':'Bearer '+token}});
+    return this.http.get<DoctorModel[]>(environment.apiUrl+environment.endpoints.doctor, {headers: {'Authorization':'Bearer '+token}});
   }
 }

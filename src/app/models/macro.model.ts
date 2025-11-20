@@ -7,5 +7,5 @@ export interface MacroModel {
   y1:number;
   y2:number;
   image:DiagnosticoModel
-  micro:any[];
+  microCount:number;
 }

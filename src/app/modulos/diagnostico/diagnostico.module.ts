@@ -1,22 +1,26 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DiagnosticoFormComponent } from './components/diagnostico.form/diagnostico.form.component';
 import { RouterModule } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+import { DiagnosticoRoutingModule } from './diagnostico-routing.module';
 import { DiagnosticoComponent } from './diagnostico.component';
+import { DiagnosticoFormComponent } from './components/diagnostico.form/diagnostico.form.component';
 
-
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
-    DiagnosticoFormComponent,
-    DiagnosticoComponent
+    DiagnosticoComponent,
+    DiagnosticoFormComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
+    ReactiveFormsModule,
     FormsModule,
-    ReactiveFormsModule
+    SharedModule,
+    DiagnosticoRoutingModule
   ]
 })
 export class DiagnosticoModule { }

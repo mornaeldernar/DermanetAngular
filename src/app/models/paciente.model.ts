@@ -8,4 +8,5 @@ export interface PacienteModel {
   sex:string;
   phone:string;
   profesion:string;
+  email?:string;
 }

@@ -1,31 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+import { CalendarRoutingModule } from './calendar-routing.module';
 import { CalendarComponent } from './calendar.component';
-import { BrowserModule } from '@angular/platform-browser';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { MatDialogModule } from '@angular/material/dialog';
+
 import { AddDialogComponent } from './components/add/add.component';
 import { EditComponent } from './components/edit/edit.component';
-import { MatDialogModule, MatDialog , MatDialogRef } from '@angular/material/dialog';
-
-
 
 @NgModule({
   declarations: [
     CalendarComponent,
-    EditComponent,
-    AddDialogComponent
+    AddDialogComponent,
+    EditComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule, // ✅ Usar CommonModule en lugar de BrowserModule
+    RouterModule,
     FullCalendarModule,
-    MatDialogModule
-  ],
-  providers: [
-    {
-      provide: MatDialogRef,
-      useValue: {}
-    },
-    AddDialogComponent
+    MatDialogModule,
+    CalendarRoutingModule // ✅ Agregar routing module
   ]
 })
 export class CalendarModule { }

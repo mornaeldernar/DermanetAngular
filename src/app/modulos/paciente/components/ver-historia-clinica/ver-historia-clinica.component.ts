@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
@@ -10,7 +10,7 @@ import { environment } from 'src/environment/environment';
   templateUrl: './ver-historia-clinica.component.html',
   styleUrls: ['./ver-historia-clinica.component.scss']
 })
-export class VerHistoriaClinicaComponent {
+export class VerHistoriaClinicaComponent implements OnInit{
   id: number;
   hcId: number;
   nombre: string='Paciente';
@@ -24,10 +24,23 @@ export class VerHistoriaClinicaComponent {
     this.id = this.route.snapshot.params['id'];
     this.hcId = this.route.snapshot.params['hcid'];
     this.nombre = this.route.snapshot.params['nombre'];
-    this.url = environment.apiUrl+environment.file+"/download/"+this.id+"/"+this.hcId;
+    this.url = environment.apiUrl+environment.endpoints.file.historiaClinica+"/download/"+this.id+"/"+this.hcId;
+    console.log(`url historia clinica: ${this.url}`)
+  }
+  ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      this.id = +params['id'];
+      this.hcId = +params['hcid'];
 
+      this.loadHistoriaClinica();
+    })
   }
 
+  loadHistoriaClinica() : void {
+    if (this.id && this.hcId){
+      
+    }
+  }
   back(): void {
     this.location.back()
   }

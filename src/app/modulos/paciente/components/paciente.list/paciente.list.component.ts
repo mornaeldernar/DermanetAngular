@@ -17,11 +17,17 @@ export class PacienteListComponent implements OnInit{
   pacientes : PacienteModel[] = [];
   pagina : PageModel = {number:20,size:0,totalElements:0,totalPages:0}
 
+  //Propiedades de paginacion
   page:number = 0;
   first:boolean=false;
   last:boolean=false;
   numberOfElements:number=150;
   totalPages:number=0;
+  totalElements:number=0;
+  rangeStart = 0;
+  rangeEnd = 0;
+
+  //Formularios
   nombre=new FormControl("");
   apellidos=new FormControl("");
   constructor(private fb: FormBuilder,
@@ -39,7 +45,10 @@ export class PacienteListComponent implements OnInit{
         this.last=datos.last;
         this.first=datos.first;
         this.totalPages=datos.totalPages;
+        this.totalElements=datos.totalElements;
         this.page=datos.number;
+        
+        this.calculateRange()
       },
       error: (e) => {
       }
@@ -56,10 +65,25 @@ export class PacienteListComponent implements OnInit{
         this.first=datos.first;
         this.totalPages=datos.totalPages;
         this.page=datos.number;
+
+        this.calculateRange()
       },
       error: (e) => {
       }
     })
+  }
+  calculateRange() : void {
+    if(this.pacientes.length === 0){
+      this.rangeStart = 0;
+      this.rangeEnd = 0;
+      return
+    }
+
+    this.rangeStart = (this.page * 50) + 1
+    this.rangeEnd = this.rangeStart + this.pacientes.length - 1;
+    if (this.rangeEnd > this.totalElements) {
+      this.rangeEnd = this.totalElements;
+    }
   }
   verPaciente(url:number) :void{
     this.router.navigate([url]);
@@ -69,5 +93,25 @@ export class PacienteListComponent implements OnInit{
     let age = Math.floor((timeDiff / (1000 * 3600 * 24))/365.25);
     return age;
   }
+  formatNumber(num:number): string{
+    return num.toLocaleString('es-MX');
+  }
+  // Agregar estos métodos a la clase
 
+  getInitials(name: string): string {
+    name = name.trim()
+    if (!name) return '?';
+    const words = name.trim().split(/\s+/).filter(w => w.length > 0);
+    if (words.length >= 2) {
+
+      return (words[0].trim()[0] + words[1].trim()[0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  }
+
+  clearSearch(): void {
+    this.nombre.setValue('');
+    this.apellidos.setValue('');
+    this.getPage(0);
+  }
 }

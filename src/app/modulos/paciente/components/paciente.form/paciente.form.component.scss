@@ -1,0 +1,537 @@
+// Variables
+$primary-color: #6f42c1;
+$primary-hover: #5a32a3;
+$secondary-color: #8b5cf6;
+$text-dark: #2d3748;
+$text-light: #718096;
+$border-color: #e2e8f0;
+$bg-light: #f7fafc;
+$error-color: #ef4444;
+$success-color: #10b981;
+$warning-color: #f59e0b;
+
+// Container
+.patient-form-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: #f8f9fa;
+  min-height: calc(100vh - 60px);
+}
+
+// Header
+.form-header {
+  margin-bottom: 2rem;
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .btn-back {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 2px solid $border-color;
+    border-radius: 10px;
+    color: $text-dark;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: $primary-color;
+      color: white;
+      border-color: $primary-color;
+      transform: translateX(-3px);
+    }
+    
+    i {
+      font-size: 1.125rem;
+    }
+  }
+  
+  .header-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    
+    i {
+      font-size: 2rem;
+      color: $primary-color;
+    }
+    
+    h2 {
+      margin: 0;
+      font-size: 1.875rem;
+      font-weight: 700;
+      color: $text-dark;
+    }
+  }
+}
+
+// Alert Error
+.alert-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: rgba($error-color, 0.1);
+  border: 2px solid $error-color;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  animation: slideDown 0.3s ease-out;
+  
+  > i {
+    font-size: 1.5rem;
+    color: $error-color;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+  
+  .alert-content {
+    flex-grow: 1;
+    
+    strong {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+      color: $error-color;
+      margin-bottom: 0.25rem;
+    }
+    
+    p {
+      margin: 0;
+      color: darken($error-color, 10%);
+      font-size: 0.9rem;
+    }
+  }
+  
+  .btn-close-alert {
+    background: transparent;
+    border: none;
+    color: $error-color;
+    cursor: pointer;
+    font-size: 1.25rem;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: rgba($error-color, 0.2);
+    }
+  }
+}
+
+// Form Card
+.form-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+// Form Section
+.form-section {
+  margin-bottom: 2.5rem;
+  
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+  
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid $bg-light;
+    
+    i {
+      font-size: 1.5rem;
+      color: $primary-color;
+    }
+    
+    h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: $text-dark;
+    }
+  }
+}
+
+// Form Row
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Form Group
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: $text-dark;
+  margin: 0;
+  
+  .required {
+    color: $error-color;
+    font-weight: 700;
+    margin-left: 0.25rem;
+  }
+}
+
+// Input Wrapper
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  
+  &.has-error {
+    .form-control {
+      border-color: $error-color;
+      
+      &:focus {
+        border-color: $error-color;
+        box-shadow: 0 0 0 3px rgba($error-color, 0.1);
+      }
+    }
+    
+    .input-icon {
+      color: $error-color;
+    }
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 1rem;
+    color: $text-light;
+    font-size: 1rem;
+    z-index: 1;
+    transition: color 0.3s ease;
+  }
+}
+
+// Form Control
+.form-control {
+  width: 100%;
+  padding: 0.875rem 1rem 0.875rem 2.75rem;
+  font-size: 0.95rem;
+  color: $text-dark;
+  background: white;
+  border: 2px solid $border-color;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  min-height: 48px;
+  
+  &::placeholder {
+    color: #a0aec0;
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    
+    ~ .input-icon {
+      color: $primary-color;
+    }
+  }
+  
+  &.is-invalid {
+    border-color: $error-color;
+    
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($error-color, 0.1);
+    }
+  }
+}
+
+// Select específico - ✅ CORREGIDO
+.form-select {
+  padding-left: 2.75rem;
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23718096' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 16px 12px;
+  appearance: none;
+  cursor: pointer;
+  
+  // ✅ Color por defecto (placeholder)
+  color: #a0aec0;
+  font-style: italic;
+  
+  // ✅ Cuando tiene un valor seleccionado
+  &:not([value=""]):valid,
+  &.has-value {
+    color: $text-dark !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
+  }
+  
+  // ✅ Estilos de las opciones
+  option {
+    color: $text-dark !important;
+    background-color: white !important;
+    font-weight: 500;
+    font-style: normal;
+    padding: 0.75rem;
+    
+    &[value=""],
+    &:disabled {
+      color: #a0aec0 !important;
+      font-style: italic;
+    }
+  }
+  
+  &:focus {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%236f42c1' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  }
+}
+
+// ✅ Override adicional para asegurar visibilidad
+select.form-control.form-select {
+  // Cuando está vacío o placeholder
+  &:invalid,
+  &[value=""] {
+    color: #a0aec0 !important;
+    font-style: italic;
+  }
+  
+  // Cuando tiene un valor
+  &:valid:not([value=""]) {
+    color: $text-dark !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
+  }
+  
+  // Opciones del dropdown
+  option {
+    color: $text-dark !important;
+    background: white !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
+  }
+}
+
+// Error Message
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: $error-color;
+  font-size: 0.813rem;
+  font-weight: 500;
+  margin-top: 0.25rem;
+  animation: slideDown 0.2s ease-out;
+  
+  i {
+    font-size: 0.875rem;
+  }
+}
+
+// Help Text
+.help-text {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: $text-light;
+  font-size: 0.813rem;
+  margin-top: 0.25rem;
+  
+  i {
+    font-size: 0.75rem;
+  }
+}
+
+// Form Actions
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding-top: 2rem;
+  border-top: 2px solid $bg-light;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.875rem 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  
+  i {
+    font-size: 1.125rem;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    
+    &:hover {
+      transform: none;
+    }
+  }
+}
+
+.btn-cancel {
+  background: white;
+  color: $text-dark;
+  border: 2px solid $border-color;
+  
+  &:hover:not(:disabled) {
+    background: $bg-light;
+    border-color: #cbd5e0;
+  }
+}
+
+.btn-save {
+  background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba($primary-color, 0.4);
+  }
+  
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+  
+  .fa-spinner {
+    animation: spin 1s linear infinite;
+  }
+}
+
+// Help Card
+.help-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, rgba($warning-color, 0.1) 0%, rgba($warning-color, 0.05) 100%);
+  border: 2px solid rgba($warning-color, 0.3);
+  border-radius: 12px;
+  
+  > i {
+    font-size: 1.75rem;
+    color: $warning-color;
+    flex-shrink: 0;
+  }
+  
+  .help-content {
+    h4 {
+      margin: 0 0 0.75rem 0;
+      font-size: 1rem;
+      font-weight: 600;
+      color: $text-dark;
+    }
+    
+    ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      
+      li {
+        color: $text-dark;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+        
+        .required {
+          color: $error-color;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .patient-form-container {
+    padding: 1rem;
+  }
+  
+  .form-card {
+    padding: 1.5rem;
+  }
+  
+  .form-header {
+    .header-title {
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      i {
+        font-size: 1.5rem;
+      }
+    }
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
+  .form-actions {
+    flex-direction: column-reverse;
+    
+    .btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}

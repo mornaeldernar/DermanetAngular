@@ -15,7 +15,8 @@ export class BodyitemComponent implements OnInit{
   microId:number=0;
   location:string = "";
   ngOnInit(): void {
-      this.location = environment.apiUrl+environment.image+environment.viewImage+"/"+this.item.id
+      this.location = environment.apiUrl+environment.endpoints.image.viewImage+"/"+this.item.id;
+      console.log(this.location);
   }
   changeId(microId:number){
     this.getMicro.emit(microId);

@@ -1,45 +1,46 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
-import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
-import { BodylistComponent } from './bodylist/bodylist.component';
-import { BodyitemComponent } from './bodylist/bodyitem/bodyitem.component';
-import { MicrolistComponent } from './microlist/microlist.component';
-import { HistoriaClinicaComponent } from './historia-clinica/historia-clinica.component';
+
+// Componentes compartidos
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { SecureImageComponent } from './secure-image/secure-image.component';
+import { HistoriaClinicaComponent } from './historia-clinica/historia-clinica.component';
+import { BodylistComponent } from './bodylist/bodylist.component';
+import { MicrolistComponent } from './microlist/microlist.component';
 
-
+// Importar BodyitemComponent si existe
+import { BodyitemComponent } from './bodylist/bodyitem/bodyitem.component';
 
 @NgModule({
   declarations: [
-    HeaderComponent,
     SidebarComponent,
-    BreadcrumbsComponent,
+    HeaderComponent,
     FooterComponent,
-    BodylistComponent,
-    BodyitemComponent,
-    MicrolistComponent,
+    BreadcrumbsComponent,
     HistoriaClinicaComponent,
+    BodylistComponent,
+    MicrolistComponent,
+    BodyitemComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    SecureImageComponent
+    SecureImageComponent // Standalone component - se importa, no se declara
   ],
   exports: [
-    CommonModule,
-    HeaderComponent,
     SidebarComponent,
-    BreadcrumbsComponent,
+    HeaderComponent,
     FooterComponent,
-    BodylistComponent,
-    BodyitemComponent,
-    MicrolistComponent,
+    BreadcrumbsComponent,
+    SecureImageComponent,
     HistoriaClinicaComponent,
-    SecureImageComponent
+    BodylistComponent,
+    MicrolistComponent,
+    BodyitemComponent
   ]
 })
 export class SharedModule { }

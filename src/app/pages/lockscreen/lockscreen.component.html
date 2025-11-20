@@ -1,0 +1,31 @@
+<div class="lockscreen-wrapper">
+  <div class="lockscreen-container">
+    <div class="lock-user">
+      <div class="user-avatar">
+        <img src="assets/user.png" alt="User Avatar" class="rounded-circle">
+      </div>
+      <h6 class="user-name">{{userEmail}}</h6>
+    </div>
+
+    <form [formGroup]="lockForm" (ngSubmit)="onUnlock()">
+      <div class="form-group">
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+          placeholder="Enter Password"
+          autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 mb-3" [disabled]="!lockForm.valid">
+        <i class="fa fa-unlock me-2"></i>Unlock
+      </button>
+
+      <div class="text-center mt-3">
+        <a (click)="signInDifferentUser()" class="different-user-link" style="cursor: pointer;">
+          Sign in as a different user?
+        </a>
+      </div>
+    </form>
+  </div>
+</div>

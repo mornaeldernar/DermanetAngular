@@ -6,6 +6,24 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- Content Security Policy - Actualizado -->
+<!--meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:;
+  style-src 'self' 'unsafe-inline' https: http:;
+  font-src 'self' data: https: http:;
+  img-src 'self' data: blob: https: http:;
+  connect-src 'self' http://localhost:* ws://localhost:* https: http:;
+  frame-ancestors 'none';
+  base-uri 'self';
+  form-action 'self';
+"-->
+
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+
   <link rel="stylesheet" href="./assets/plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="./assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="./assets/dist/css/adminlte.min.css">
@@ -17,6 +35,7 @@
   <div class="wrapper">
     <app-root></app-root>
   </div>
+
   <script src="./assets/plugins/jquery/jquery.min.js"></script>
   <script src="./assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="./assets/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -31,5 +50,6 @@
   <script src="./assets/plugins/pdfmake/vfs_fonts.js"></script>
   <script src="./assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
   <script src="./assets/dist/js/adminlte.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"></script>
 </body>
 </html>

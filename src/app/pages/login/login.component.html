@@ -1,23 +1,126 @@
-<h1>Login</h1>
-<div *ngIf="error" class="alert alert-danger" role="alert">
-  Usuario o contraseña erroneos
+<div class="login-page">
+  <div class="login-box">
+    <div class="login-card">
+      <!-- Logo y Título -->
+      <div class="login-logo">
+        <i class="fas fa-stethoscope fa-3x text-primary mb-3"></i>
+        <h1 class="brand-text"><b>Derma</b>Net</h1>
+        <p class="login-box-msg">Inicia sesión en tu cuenta</p>
+      </div>
+
+      <!-- Formulario -->
+      <form [formGroup]="user" (ngSubmit)="login()" class="login-form">
+
+        <!-- Mensaje de Error -->
+        <div class="alert alert-danger alert-dismissible fade show" *ngIf="error" role="alert">
+          <i class="fas fa-exclamation-circle mr-2"></i>
+          <strong>Error:</strong> {{ errorMessage || 'Usuario o contraseña incorrectos' }}
+          <button type="button" class="close" (click)="error = false">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <!-- Campo Email -->
+        <div class="form-group">
+          <label for="email" class="form-label">
+            <i class="fas fa-envelope mr-2"></i>
+            Correo Electrónico
+          </label>
+          <div class="input-group input-group-lg">
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              formControlName="email"
+              [class.is-invalid]="f['email'].invalid && f['email'].touched"
+              placeholder="correo@ejemplo.com"
+              autocomplete="email"
+            />
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="fas fa-user"></i>
+              </span>
+            </div>
+          </div>
+          <div class="invalid-feedback d-block" *ngIf="f['email'].invalid && f['email'].touched">
+            <span *ngIf="f['email'].errors?.['required']">
+              <i class="fas fa-times-circle"></i> El email es requerido
+            </span>
+            <span *ngIf="f['email'].errors?.['email']">
+              <i class="fas fa-times-circle"></i> Email inválido
+            </span>
+          </div>
+        </div>
+
+        <!-- Campo Contraseña -->
+        <div class="form-group">
+          <label for="password" class="form-label">
+            <i class="fas fa-lock mr-2"></i>
+            Contraseña
+          </label>
+          <div class="input-group input-group-lg">
+            <input
+              type="password"
+              id="password"
+              class="form-control"
+              formControlName="password"
+              [class.is-invalid]="f['password'].invalid && f['password'].touched"
+              placeholder="Ingresa tu contraseña"
+              autocomplete="current-password"
+            />
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <i class="fas fa-key"></i>
+              </span>
+            </div>
+          </div>
+          <div class="invalid-feedback d-block" *ngIf="f['password'].invalid && f['password'].touched">
+            <span *ngIf="f['password'].errors?.['required']">
+              <i class="fas fa-times-circle"></i> La contraseña es requerida
+            </span>
+          </div>
+        </div>
+
+        <!-- Recordarme -->
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="remember">
+            <label class="custom-control-label" for="remember">Recordarme</label>
+          </div>
+        </div>
+
+        <!-- Botón Login -->
+        <div class="form-group">
+          <button
+            type="submit"
+            class="btn btn-primary btn-lg btn-block login-button"
+            [disabled]="loading || user.invalid"
+          >
+            <span *ngIf="!loading">
+              <i class="fas fa-sign-in-alt mr-2"></i>
+              Iniciar Sesión
+            </span>
+            <span *ngIf="loading">
+              <i class="fas fa-spinner fa-spin mr-2"></i>
+              Iniciando sesión...
+            </span>
+          </button>
+        </div>
+
+        <!-- Enlaces adicionales -->
+        <div class="text-center mt-4">
+          <p class="mb-1">
+            <a href="#" class="text-primary">¿Olvidaste tu contraseña?</a>
+          </p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <div class="login-footer text-center mt-4">
+      <p class="text-white">
+        <small>&copy; 2025 DermaNet. Todos los derechos reservados.</small>
+      </p>
+    </div>
+  </div>
 </div>
-<form [formGroup]="user" (ngSubmit)="login()">
-<div class="mb-3">
-  <label for="exampleFormControlInput1" class="form-label">Email address</label>
-  <input formControlName="email" type="email" class="form-control" id="email" placeholder="name@example.com">
-  <span *ngIf="user.get('email')?.invalid && user.get('email')?.touched" class="text-danger">
-    El email no es válido
-  </span>
-</div>
-<div class="mb-3">
-  <label for="password" class="form-label">Password</label>
-  <input formControlName="password" type="password" class="form-control" id="password">
-  <span *ngIf="user.get('password')?.invalid && user.get('password')?.touched" class="text-danger">
-    El password es requerido
-  </span>
-</div>
-<div class="col-auto">
-  <button type="submit" class="btn btn-primary mb-3 float-end">Login</button>
-</div>
-</form>

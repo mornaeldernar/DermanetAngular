@@ -3,5 +3,5 @@
   <h3 class="card-title">Macro {{cuantos}} de {{total}}</h3>
 </div>
 <div class="row">
-    <app-bodyitem *ngFor="let item of items" [item]="item.image" [micros]="item.micro.length" [macroId]="item.id" (getMicro)="changeMicroId($event)"/>
+    <app-bodyitem *ngFor="let item of items" [item]="item.image" [micros]="item.microCount" [macroId]="item.id" (getMicro)="changeMicroId($event)"/>
 </div>

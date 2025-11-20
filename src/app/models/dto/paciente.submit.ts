@@ -5,6 +5,7 @@ export interface PacienteSubmit {
   birthdate:Date;
   sex:string;
   phone:string;
+  email:string;
   profesion:string;
 }
 

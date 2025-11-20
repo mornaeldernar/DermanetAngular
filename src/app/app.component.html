@@ -1,11 +1,1 @@
-<app-header *ngIf="isLogedin"></app-header>
-<app-sidebar *ngIf="isLogedin"></app-sidebar>
-<div class="content-wrapper">
-<app-breadcrumbs *ngIf="isLogedin"></app-breadcrumbs>
-<section class="content">
-  <div class="container-fluid">
-    <router-outlet></router-outlet>
-  </div>
-</section>
-</div>
-<app-footer></app-footer>
+<router-outlet></router-outlet>

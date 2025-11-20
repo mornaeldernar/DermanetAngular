@@ -21,31 +21,33 @@ export class PacienteApiService {
   constructor(private http : HttpClient, private storage : LocalStorageService) { }
 
   listPacientes(pagina:number) {
-    return this.http.get<PageingResponseDto<PacienteModel>>(environment.apiUrl+environment.paciente+"?page="+pagina+"&size=50");
+    let url = environment.apiUrl+environment.endpoints.paciente+"?page="+pagina+"&size=50";
+    console.log(`url ${url}`)
+    return this.http.get<PageingResponseDto<PacienteModel>>(url);
   }
   filtraPacientes(nombre:string,apellidos:string, pagina:number) {
-    return this.http.get<PageingResponseDto<PacienteModel>>(environment.apiUrl+environment.paciente+"?name="+nombre+"&lastName="+apellidos+"&page="+pagina+"&size=50");
+    return this.http.get<PageingResponseDto<PacienteModel>>(environment.apiUrl+environment.endpoints.paciente+"?name="+nombre+"&lastName="+apellidos+"&page="+pagina+"&size=50");
   }
   verPaciente(id:number) {
-    return this.http.get<PacienteModel>(environment.apiUrl+environment.paciente+"/"+id);
+    return this.http.get<PacienteModel>(environment.apiUrl+environment.endpoints.paciente+"/"+id);
   }
   diagnostico(id:number, page:number){
-    return this.http.get<PageingResponseDto<MacroModel>>(environment.apiUrl+environment.macro+"?patient_id="+id+"&page="+page+"&size=50");
+    return this.http.get<PageingResponseDto<MacroModel>>(environment.apiUrl+environment.endpoints.image.macro+"?patient_id="+id+"&page="+page+"&size=50");
   }
   micro(id:number, page:number){
-    return this.http.get<PageingResponseDto<MicroModel>>(environment.apiUrl+environment.micro+"?macro_id="+id+"&page="+page+"&size=50");
+    return this.http.get<PageingResponseDto<MicroModel>>(environment.apiUrl+environment.endpoints.image.micro+"?macro_id="+id+"&page="+page+"&size=50");
   }
 
   guardar(paciente: PacienteSubmit) {
     const httpOptions = {
       headers: new HttpHeaders({'content-type': 'application/json;charset=UTF-8'}),
     }
-    return this.http.post<any>(environment.apiUrl+environment.paciente,JSON.stringify(paciente),httpOptions);
+    return this.http.post<any>(environment.apiUrl+environment.endpoints.paciente,JSON.stringify(paciente),httpOptions);
   }
   subirHistoriaClinica(paciente: number, file: FormData) {
-    return this.http.post<any>(environment.apiUrl+environment.file+"/"+paciente,file);
+    return this.http.post<any>(environment.apiUrl+environment.endpoints.file.historiaClinica+"/"+paciente,file);
   }
   getHistoriaClinica(paciente: number,page:number) {
-    return this.http.get<any>(environment.apiUrl+environment.file+"/"+paciente+"?page="+page+"&size=50");
+    return this.http.get<any>(environment.apiUrl+environment.endpoints.file.historiaClinica+"/"+paciente+"?page="+page+"&size=50");
   }
 }

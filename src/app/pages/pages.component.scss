@@ -1,0 +1,30 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content-wrapper {
+  flex: 1;
+  min-height: calc(100vh - 57px); // 57px es la altura del navbar
+  background-color: #f4f6f9;
+
+  .content {
+    padding: 1rem;
+
+    .container-fluid {
+      padding: 0 1rem;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .content-wrapper {
+    margin-left: 0 !important;
+
+    .content {
+      padding: 0.5rem;
+    }
+  }
+}

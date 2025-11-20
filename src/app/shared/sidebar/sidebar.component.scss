@@ -1,17 +1,375 @@
-[class*=sidebar-dark-] {
-  background-color: purple;
-  border-color: plum;
-}
-.brand-link .brand-image {
-  background-color: white
+// Variables de color
+$primary-purple: #6f42c1;
+$primary-purple-light: #8b5cf6;
+$primary-purple-dark: #5a32a3;
+$secondary-purple: #9d7aea;
+$background-dark: #2c2f3e;
+$background-darker: #1a1d2e;
+$text-light: #e2e8f0;
+$text-muted: #94a3b8;
+$border-color: rgba(255, 255, 255, 0.1);
+$hover-bg: rgba(111, 66, 193, 0.15);
+$active-bg: rgba(111, 66, 193, 0.25);
+
+// Sidebar principal
+.main-sidebar {
+  background: linear-gradient(180deg, $background-dark 0%, $background-darker 100%);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+  border-right: 1px solid $border-color;
 }
 
-[class*=sidebar-dark-] .sidebar a {
-  color: plum;
+// Efecto glassmorphism opcional (comentado por defecto)
+.sidebar-glass {
+  background: rgba(44, 47, 62, 0.95);
+  backdrop-filter: blur(15px);
+  border-radius: 0;
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.4);
+  border-right: 1px solid rgba(111, 66, 193, 0.3);
 }
-[class*=sidebar-dark] .brand-link {
-  border-bottom: 1px solid plum;
+
+// Logo y marca
+.brand-link {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background: linear-gradient(135deg, $primary-purple 0%, $primary-purple-dark 100%);
+  border-bottom: 3px solid $primary-purple-light;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: linear-gradient(135deg, $primary-purple-light 0%, $primary-purple 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3);
+  }
 }
-[class*=sidebar-dark] .user-panel {
-  border-bottom: 1px solid plum;
+
+.brand-text {
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  display: block;
+  margin-top: 0.5rem;
+
+  span {
+    color: $secondary-purple;
+    font-weight: 300;
+  }
+}
+
+.brand-image {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  background: white;
+  padding: 5px;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: rotate(360deg) scale(1.1);
+  }
+}
+
+// Panel de usuario
+.user-panel {
+  background: rgba(111, 66, 193, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid $border-color;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(111, 66, 193, 0.2);
+    border-color: $primary-purple-light;
+    transform: translateX(5px);
+  }
+
+  .image {
+    flex-shrink: 0;
+
+    img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 2px solid $primary-purple-light;
+      box-shadow: 0 2px 8px rgba(111, 66, 193, 0.4);
+      transition: all 0.3s ease;
+
+      &:hover {
+        border-color: $secondary-purple;
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .info {
+    flex-grow: 1;
+
+    a {
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: $text-light;
+      text-decoration: none;
+      display: block;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: $primary-purple-light;
+        text-decoration: none;
+      }
+    }
+
+    .status {
+      font-size: 0.8rem;
+      color: $text-muted;
+      margin-top: 0.25rem;
+
+      .badge {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
+
+// Navegación sidebar
+.nav-sidebar {
+  padding: 0.5rem 0;
+
+  .nav-item {
+    margin: 0.25rem 0.75rem;
+  }
+
+  .nav-link {
+    color: $text-light;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border: 1px solid transparent;
+
+    &:hover {
+      background: $hover-bg;
+      color: $primary-purple-light;
+      border-color: rgba(111, 66, 193, 0.3);
+      transform: translateX(5px);
+
+      .nav-icon {
+        color: $primary-purple-light;
+        transform: scale(1.15);
+      }
+    }
+
+    &.active {
+      background: $active-bg;
+      color: #ffffff;
+      border-left: 4px solid $primary-purple-light;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(111, 66, 193, 0.3);
+
+      .nav-icon {
+        color: $primary-purple-light;
+      }
+    }
+  }
+
+  .nav-icon {
+    font-size: 1.25rem;
+    color: $secondary-purple;
+    transition: all 0.3s ease;
+    width: 24px;
+    text-align: center;
+  }
+
+  p {
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  // Badge para notificaciones
+  .badge {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
+  }
+
+  // Menú colapsable
+  .nav-treeview {
+    padding-left: 1rem;
+    margin-top: 0.5rem;
+
+    .nav-link {
+      font-size: 0.875rem;
+      padding: 0.5rem 1rem;
+
+      &::before {
+        content: '•';
+        color: $secondary-purple;
+        margin-right: 0.5rem;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+// Sección de categorías
+.nav-header {
+  color: $text-muted;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  padding: 1rem 1.5rem 0.5rem;
+  margin-top: 1rem;
+  border-top: 1px solid $border-color;
+}
+
+// Sistema
+.sistema-section {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 2px solid $border-color;
+
+  .nav-link {
+    color: #f87171;
+
+    &:hover {
+      background: rgba(248, 113, 113, 0.15);
+      color: #ef4444;
+
+      .nav-icon {
+        color: #ef4444;
+      }
+    }
+  }
+}
+
+// Scrollbar personalizado
+.sidebar {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $primary-purple;
+    border-radius: 3px;
+
+    &:hover {
+      background: $primary-purple-light;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .brand-link {
+    padding: 1rem 0.5rem;
+  }
+
+  .brand-text {
+    font-size: 1.25rem;
+  }
+
+  .brand-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  .user-panel {
+    margin: 0.75rem;
+    padding: 0.75rem;
+
+    .image img {
+      width: 40px;
+      height: 40px;
+    }
+
+    .info a {
+      font-size: 0.9rem;
+    }
+  }
+
+  .nav-sidebar {
+    .nav-item {
+      margin: 0.25rem 0.5rem;
+    }
+
+    .nav-link {
+      font-size: 0.875rem;
+      padding: 0.65rem 0.75rem;
+    }
+
+    .nav-icon {
+      font-size: 1.125rem;
+    }
+  }
+}
+
+// Modo sidebar colapsado
+.sidebar-collapse {
+  .brand-text {
+    display: none;
+  }
+
+  .user-panel {
+    .info {
+      display: none;
+    }
+  }
+
+  .nav-sidebar {
+    .nav-link p {
+      display: none;
+    }
+
+    .nav-link {
+      justify-content: center;
+    }
+  }
+}
+
+// Animaciones
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.nav-item {
+  animation: slideInLeft 0.3s ease-out;
+  animation-fill-mode: both;
+
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
+  }
 }

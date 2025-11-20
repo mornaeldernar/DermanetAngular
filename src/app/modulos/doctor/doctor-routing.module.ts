@@ -1,28 +1,35 @@
-import { RouterModule, Routes } from "@angular/router";
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { JwtGuard } from "src/app/guard/jwt.guard";
-import { DoctorComponent } from "./doctor.component";
-import { DoctorListaComponent } from "./components/doctor.lista/doctor.lista.component";
-import { DoctorViewComponent } from "./components/doctor.view/doctor.view.component";
-import { DoctorFormComponent } from "./components/doctor.form/doctor.form.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { DoctorListaComponent } from './components/doctor.lista/doctor.lista.component';
+import { DoctorViewComponent } from './components/doctor.view/doctor.view.component';
+import { DoctorFormComponent } from './components/doctor.form/doctor.form.component';
 
-const routes : Routes = [
+const routes: Routes = [
   {
-    path:'doctor', component:DoctorComponent,canActivate:[JwtGuard],
-    children:[
-      { path : "", component: DoctorListaComponent},
-      { path : "view/:id", component: DoctorViewComponent},
-      { path : "new", component: DoctorFormComponent},
+    path: '',
+    children: [
+      {
+        path: '',
+        component: DoctorListaComponent
+      },
+      {
+        path: 'new',
+        component: DoctorFormComponent
+      },
+      {
+        path: 'edit/:id',
+        component: DoctorFormComponent
+      },
+      {
+        path: 'view/:id',
+        component: DoctorViewComponent
+      }
     ]
   }
-]
-@NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forRoot(routes)
-  ],
-  exports:[RouterModule]
-})
+];
 
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
 export class DoctorRoutingModule { }

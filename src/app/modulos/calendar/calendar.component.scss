@@ -1,0 +1,146 @@
+.content-header {
+  h1 {
+    color: #333;
+    font-weight: 600;
+
+    i {
+      margin-right: 0.5rem;
+      color: #007bff;
+    }
+  }
+}
+
+.card {
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .card-header {
+    background-color: #fff;
+    border-bottom: 2px solid #f4f6f9;
+    padding: 1rem 1.25rem;
+
+    .card-title {
+      font-weight: 600;
+      color: #333;
+
+      i {
+        margin-right: 0.5rem;
+        color: #007bff;
+      }
+    }
+  }
+
+  .card-body {
+    padding: 1.25rem;
+  }
+}
+
+// FullCalendar Custom Styles
+::ng-deep {
+  .fc {
+    font-family: 'Source Sans Pro', sans-serif;
+
+    .fc-toolbar-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .fc-button {
+      background-color: #007bff;
+      border-color: #007bff;
+      text-transform: capitalize;
+
+      &:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+      }
+
+      &:focus,
+      &:active {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+      }
+    }
+
+    .fc-button-active {
+      background-color: #0056b3;
+      border-color: #004085;
+    }
+
+    .fc-event {
+      border-radius: 4px;
+      padding: 2px 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    .fc-daygrid-day-number {
+      font-weight: 500;
+    }
+
+    .fc-col-header-cell {
+      background-color: #f8f9fa;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.875rem;
+    }
+
+    .fc-scrollgrid {
+      border-color: #dee2e6;
+    }
+
+    .fc-daygrid-day.fc-day-today {
+      background-color: rgba(0, 123, 255, 0.05);
+    }
+  }
+}
+
+// Modal Styles
+.modal-header {
+  background-color: #007bff;
+  color: white;
+  border-radius: 8px 8px 0 0;
+
+  .modal-title {
+    font-weight: 600;
+  }
+
+  .close {
+    color: white;
+    opacity: 1;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.modal-content {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+// Responsive
+@media (max-width: 768px) {
+  ::ng-deep {
+    .fc {
+      .fc-toolbar {
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .fc-toolbar-chunk {
+          margin-bottom: 0.5rem;
+        }
+      }
+
+      .fc-toolbar-title {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}

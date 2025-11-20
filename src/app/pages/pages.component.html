@@ -1,1 +1,27 @@
-<p>pages works!</p>
+<div class="wrapper">
+  <!-- Navbar/Header -->
+  <app-header></app-header>
+
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- Breadcrumbs (opcional) -->
+    <app-breadcrumbs></app-breadcrumbs>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <app-footer></app-footer>
+
+  <!-- Control Sidebar (opcional) -->
+  <aside class="control-sidebar control-sidebar-dark">
+  </aside>
+</div>

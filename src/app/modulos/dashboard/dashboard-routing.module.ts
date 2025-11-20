@@ -1,24 +1,21 @@
-import { RouterModule, Routes } from "@angular/router";
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { JwtGuard } from "src/app/guard/jwt.guard";
-import { HomeComponent } from "./components/home/home.component";
-import { DashboardComponent } from "./dashboard.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './components/home/home.component';
 
-const routes : Routes = [
+const routes: Routes = [
   {
-    path:'dashboard', component:DashboardComponent,canActivate:[JwtGuard],
-    children:[
-      {path : 'home',component:HomeComponent, data:{title:'Dashboard'}},
-    ]
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    component: HomeComponent
   }
-]
-@NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forRoot(routes)
-  ],
-  exports:[RouterModule]
-})
+];
 
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
 export class DashboardRoutingModule { }

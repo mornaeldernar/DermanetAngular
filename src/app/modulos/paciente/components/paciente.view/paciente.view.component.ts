@@ -1,5 +1,4 @@
-
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, finalize } from 'rxjs';
 import { BodyitemDto } from 'src/app/models/dto/bodyitem.dto';
@@ -9,13 +8,14 @@ import { MicroModel } from 'src/app/models/micro.model';
 import { PacienteModel } from 'src/app/models/paciente.model';
 import { BodyApiService } from 'src/app/services/api/body.api.service';
 import { PacienteApiService } from 'src/app/services/api/paciente.api.service';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-paciente.view',
   templateUrl: './paciente.view.component.html',
   styleUrls: ['./paciente.view.component.scss']
 })
-export class PacienteViewComponent  implements OnInit {
+export class PacienteViewComponent  implements OnInit, OnDestroy {
   id: number;
   titulo: string="";
   fileName:string = '';
@@ -23,6 +23,8 @@ export class PacienteViewComponent  implements OnInit {
   uploadSub?: Subscription;
   data?: string;
   historiasClinicas: HistoriaClinicaModel[] = [];
+  selectedFile?: string;
+  selectedFileName?: string; // Nuevo: nombre del archivo seleccionado
 
   paciente:PacienteModel = {
     id:0,
@@ -73,7 +75,10 @@ export class PacienteViewComponent  implements OnInit {
 
     this.getDiagnosticPage(this.page)
 
-    this.items = this.apiBody.getElements(this.id);
+    const bodyItems = this.apiBody.getElements(this.id);
+    if (bodyItems) {
+      this.items = bodyItems;
+    }
     this.getHistoriasClinicas(0);
   }
   getDiagnosticPage(page:number){
@@ -143,7 +148,6 @@ export class PacienteViewComponent  implements OnInit {
           this.fileName = "";
           var x = {id:datos.id,name:datos.fileName,location:datos.location, createdAt:new Date};
           this.historiasClinicas.unshift(x);
-          //this.historiasClinicas.concat(x);
         },
         error: (e) => {
         }
@@ -156,5 +160,63 @@ export class PacienteViewComponent  implements OnInit {
   reset() {
     this.uploadProgress = undefined;
     this.uploadSub = undefined;
+  }
+
+  // Método mejorado para abrir el modal con el documento
+  openFileModal(historiaClinica: HistoriaClinicaModel, fileName: string) {
+    let url = environment.apiUrl+environment.endpoints.file.historiaClinica+"/download/"+this.id+"/"+historiaClinica.id;
+    this.selectedFile = url;
+    this.selectedFileName = fileName;
+
+    // Abrir el modal usando Bootstrap
+    const modalElement = document.getElementById('fileViewerModal');
+    if (modalElement) {
+      const modal = new (window as any).bootstrap.Modal(modalElement);
+      modal.show();
+    }
+  }
+  // Método auxiliar para manejar la selección de archivo desde el bodylist
+  handleFileSelect(event:any) {
+    if(typeof event === 'string'){
+      this.openFileModal({
+        location: event,
+        name: 'Imagen Dermatoscópica'
+      } as HistoriaClinicaModel, 'Imagen Dermatoscópica');
+    }
+  }
+  // Método para cerrar el modal
+  closeFileModal() {
+    const modalElement = document.getElementById('fileViewerModal');
+    if (modalElement) {
+      const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
+      if (modal) {
+        modal.hide();
+      }
+    }
+
+    // Limpiar URL blob si existe
+    if (this.selectedFile && this.selectedFile.startsWith('blob:')) {
+      URL.revokeObjectURL(this.selectedFile);
+    }
+
+    this.selectedFile = undefined;
+    this.selectedFileName = undefined;
+  }
+
+  // Método para descargar el archivo
+  downloadFile() {
+    if (this.selectedFile && this.selectedFileName) {
+      const link = document.createElement('a');
+      link.href = this.selectedFile;
+      link.download = this.selectedFileName;
+      link.click();
+    }
+  }
+
+  ngOnDestroy() {
+    // Limpiar URL blob al destruir el componente
+    if (this.selectedFile && this.selectedFile.startsWith('blob:')) {
+      URL.revokeObjectURL(this.selectedFile);
+    }
   }
 }

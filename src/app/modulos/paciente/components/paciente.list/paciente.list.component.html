@@ -1,73 +1,232 @@
-<div class="row mt-3">
-  <div class="col-lg-6">
-    <h3>Lista de pacientes</h3>
+<div class="patient-list-container">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-title">
+        <i class="fas fa-users"></i>
+        <h2>Pacientes</h2>
+        <span class="badge badge-count" *ngIf="totalElements > 0">{{ formatNumber(totalElements) }}</span>
+      </div>
+      <button class="btn btn-primary btn-add" [routerLink]="['new']">
+        <i class="fas fa-plus"></i>
+        <span>Nuevo Paciente</span>
+      </button>
+    </div>
   </div>
-  <div class="col-lg-6">
-      <a class="btn btn-primary float-end" [routerLink]="['new']">Nuevo Paciente</a>
-  </div>
-</div>
-<div class="alert alert-danger" role="alert" *ngIf="pacientes.length == 0">
-  No hay pacientes
-</div>
-<div class="" style="display: flex;">
-  <form class="form-inline">
-    <div class="input-group input-group-sm">
-      <input class="form-control form-control-navbar" type="search" placeholder="Filtrar por nombre" aria-label="Search" [formControl]="nombre" >
-      <input class="form-control form-control-navbar" type="search" placeholder="Filtrar por apellidos" aria-label="Search" [formControl]="apellidos" >
-      <div class="input-group-append">
-        <button class="btn btn-navbar" type="button" (click)="searchPage(0)">
+
+  <!-- Search Bar -->
+  <div class="search-section">
+    <form class="search-form">
+      <div class="search-inputs">
+        <div class="search-input-group">
+          <i class="fas fa-user search-icon"></i>
+          <input
+            type="text"
+            class="form-control search-input"
+            placeholder="Buscar por nombre..."
+            [formControl]="nombre"
+            (keyup.enter)="searchPage(0)">
+        </div>
+        <div class="search-input-group">
+          <i class="fas fa-user-tag search-icon"></i>
+          <input
+            type="text"
+            class="form-control search-input"
+            placeholder="Buscar por apellidos..."
+            [formControl]="apellidos"
+            (keyup.enter)="searchPage(0)">
+        </div>
+        <button type="button" class="btn btn-search" (click)="searchPage(0)">
           <i class="fas fa-search"></i>
+          <span class="btn-text">Buscar</span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-clear"
+          (click)="clearSearch()"
+          *ngIf="nombre.value || apellidos.value">
+          <i class="fas fa-times"></i>
+          <span class="btn-text">Limpiar</span>
         </button>
       </div>
-    </div>
-  </form>
-</div>
-<table class="table table-hover mt-3" *ngIf="pacientes.length>0">
-  <thead>
-    <tr>
-      <th>Nombre</th>
-      <th>Apellidos</th>
-      <th>Fecha de Nacimiento</th>
-      <th>Sexo</th>
-      <th>Edad</th>
-      <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let paciente of pacientes">
-        <td>{{paciente.name}}</td>
-        <td>{{paciente.lastName}}</td>
-        <td>{{paciente.birthdate | date:"longDate":"UTC"}}</td>
-        <td>{{paciente.sex}}</td>
-        <td>{{edad(paciente.birthdate.toString())}}</td>
-        <td><button [routerLink]="['/paciente/view/'+paciente.id]"  class="btn btn-primary">Ver</button></td>
-      </tr>
-    </tbody>
-</table>
-<nav aria-label="Page navigation example"*ngIf="!(nombre.value || '' !== '')">
-  <ul class="pagination justify-content-end">
-    <li class="page-item" *ngIf="!first">
-      <a class="page-link" role="button" (click)="getPage(page-1)" tabindex="-1">Previous</a>
-    </li>
-    <li class="page-item" *ngIf="!first"><a class="page-link" role="button" (click)="getPage(page-1)" >{{page}}</a></li>
-    <li class="page-item"><a class="page-link active" role="button" >{{page+1}}</a></li>
-    <li class="page-item" *ngIf="!last"><a class="page-link" role="button" (click)="getPage(page+1)">{{page+2}}</a></li>
-    <li class="page-item" *ngIf="!last">
-      <a class="page-link" role="button" (click)="getPage(page+1)">Next</a>
-    </li>
-  </ul>
-</nav>
+    </form>
+  </div>
 
-<nav aria-label="Page navigation example" *ngIf="nombre.value || '' !== ''">
-  <ul class="pagination justify-content-end">
-    <li class="page-item" *ngIf="!first">
-      <a class="page-link" role="button" (click)="searchPage(page-1)" tabindex="-1">Previous</a>
-    </li>
-    <li class="page-item" *ngIf="!first"><a class="page-link" role="button" (click)="searchPage(page-1)" >{{page}}</a></li>
-    <li class="page-item"><a class="page-link active" role="button" >{{page+1}}</a></li>
-    <li class="page-item" *ngIf="!last"><a class="page-link" role="button" (click)="searchPage(page+1)">{{page+2}}</a></li>
-    <li class="page-item" *ngIf="!last">
-      <a class="page-link" role="button" (click)="searchPage(page+1)">Next</a>
-    </li>
-  </ul>
-</nav>
+  <!-- Empty State -->
+  <div class="empty-state" *ngIf="pacientes.length === 0">
+    <div class="empty-state-icon">
+      <i class="fas fa-user-slash"></i>
+    </div>
+    <h3>No hay pacientes</h3>
+    <p>Comienza agregando un nuevo paciente a la base de datos</p>
+    <button class="btn btn-primary" [routerLink]="['new']">
+      <i class="fas fa-plus"></i>
+      Agregar Primer Paciente
+    </button>
+  </div>
+
+  <!-- Patients Table -->
+  <div class="table-container" *ngIf="pacientes.length > 0">
+    <div class="table-responsive">
+      <table class="patients-table">
+        <thead>
+          <tr>
+            <th class="col-name">
+              <div class="th-content">
+                <i class="fas fa-user"></i>
+                <span>Nombre</span>
+              </div>
+            </th>
+            <th class="col-lastname">
+              <div class="th-content">
+                <i class="fas fa-user-tag"></i>
+                <span>Apellidos</span>
+              </div>
+            </th>
+            <th class="col-age">
+              <div class="th-content">
+                <i class="fas fa-birthday-cake"></i>
+                <span>Edad</span>
+              </div>
+            </th>
+            <th class="col-sex">
+              <div class="th-content">
+                <i class="fas fa-venus-mars"></i>
+                <span>Sexo</span>
+              </div>
+            </th>
+            <th class="col-email">
+              <div class="th-content">
+                <i class="fas fa-envelope"></i>
+                <span>Email</span>
+              </div>
+            </th>
+            <th class="col-phone">
+              <div class="th-content">
+                <i class="fas fa-phone"></i>
+                <span>Teléfono</span>
+              </div>
+            </th>
+            <th class="col-actions">
+              <div class="th-content">
+                <i class="fas fa-cog"></i>
+                <span>Acciones</span>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let paciente of pacientes; let i = index" class="patient-row">
+            <td class="col-name">
+              <div class="patient-name">
+                <div class="avatar">
+                  {{ getInitials(paciente.name) }}
+                </div>
+                <span>{{ paciente.name }}</span>
+              </div>
+            </td>
+            <td class="col-lastname">{{ paciente.lastName }}</td>
+            <td class="col-age">
+              <span class="age-badge">{{ edad(paciente.birthdate.toString()) }} años</span>
+            </td>
+            <td class="col-sex">
+              <span class="badge badge-sex" [class.badge-male]="paciente.sex === 'M'" [class.badge-female]="paciente.sex === 'F'">
+                <i class="fas" [class.fa-mars]="paciente.sex === 'M'" [class.fa-venus]="paciente.sex === 'F'"></i>
+                {{ paciente.sex === 'M' ? 'Masculino' : 'Femenino' }}
+              </span>
+            </td>
+            <td>{{ paciente.email }}</td>
+            <td class="col-phone">
+              <a [href]="'tel:' + paciente.phone" class="phone-link" title="Llamar a {{ paciente.name }}">
+                
+                <span class="phone-text">
+                  <i class="fas fa-phone-alt"></i>
+                  <span>{{ paciente.phone | phoneFormat }}</span>
+                </span>
+              </a>
+                
+            </td>
+            <td class="col-actions">
+              <button
+                class="btn btn-view"
+                [routerLink]="['/paciente/view/' + paciente.id]"
+                title="Ver detalles del paciente">
+                <i class="fas fa-eye"></i>
+                <span>Ver</span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-container" *ngIf="totalElements > 0">
+      <div class="pagination-info">
+        <span class="info-text">
+          Mostrando <strong>{{ formatNumber(rangeStart) }} - {{ formatNumber(rangeEnd) }}</strong> de <strong>{{ formatNumber(totalElements) }}</strong> pacientes
+        </span>
+      </div>
+
+      <nav class="pagination-nav" *ngIf="!(nombre.value || apellidos.value)">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="first">
+            <button class="page-link" (click)="getPage(page - 1)" [disabled]="first">
+              <i class="fas fa-chevron-left"></i>
+              <span class="page-text">Anterior</span>
+            </button>
+          </li>
+
+          <li class="page-item" *ngIf="page > 0">
+            <button class="page-link" (click)="getPage(page - 1)">{{ page }}</button>
+          </li>
+
+          <li class="page-item active">
+            <button class="page-link">{{ page + 1 }}</button>
+          </li>
+
+          <li class="page-item" *ngIf="!last">
+            <button class="page-link" (click)="getPage(page + 1)">{{ page + 2 }}</button>
+          </li>
+
+          <li class="page-item" [class.disabled]="last">
+            <button class="page-link" (click)="getPage(page + 1)" [disabled]="last">
+              <span class="page-text">Siguiente</span>
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <nav class="pagination-nav" *ngIf="nombre.value || apellidos.value">
+        <ul class="pagination">
+          <li class="page-item" [class.disabled]="first">
+            <button class="page-link" (click)="searchPage(page - 1)" [disabled]="first">
+              <i class="fas fa-chevron-left"></i>
+              <span class="page-text">Anterior</span>
+            </button>
+          </li>
+
+          <li class="page-item" *ngIf="page > 0">
+            <button class="page-link" (click)="searchPage(page - 1)">{{ page }}</button>
+          </li>
+
+          <li class="page-item active">
+            <button class="page-link">{{ page + 1 }}</button>
+          </li>
+
+          <li class="page-item" *ngIf="!last">
+            <button class="page-link" (click)="searchPage(page + 1)">{{ page + 2 }}</button>
+          </li>
+
+          <li class="page-item" [class.disabled]="last">
+            <button class="page-link" (click)="searchPage(page + 1)" [disabled]="last">
+              <span class="page-text">Siguiente</span>
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>

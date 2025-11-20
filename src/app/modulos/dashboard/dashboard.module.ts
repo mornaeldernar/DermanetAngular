@@ -1,24 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './components/home/home.component';
+import { RouterModule } from '@angular/router'; // IMPORTANTE
+
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { SharedModule } from 'src/app/shared/shared.module';
-
-
+import { DashboardComponent } from './dashboard.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
+    DashboardComponent,
     HomeComponent
   ],
   imports: [
     CommonModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-    DashboardRoutingModule,
-    SharedModule,
+    RouterModule, // Necesario para <router-outlet>
+    DashboardRoutingModule
   ]
 })
 export class DashboardModule { }

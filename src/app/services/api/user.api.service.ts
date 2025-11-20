@@ -12,6 +12,6 @@ export class UserApiService {
   constructor(private http : HttpClient) { }
 
   login(user:UserModel) {
-    return this.http.post<TokenModel>(environment.apiUrl+environment.login, JSON.stringify(user));
+    return this.http.post<TokenModel>(environment.apiUrl+environment.endpoints.auth.login, JSON.stringify(user));
   }
 }

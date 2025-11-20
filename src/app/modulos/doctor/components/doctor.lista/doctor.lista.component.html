@@ -2,8 +2,8 @@
   <div class="col-lg-6">
     <h3>Lista de doctores</h3>
   </div>
-  <div class="col-lg-6">
-      <button class="btn btn-primary float-end" [routerLink]="['/doctor/new/']" >Nuevo Doctor</button>
+  <div class="col-sm-8 col-9 text-right m-b-20">
+      <button class="btn btn-primary btn-rounded float-right" [routerLink]="['/doctor/new/']" ><i class="fa fa-plus"></i> Nuevo Doctor</button>
   </div>
 </div>
 <table *ngIf="listDoctor.length > 0" class="table table-hover mt-3">
