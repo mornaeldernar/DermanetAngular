@@ -1,0 +1,132 @@
+<div class="diagnostic-detail-container" *ngIf="!loading && diagnostic">
+    <div class="page-header">
+        <button class="btn btn-outline-secondary" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i>
+            Volver
+        </button>
+
+        <div class="header-actions">
+            <button class="btn btn-success" (click)="addEvolutionRecord()">
+                <i class="fas fa-plus-circle"></i>
+                Agregar Seguimiento
+            </button>
+            <button class="btn btn-outline-primary" (click)="editDiagnostic()">
+                <i class="fas fa-edit"></i>
+                Editar
+            </button>
+            <button class="btn btn-outline-danger" (click)="deleteDiagnostic()">
+                <i class="fas fa-trash"></i>
+                Eliminar
+            </button>
+        </div>
+    </div>
+
+    <div class="detail-content">
+        <div class="main-info">
+            <h2>{{ diagnostic.name }}</h2>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <span class="label">Ubicación</span>
+                        <span class="value">{{ diagnostic.bodyPart || 'No especificada' }}</span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div>
+                        <span class="label">Fecha de Registro</span>
+                        <span class="value">{{ diagnostic.createdAt | date: 'dd/MM/yyyy' }}</span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <i class="fas fa-camera"></i>
+                    <div>
+                        <span class="label">Fotos Macroscópicas</span>
+                        <span class="value">{{ diagnostic.macroCount || 0 }}</span>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <i class="fas fa-microscope"></i>
+                    <div>
+                        <span class="label">Fotos Microscópicas</span>
+                        <span class="value">{{ diagnostic.microCount || 0 }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="observations-section" *ngIf="diagnostic.observations">
+                <h3><i class="fas fa-notes-medical"></i> Observaciones</h3>
+                <p>{{ diagnostic.observations }}</p>
+            </div>
+        </div>
+
+        <div class="photos-section">
+            <div class="macro-photos">
+                <h3><i class="fas fa-camera"></i> Fotos Macroscópicas</h3>
+                <div class="photo-grid">
+                    <div class="photo-item" *ngFor="let photo of diagnostic.macroscopicImages"
+                        (click)="selectMacro(photo.id)" [class.selected]="selectedMacroId === photo.id"
+                        style="cursor: pointer;">
+                        <img [src]="getImageUrl(photo.location)" [alt]="photo.name">
+                        <div class="photo-overlay" *ngIf="selectedMacroId === photo.id">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                </div>
+                <p *ngIf="!diagnostic.macroscopicImages || diagnostic.macroscopicImages.length === 0" class="no-photos">
+                    No hay fotos macroscópicas disponibles
+                </p>
+            </div>
+
+            <div class="micro-photos">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h3><i class="fas fa-microscope"></i> Fotos Microscópicas (Dermatoscopio)</h3>
+                    <button *ngIf="selectedMacroId" class="btn btn-sm btn-outline-secondary" (click)="showAllMicros()">
+                        <i class="fas fa-times"></i> Mostrar todas
+                    </button>
+                </div>
+                <div class="photo-grid">
+                    <div class="photo-item" *ngFor="let photo of filteredMicroscopicImages">
+                        <img [src]="getImageUrl(photo.location)" [alt]="photo.name">
+                    </div>
+                </div>
+                <p *ngIf="!filteredMicroscopicImages || filteredMicroscopicImages.length === 0" class="no-photos">
+                    No hay fotos microscópicas disponibles
+                </p>
+            </div>
+        </div>
+
+        <!-- Evolution section temporarily removed until evolution data is added to backend -->
+        <!--
+        <div class="evolution-section">
+            <div class="section-header">
+                <h3><i class="fas fa-history"></i> Historial de Evolución</h3>
+                <button class="btn btn-primary" (click)="addEvolutionRecord()">
+                    <i class="fas fa-plus"></i>
+                    Agregar Registro
+                </button>
+            </div>
+
+            <app-evolution-timeline [evolutionRecords]="diagnostic.evolutionRecords"></app-evolution-timeline>
+        </div>
+        -->
+    </div>
+</div>
+
+<div class="loading-spinner" *ngIf="loading">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Cargando detalles...</p>
+</div>
+
+<div class="error-message" *ngIf="error && !loading">
+    <i class="fas fa-exclamation-triangle"></i>
+    <p>{{ error }}</p>
+    <button class="btn btn-primary" (click)="loadDiagnostic()">
+        <i class="fas fa-redo"></i> Reintentar
+    </button>
+</div>

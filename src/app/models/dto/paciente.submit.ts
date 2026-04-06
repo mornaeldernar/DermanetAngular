@@ -1,11 +1,11 @@
 export interface PacienteSubmit {
-  id:number;
-  name:string;
-  lastName:string;
-  birthdate:Date;
-  sex:string;
-  phone:string;
-  email:string;
-  profesion:string;
+  id: number;
+  name: string;
+  lastName: string;
+  birthdate: Date;
+  sex: string;
+  phone: string;
+  email: string;
+  profession: string;
 }
 

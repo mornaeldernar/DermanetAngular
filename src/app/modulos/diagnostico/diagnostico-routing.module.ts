@@ -5,11 +5,12 @@ import { JwtGuard } from "src/app/guard/jwt.guard";
 import { DiagnosticoComponent } from "./diagnostico.component";
 import { DiagnosticoFormComponent } from "./components/diagnostico.form/diagnostico.form.component";
 
-const routes : Routes = [
+const routes: Routes = [
   {
-    path:'diagnostic', component:DiagnosticoComponent,canActivate:[JwtGuard],
-    children:[
-      {path : 'new', component: DiagnosticoFormComponent,data:{title:'Nuevo paciente'}},
+    path: 'diagnostic', component: DiagnosticoComponent, canActivate: [JwtGuard],
+    data: { titulo: 'Diagnósticos' },
+    children: [
+      { path: 'new', component: DiagnosticoFormComponent, data: { titulo: 'Nuevo Diagnóstico' } },
     ]
   }
 ]
@@ -18,7 +19,7 @@ const routes : Routes = [
     CommonModule,
     RouterModule.forChild(routes)
   ],
-  exports:[RouterModule]
+  exports: [RouterModule]
 })
 
 export class DiagnosticoRoutingModule { }

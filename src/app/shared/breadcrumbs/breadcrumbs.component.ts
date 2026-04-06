@@ -8,7 +8,7 @@ import { map, filter } from 'rxjs/operators';
   templateUrl: './breadcrumbs.component.html',
   styleUrls: ['./breadcrumbs.component.scss']
 })
-export class BreadcrumbsComponent  implements OnDestroy {
+export class BreadcrumbsComponent implements OnDestroy {
 
   public titulo?: string;
   public tituloSubs$: Subscription;
@@ -19,7 +19,7 @@ export class BreadcrumbsComponent  implements OnDestroy {
     this.tituloSubs$ = this.getArgumentos().subscribe(({ titulo }) => {
 
       this.titulo = titulo;
-      document.title = `ProHOff - ${titulo}`;
+      document.title = `Dermanet - ${titulo}`;
 
     })
 

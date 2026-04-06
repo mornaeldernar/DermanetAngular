@@ -1,0 +1,124 @@
+<div class="role-form-container">
+    <div class="header">
+        <h2>{{ isEditMode ? 'Edit Role' : 'Create New Role' }}</h2>
+    </div>
+
+    <div *ngIf="isLoading" class="loading">
+        <p>Loading...</p>
+    </div>
+
+    <form [formGroup]="roleForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
+        <div class="form-section">
+            <div class="form-group">
+                <label for="name">Role Name *</label>
+                <input type="text" id="name" formControlName="name" placeholder="Enter role name"
+                    [class.error]="roleForm.get('name')?.invalid && roleForm.get('name')?.touched">
+                <div class="error-message" *ngIf="roleForm.get('name')?.invalid && roleForm.get('name')?.touched">
+                    <span *ngIf="roleForm.get('name')?.errors?.['required']">Role name is required</span>
+                    <span *ngIf="roleForm.get('name')?.errors?.['minlength']">Role name must be at least 3
+                        characters</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" formControlName="description" rows="3"
+                    placeholder="Enter role description"></textarea>
+            </div>
+
+            <div class="form-group" *ngIf="isEditMode">
+                <label class="checkbox-label">
+                    <input type="checkbox" formControlName="isActive">
+                    <span>Active</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="permissions-section">
+            <h3>Module Access</h3>
+            <div class="module-list">
+                <div class="module-item" *ngFor="let module of modules">
+                    <div class="module-header">
+                        <span class="module-name">{{ module.displayName }}</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" [checked]="isModuleEnabled(module)"
+                                (change)="toggleModuleAccess(module, $any($event.target).checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="permissions-title">Module Permissions</h3>
+            <div class="permissions-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Module Permission</th>
+                            <th>Read</th>
+                            <th>Write</th>
+                            <th>Create</th>
+                            <th>Delete</th>
+                            <th>Import</th>
+                            <th>Export</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let module of modules">
+                            <td class="module-name-cell">{{ module.displayName }}</td>
+                            <td>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [checked]="modulePermissions[module.id]?.canRead"
+                                        (change)="togglePermission(module, 'canRead')">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                            <td>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [checked]="modulePermissions[module.id]?.canWrite"
+                                        (change)="togglePermission(module, 'canWrite')">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                            <td>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [checked]="modulePermissions[module.id]?.canCreate"
+                                        (change)="togglePermission(module, 'canCreate')">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                            <td>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [checked]="modulePermissions[module.id]?.canDelete"
+                                        (change)="togglePermission(module, 'canDelete')">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                            <td>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [checked]="modulePermissions[module.id]?.canImport"
+                                        (change)="togglePermission(module, 'canImport')">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                            <td>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [checked]="modulePermissions[module.id]?.canExport"
+                                        (change)="togglePermission(module, 'canExport')">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="button" class="btn-cancel" (click)="cancel()">Cancel</button>
+            <button type="submit" class="btn-submit" [disabled]="roleForm.invalid">
+                {{ isEditMode ? 'Update Role' : 'Create Role' }}
+            </button>
+        </div>
+    </form>
+</div>

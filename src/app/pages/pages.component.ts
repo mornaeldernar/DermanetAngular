@@ -16,15 +16,12 @@ export class PagesComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService
   ) {
-    console.log('PagesComponent - Constructor ejecutado');
   }
 
   ngOnInit(): void {
-    console.log('PagesComponent - ngOnInit ejecutado');
 
     // Verificar autenticación al iniciar
     if (!this.authService.isAuthenticated()) {
-      console.log('PagesComponent - Usuario no autenticado, redirigiendo a login');
       this.router.navigate(['/login']);
       return;
     }

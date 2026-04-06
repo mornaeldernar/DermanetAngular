@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
+import { Error500Component } from './pages/error-500/error-500.component';
 import { PagesComponent } from './pages/pages.component';
 import { JwtGuard } from './guard/jwt.guard';
 import { LoggedInGuard } from './guard/logged-in.guard';
-
+import { RoleGuard } from './guard/role.guard';
 const routes: Routes = [
   {
     path: '',
@@ -49,8 +51,25 @@ const routes: Routes = [
       {
         path: 'user',
         loadChildren: () => import('./modulos/user/user.module').then(m => m.UserModule)
-      }
+      },
+      {
+        path: 'lesion',
+        loadChildren: () => import('./modulos/lesion/lesion.module').then(m => m.LesionModule)
+      },
+      {
+        path: 'admin-permissions',
+        loadChildren: () => import('./modulos/admin-permissions/admin-permissions.module').then(m => m.AdminPermissionsModule),
+        canActivate: [RoleGuard]
+      },
     ]
+  },
+  {
+    path: 'access-denied',
+    component: AccessDeniedComponent
+  },
+  {
+    path: 'error',
+    component: Error500Component
   },
   {
     path: '**',

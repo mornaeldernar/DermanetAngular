@@ -1,4 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --primary-color: #6f42c1;
+    --secondary-color: #ff8c00;
+    --primary-color-dark: #2c2f3e;
+    --border-color: #5a32a3;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+    // Variables de color
+    --primary-purple: #6a0dad;
+    --primary-purple-light: #8b5cf6;
+    --primary-purple-dark: #5a32a3;
+    --secondary-purple: #9d7aea;
+    --background-dark: #2c2f3e;
+    --background-darker: #1a1d2e;
+    --text-light: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --hover-bg: rgba(111, 66, 193, 0.15);
+    --active-bg: rgba(111, 66, 193, 0.25);
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}

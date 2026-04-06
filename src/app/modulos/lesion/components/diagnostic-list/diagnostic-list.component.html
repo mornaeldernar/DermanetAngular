@@ -1,0 +1,76 @@
+<div class="diagnostic-list-container">
+    <div class="page-header">
+        <div class="header-content">
+            <h2>
+                <i class="fas fa-microscope"></i>
+                Lesiones Dermatológicas
+            </h2>
+            <p class="subtitle">Seguimiento y evolución de lesiones del paciente</p>
+        </div>
+        <button class="btn btn-primary" (click)="createNewLesion()">
+            <i class="fas fa-plus"></i>
+            Nueva Lesión
+        </button>
+    </div>
+
+    <div class="loading-spinner" *ngIf="loading">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Cargando lesiones...</p>
+    </div>
+
+    <div class="diagnostics-grid" *ngIf="!loading && diagnostics.length > 0">
+        <div class="diagnostic-card" *ngFor="let diagnostic of diagnostics" (click)="viewDiagnostic(diagnostic.id)">
+            <div class="card-image">
+                <img [src]="getImageUrl(diagnostic.latestMacroImage?.location)" [alt]="diagnostic.name"
+                    onerror="this.src='./assets/no-image.avif'">
+                <div class="card-badge">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div>
+
+            <div class="card-content">
+                <h3 class="card-title">{{ diagnostic.name }}</h3>
+
+                <div class="card-info">
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ diagnostic.bodyPart || 'No especificada' }}</span>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>{{ diagnostic.createdAt | date:'dd/MM/yyyy' }}</span>
+                    </div>
+                </div>
+
+                <div class="card-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-camera"></i>
+                        <span>{{ diagnostic.macroCount || 0 }} Macro</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-microscope"></i>
+                        <span>{{ diagnostic.microCount || 0 }} Micro</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button class="btn-view">
+                    Ver Detalles
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="empty-state" *ngIf="!loading && diagnostics.length === 0">
+        <i class="fas fa-folder-open"></i>
+        <h3>No hay lesiones registradas</h3>
+        <p>Comienza creando una nueva lesión para este paciente</p>
+        <button class="btn btn-primary" (click)="createNewLesion()">
+            <i class="fas fa-plus"></i>
+            Crear Primera Lesión
+        </button>
+    </div>
+</div>

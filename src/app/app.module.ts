@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { PagesComponent } from './pages/pages.component';
 import { LoginComponent } from './pages/login/login.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { AccessDeniedComponent } from './pages/access-denied/access-denied.component';
+import { Error500Component } from './pages/error-500/error-500.component';
 
 // Shared Module (contiene sidebar, header, footer, etc.)
 import { SharedModule } from './shared/shared.module';
@@ -24,13 +26,16 @@ import { LoggedInGuard } from './guard/logged-in.guard';
 import { AuthService } from './services/auth.service';
 import { LocalStorageService } from './services/local-storage.service';
 import { LoginService } from './services/login.service';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @NgModule({
   declarations: [
     AppComponent,
     PagesComponent,
     LoginComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AccessDeniedComponent,
+    Error500Component
   ],
   imports: [
     BrowserModule,
@@ -51,7 +56,8 @@ import { LoginService } from './services/login.service';
       provide: HTTP_INTERCEPTORS,
       useClass: MyHttpInterceptor,
       multi: true
-    }
+    },
+    provideCharts(withDefaultRegisterables())
   ],
   bootstrap: [AppComponent]
 })

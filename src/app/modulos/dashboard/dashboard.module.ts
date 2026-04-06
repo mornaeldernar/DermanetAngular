@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router'; // IMPORTANTE
+import { BaseChartDirective } from 'ng2-charts';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard.component';
@@ -14,7 +15,8 @@ import { HomeComponent } from './components/home/home.component';
   imports: [
     CommonModule,
     RouterModule, // Necesario para <router-outlet>
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    BaseChartDirective
   ]
 })
 export class DashboardModule { }

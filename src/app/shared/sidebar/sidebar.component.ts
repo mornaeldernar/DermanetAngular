@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 import { SidebarService } from '../sidebar.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { PermissionService } from 'src/app/services/permission.service';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
@@ -42,25 +43,25 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private storage: LocalStorageService,
     private sideBarServices: SidebarService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private permissionService: PermissionService
   ) {
-    console.log('SidebarComponent - Constructor ejecutado');
     this.loadUserData();
   }
 
   ngOnInit(): void {
-    console.log('SidebarComponent - ngOnInit ejecutado');
 
-    // Cargar menú
-    this.menuItems.set(this.sideBarServices.menu);
+    // Load initial menu
+    this.updateMenu();
 
     // Suscribirse a cambios de autenticación
     this.authSubscription = this.authService.isAuthenticated$.subscribe(isAuth => {
-      console.log('SidebarComponent - Estado de autenticación cambió:', isAuth);
       if (isAuth) {
         this.loadUserData();
+        this.loadPermissionsAndUpdateMenu();
       } else {
         this.clearUserData();
+        this.menuItems.set([]);
       }
     });
 
@@ -84,33 +85,27 @@ export class SidebarComponent implements OnInit, OnDestroy {
     try {
       // Intentar obtener el token de múltiples fuentes
       let token = this.storage.consultar("token") ||
-                  this.storage.consultar("jwt_token") ||
-                  this.authService.getToken();
+        this.storage.consultar("jwt_token") ||
+        this.authService.getToken();
 
       this.jwt.set(token || "");
 
       if (!this.jwt() || this.jwt() === "") {
-        console.log('SidebarComponent - No hay token disponible');
         return;
       }
-
-      console.log('SidebarComponent - Token encontrado, decodificando...');
 
       // Decodificar JWT
       const parts = this.jwt().split(".");
       if (parts.length !== 3) {
-        console.error('SidebarComponent - Token JWT inválido');
         return;
       }
 
       const decodedJwt = JSON.parse(window.atob(parts[1]));
-      console.log('SidebarComponent - JWT decodificado:', decodedJwt);
 
       // Extraer email
       const emailClaim = decodedJwt['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
       if (emailClaim) {
         this.email.set(emailClaim);
-        console.log('SidebarComponent - Email establecido:', emailClaim);
       }
 
       // Extraer roles
@@ -119,10 +114,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
         const roles = Array.isArray(roleClaim) ? roleClaim : [roleClaim];
         this.claims.set(roles);
         this.isAdmin.set(roles.includes("admin") || roles.includes("Admin"));
-        console.log('SidebarComponent - Roles establecidos:', roles, 'isAdmin:', this.isAdmin());
       }
     } catch (error) {
-      console.error('SidebarComponent - Error cargando datos de usuario:', error);
       this.clearUserData();
     }
   }
@@ -136,8 +129,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   // Actualizar el estado del menú según la URL actual
   private updateMenuStateFromUrl(url: string): void {
-    console.log('SidebarComponent - Actualizando estado del menú para URL:', url);
-
     this.menuItems().forEach(item => {
       if (item.submenu) {
         // Verificar si algún submenu coincide con la URL actual
@@ -147,7 +138,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
         if (hasActiveSubmenu) {
           this.openMenus[item.titulo] = true;
-          console.log('SidebarComponent - Menú abierto:', item.titulo);
         }
       }
     });
@@ -161,7 +151,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
     this.openMenus[itemTitle] = !this.openMenus[itemTitle];
-    console.log('SidebarComponent - Toggle menú:', itemTitle, this.openMenus[itemTitle]);
   }
 
   // Verificar si el menú está abierto
@@ -174,8 +163,30 @@ export class SidebarComponent implements OnInit, OnDestroy {
     return !item.admin || (item.admin && this.isAdmin());
   }
 
+  /**
+   * Load permissions from backend and update menu
+   */
+  private loadPermissionsAndUpdateMenu(): void {
+    this.permissionService.loadUserPermissions().subscribe({
+      next: () => {
+        this.updateMenu();
+      },
+      error: (error) => {
+        this.updateMenu(); // Update with empty permissions
+      }
+    });
+  }
+
+  /**
+   * Update menu items based on current permissions
+   */
+  private updateMenu(): void {
+    const filteredMenu = this.sideBarServices.getMenuItems();
+    this.menuItems.set(filteredMenu);
+  }
+
   logout(): void {
-    console.log('SidebarComponent - Cerrando sesión');
+    this.permissionService.clearPermissions();
     this.authService.logout();
   }
 }

@@ -1,0 +1,29 @@
+<div class="body-selector-container">
+    <div class="view-toggle">
+        <button class="btn btn-primary" (click)="toggleView()">
+            <i class="fas fa-sync-alt"></i>
+            {{ currentView === 'front' ? 'Ver Vista Posterior' : 'Ver Vista Frontal' }}
+        </button>
+    </div>
+
+    <div class="body-diagram">
+        <svg width="320" height="450" viewBox="0 0 320 450" (click)="onSvgClick($event)" class="body-svg">
+
+            <!-- Body parts as clickable paths -->
+            <g *ngFor="let bodyPart of currentBodyParts">
+                <path [id]="'path-' + bodyPart.name" [attr.d]="bodyPart.svgPath" [class]="getPathClass(bodyPart)"
+                    (mouseenter)="onPathHover(bodyPart)" (mouseleave)="onPathLeave()" />
+            </g>
+        </svg>
+
+        <div class="selected-info" *ngIf="selectedBodyPart">
+            <i class="fas fa-check-circle text-success"></i>
+            <span>Seleccionado: <strong>{{ selectedBodyPart.displayName }}</strong></span>
+        </div>
+    </div>
+
+    <div class="info-text">
+        <i class="fas fa-info-circle"></i>
+        Haz clic en la parte del cuerpo donde se encuentra la lesión
+    </div>
+</div>

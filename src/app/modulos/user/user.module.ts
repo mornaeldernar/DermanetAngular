@@ -6,13 +6,17 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UserRoutingModule } from './user-routing.module';
 import { UserComponent } from './user.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { RegisterStaffComponent } from './components/register-staff/register-staff.component';
+import { StaffListComponent } from './components/staff-list/staff-list.component';
 
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
     UserComponent,
-    LogoutComponent
+    LogoutComponent,
+    RegisterStaffComponent,
+    StaffListComponent
   ],
   imports: [
     CommonModule,

@@ -10,7 +10,8 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
+    data: { titulo: 'Dashboard' }
   }
 ];
 

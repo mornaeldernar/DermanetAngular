@@ -11,23 +11,28 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: PacienteListComponent
+        component: PacienteListComponent,
+        data: { titulo: 'Pacientes' }
       },
       {
         path: 'new',
-        component: PacienteFormComponent
+        component: PacienteFormComponent,
+        data: { titulo: 'Nuevo Paciente' }
       },
       {
         path: 'editar/:id',
-        component: PacienteFormComponent
+        component: PacienteFormComponent,
+        data: { titulo: 'Editar Paciente' }
       },
       {
         path: 'view/:id',
-        component: PacienteViewComponent
+        component: PacienteViewComponent,
+        data: { titulo: 'Ver Paciente' }
       },
       {
         path: 'view/:id/historiaClinica/:hcid',
-        component: VerHistoriaClinicaComponent
+        component: VerHistoriaClinicaComponent,
+        data: { titulo: 'Historia Clínica' }
       }
     ]
   }

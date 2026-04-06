@@ -1,1 +1,115 @@
-<p>doctor.form works!</p>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <h4 class="page-title">{{ pageTitle }}</h4>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="loading">
+            <div class="col-12 text-center">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Cargando...</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="!loading">
+            <div class="col-lg-8 offset-lg-2">
+                <form [formGroup]="doctorForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Nombre <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" formControlName="name"
+                                    [class.is-invalid]="submitted && f['name'].errors">
+                                <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['name'].errors['required']">El nombre es requerido</div>
+                                    <div *ngIf="f['name'].errors['minlength']">El nombre debe tener al menos 2
+                                        caracteres</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Apellido <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" formControlName="lastName"
+                                    [class.is-invalid]="submitted && f['lastName'].errors">
+                                <div *ngIf="submitted && f['lastName'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['lastName'].errors['required']">El apellido es requerido</div>
+                                    <div *ngIf="f['lastName'].errors['minlength']">El apellido debe tener al menos 2
+                                        caracteres</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Email <span class="text-danger">*</span></label>
+                                <input class="form-control" type="email" formControlName="email"
+                                    [class.is-invalid]="submitted && f['email'].errors">
+                                <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['email'].errors['required']">El email es requerido</div>
+                                    <div *ngIf="f['email'].errors['email']">Ingrese un email válido</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Especialidad <span class="text-danger">*</span></label>
+                                <select class="form-control" formControlName="specialityId"
+                                    [class.is-invalid]="submitted && f['specialityId'].errors">
+                                    <option value="">Seleccione una especialidad</option>
+                                    <option *ngFor="let speciality of specialities" [value]="speciality.id">
+                                        {{ speciality.name }}
+                                    </option>
+                                </select>
+                                <div *ngIf="submitted && f['specialityId'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['specialityId'].errors['required']">La especialidad es requerida</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6" *ngIf="!isEditMode">
+                            <div class="form-group">
+                                <label>Contraseña <span class="text-danger">*</span></label>
+                                <input class="form-control" type="password" formControlName="password"
+                                    [class.is-invalid]="submitted && f['password'].errors">
+                                <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['password'].errors['required']">La contraseña es requerida</div>
+                                    <div *ngIf="f['password'].errors['minlength']">La contraseña debe tener al menos 6
+                                        caracteres</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6" *ngIf="!isEditMode">
+                            <div class="form-group">
+                                <label>Confirmar Contraseña <span class="text-danger">*</span></label>
+                                <input class="form-control" type="password" formControlName="confirmPassword"
+                                    [class.is-invalid]="submitted && f['confirmPassword'].errors">
+                                <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
+                                    <div *ngIf="f['confirmPassword'].errors['required']">Confirme la contraseña</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-t-20 text-center">
+                        <button type="submit" class="btn btn-primary submit-btn" [disabled]="loading">
+                            <span *ngIf="!loading">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</span>
+                            <span *ngIf="loading">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                Guardando...
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-secondary ml-2" (click)="cancel()" [disabled]="loading">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

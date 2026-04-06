@@ -1,0 +1,26 @@
+<div class="roles-container">
+    <div class="header">
+        <h2>Roles & Permissions</h2>
+        <button class="btn-add" (click)="createRole()">
+            <span class="icon">+</span> Add Roles
+        </button>
+    </div>
+
+    <div class="roles-list">
+        <div *ngFor="let role of roles" class="role-item" [class.active]="role.isActive" (click)="editRole(role.id)">
+            <div class="role-info">
+                <span class="role-name">{{ role.name }}</span>
+                <span class="role-description" *ngIf="role.description">{{ role.description }}</span>
+            </div>
+            <div class="role-actions" (click)="$event.stopPropagation()">
+                <button class="btn-delete" (click)="deleteRole(role.id)" title="Delete role">
+                    <span class="icon">🗑️</span>
+                </button>
+            </div>
+        </div>
+
+        <div *ngIf="roles.length === 0" class="empty-state">
+            <p>No roles found. Click "Add Roles" to create a new role.</p>
+        </div>
+    </div>
+</div>

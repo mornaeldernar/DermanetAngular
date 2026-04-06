@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PacienteSubmit } from 'src/app/models/dto/paciente.submit';
 import { PacienteApiService } from 'src/app/services/api/paciente.api.service';
 
@@ -14,11 +14,13 @@ export class PacienteFormComponent implements OnInit {
   paciente: FormGroup;
   isSubmitting: boolean = false;
   today: string = '';
+  id: number | null = null;
 
   constructor(
     private fb: FormBuilder,
     private api: PacienteApiService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.paciente = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
@@ -35,8 +37,43 @@ export class PacienteFormComponent implements OnInit {
     // Establecer fecha máxima (hoy)
     const today = new Date();
     this.today = today.toISOString().split('T')[0];
-    
-    console.log('📋 Formulario de paciente inicializado');
+
+    // Verificar si es edición
+    this.route.params.subscribe(params => {
+      if (params['id']) {
+        this.id = +params['id'];
+        this.loadPaciente(this.id);
+      }
+    });
+
+  }
+
+  loadPaciente(id: number): void {
+    this.api.verPaciente(id).subscribe({
+      next: (data) => {
+
+        // Formatear fecha para input type="date" (YYYY-MM-DD)
+        let birthdateFormatted = '';
+        if (data.birthdate) {
+          const date = new Date(data.birthdate);
+          birthdateFormatted = date.toISOString().split('T')[0];
+        }
+
+        this.paciente.patchValue({
+          name: data.name,
+          lastName: data.lastName,
+          birthdate: birthdateFormatted,
+          sex: data.sex,
+          phone: data.phone,
+          email: data.email,
+          profesion: data.profesion
+        });
+      },
+      error: (e) => {
+        console.error('❌ Error al cargar paciente:', e);
+        this.router.navigate(['/paciente']);
+      }
+    });
   }
 
   save(): void {
@@ -45,7 +82,6 @@ export class PacienteFormComponent implements OnInit {
       Object.keys(this.paciente.controls).forEach(key => {
         this.paciente.get(key)?.markAsTouched();
       });
-      console.warn('⚠️ Formulario inválido');
       return;
     }
 
@@ -56,30 +92,39 @@ export class PacienteFormComponent implements OnInit {
     const phoneValue = this.paciente.get('phone')?.value;
     const cleanPhone = phoneValue.replace(/\D/g, ''); // Solo números
 
-    const paciente: PacienteSubmit = {
-      id: 0,
+    const pacienteSubmit: PacienteSubmit = {
+      id: this.id || 0,
       name: this.paciente.get('name')?.value.trim(),
       lastName: this.paciente.get('lastName')?.value.trim(),
       birthdate: new Date(this.paciente.get('birthdate')?.value),
       sex: this.paciente.get('sex')?.value,
       phone: cleanPhone,
       email: this.paciente.get('email')?.value.trim().toLowerCase(),
-      profesion: this.paciente.get('profesion')?.value?.trim() || ''
+      profession: this.paciente.get('profession')?.value?.trim() || ''
     };
 
-    console.log('💾 Guardando paciente:', paciente);
 
-    this.api.guardar(paciente).subscribe({
+    const request = this.id
+      ? this.api.actualizar(this.id, pacienteSubmit)
+      : this.api.guardar(pacienteSubmit);
+
+    request.subscribe({
       next: datos => {
-        console.log('✅ Paciente guardado exitosamente:', datos.id);
         this.isSubmitting = false;
-        this.router.navigate(['/paciente/view/' + datos.id]);
+        // Si es actualización, datos podría ser null o vacío dependiendo del backend (204 No Content)
+        // Si es creación, devuelve el objeto creado
+        const targetId = this.id || datos?.id;
+        if (targetId) {
+          this.router.navigate(['/paciente/view/' + targetId]);
+        } else {
+          this.router.navigate(['/paciente']);
+        }
       },
       error: (e) => {
         console.error('❌ Error al guardar paciente:', e);
         this.error = true;
         this.isSubmitting = false;
-        
+
         // Scroll al top para mostrar el error
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }

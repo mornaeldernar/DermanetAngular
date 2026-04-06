@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest,HttpErrorResponse } from '@angular/common/http';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, switchMap, filter, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ export class MyHttpInterceptor implements HttpInterceptor {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const whitelistedUrls = ['/login', '/register', '/public']; // Añade aquí las rutas que no requieren token
@@ -26,24 +26,18 @@ export class MyHttpInterceptor implements HttpInterceptor {
     const token = this.authService.getToken();
 
     if (token) {
-      console.log("Agregando token a la peticion")
       req = this.addToken(req, token);
-    }else{
-      console.warn("no hay token disponible para agregar")
     }
 
     return next.handle(req).pipe(
       catchError(error => {
-        console.error("error en la peticion", error.status, error.message);
         if (error.status === 401 && token) {
-          console.error("error 401 detectado, intentando refrescar token");
           return this.handle401Error(req, next);
         }
         if (error.status === 403) {
-          console.error("error 403 detectado, redirigiendo a unauthorized");
           this.router.navigate(['/unauthorized']);
         }
-        if(error.status === 0){
+        if (error.status === 0) {
           console.error("Error de conexion")
         }
         return throwError(() => error);
@@ -53,14 +47,21 @@ export class MyHttpInterceptor implements HttpInterceptor {
 
   }
 
-  private addToken(request: HttpRequest<any>, token: string):HttpRequest<any> {
-    return request.clone({
-      setHeaders: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    });
+  private addToken(request: HttpRequest<any>, token: string): HttpRequest<any> {
+    // Don't set Content-Type for FormData requests (file uploads)
+    // The browser will set it automatically with the correct boundary
+    const headers: { [key: string]: string } = {
+      'Authorization': `Bearer ${token}`
+    };
 
+    // Only add Content-Type for non-FormData requests
+    if (!(request.body instanceof FormData)) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    return request.clone({
+      setHeaders: headers
+    });
   }
 
   private handle401Error(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

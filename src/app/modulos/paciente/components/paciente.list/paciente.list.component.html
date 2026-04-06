@@ -20,31 +20,19 @@
       <div class="search-inputs">
         <div class="search-input-group">
           <i class="fas fa-user search-icon"></i>
-          <input
-            type="text"
-            class="form-control search-input"
-            placeholder="Buscar por nombre..."
-            [formControl]="nombre"
+          <input type="text" class="form-control search-input" placeholder="Buscar por nombre..." [formControl]="nombre"
             (keyup.enter)="searchPage(0)">
         </div>
         <div class="search-input-group">
           <i class="fas fa-user-tag search-icon"></i>
-          <input
-            type="text"
-            class="form-control search-input"
-            placeholder="Buscar por apellidos..."
-            [formControl]="apellidos"
-            (keyup.enter)="searchPage(0)">
+          <input type="text" class="form-control search-input" placeholder="Buscar por apellidos..."
+            [formControl]="apellidos" (keyup.enter)="searchPage(0)">
         </div>
         <button type="button" class="btn btn-search" (click)="searchPage(0)">
           <i class="fas fa-search"></i>
           <span class="btn-text">Buscar</span>
         </button>
-        <button
-          type="button"
-          class="btn btn-clear"
-          (click)="clearSearch()"
-          *ngIf="nombre.value || apellidos.value">
+        <button type="button" class="btn btn-clear" (click)="clearSearch()" *ngIf="nombre.value || apellidos.value">
           <i class="fas fa-times"></i>
           <span class="btn-text">Limpiar</span>
         </button>
@@ -130,7 +118,8 @@
               <span class="age-badge">{{ edad(paciente.birthdate.toString()) }} años</span>
             </td>
             <td class="col-sex">
-              <span class="badge badge-sex" [class.badge-male]="paciente.sex === 'M'" [class.badge-female]="paciente.sex === 'F'">
+              <span class="badge badge-sex" [class.badge-male]="paciente.sex === 'M'"
+                [class.badge-female]="paciente.sex === 'F'">
                 <i class="fas" [class.fa-mars]="paciente.sex === 'M'" [class.fa-venus]="paciente.sex === 'F'"></i>
                 {{ paciente.sex === 'M' ? 'Masculino' : 'Femenino' }}
               </span>
@@ -138,20 +127,23 @@
             <td>{{ paciente.email }}</td>
             <td class="col-phone">
               <a [href]="'tel:' + paciente.phone" class="phone-link" title="Llamar a {{ paciente.name }}">
-                
+
                 <span class="phone-text">
                   <i class="fas fa-phone-alt"></i>
                   <span>{{ paciente.phone | phoneFormat }}</span>
                 </span>
               </a>
-                
+
             </td>
             <td class="col-actions">
-              <button
-                class="btn btn-view"
-                [routerLink]="['/paciente/view/' + paciente.id]"
+              <button class="btn btn-view" [routerLink]="['/paciente/view/' + paciente.id]"
                 title="Ver detalles del paciente">
                 <i class="fas fa-eye"></i>
+                <span>Ver</span>
+              </button>
+              <button class="btn btn-view" [routerLink]="['/lesion/paciente/' + paciente.id]"
+                title="Ver imagenes del paciente">
+                <i class="fas fa-images"></i>
                 <span>Ver</span>
               </button>
             </td>
@@ -164,7 +156,8 @@
     <div class="pagination-container" *ngIf="totalElements > 0">
       <div class="pagination-info">
         <span class="info-text">
-          Mostrando <strong>{{ formatNumber(rangeStart) }} - {{ formatNumber(rangeEnd) }}</strong> de <strong>{{ formatNumber(totalElements) }}</strong> pacientes
+          Mostrando <strong>{{ formatNumber(rangeStart) }} - {{ formatNumber(rangeEnd) }}</strong> de <strong>{{
+            formatNumber(totalElements) }}</strong> pacientes
         </span>
       </div>
 

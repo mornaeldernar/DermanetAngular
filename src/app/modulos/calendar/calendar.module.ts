@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { CalendarRoutingModule } from './calendar-routing.module';
 import { CalendarComponent } from './calendar.component';
@@ -17,11 +18,12 @@ import { EditComponent } from './components/edit/edit.component';
     EditComponent
   ],
   imports: [
-    CommonModule, // ✅ Usar CommonModule en lugar de BrowserModule
+    CommonModule,
     RouterModule,
+    ReactiveFormsModule,
     FullCalendarModule,
     MatDialogModule,
-    CalendarRoutingModule // ✅ Agregar routing module
+    CalendarRoutingModule
   ]
 })
 export class CalendarModule { }

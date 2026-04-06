@@ -1,0 +1,120 @@
+<div class="photo-capture-container">
+    <div class="header">
+        <h4>
+            <i [class]="mode === 'macroscopic' ? 'fas fa-camera' : 'fas fa-microscope'"></i>
+            {{ title }}
+        </h4>
+        <p class="description">{{ description }}</p>
+    </div>
+
+    <div class="upload-zone" [class.dragging]="isDragging" (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+
+        <div class="upload-icon">
+            <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+
+        <p class="upload-text">
+            Arrastra y suelta {{ mode === 'macroscopic' ? 'la imagen' : 'las imágenes' }} aquí
+        </p>
+
+        <p class="upload-or">o</p>
+
+        <div class="button-group">
+            <label class="btn btn-primary">
+                <i class="fas fa-folder-open"></i>
+                Seleccionar {{ mode === 'macroscopic' ? 'Archivo' : 'Archivos' }}
+                <input type="file" accept="image/*" [multiple]="multiple || mode === 'microscopic'"
+                    (change)="onFileSelected($event)" style="display: none;">
+            </label>
+
+            <button type="button" class="btn btn-success" (click)="openCamera()">
+                <i class="fas fa-camera"></i>
+                Usar Cámara
+            </button>
+        </div>
+    </div>
+
+    <div class="error-message" *ngIf="uploadError">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ uploadError }}
+    </div>
+
+    <div class="photos-preview" *ngIf="capturedPhotos.length > 0">
+        <div class="preview-header">
+            <h5>
+                <i class="fas fa-images"></i>
+                {{ mode === 'macroscopic' ? 'Foto Capturada' : 'Fotos Capturadas' }} ({{ capturedPhotos.length }})
+            </h5>
+            <button class="btn btn-sm btn-outline-danger" (click)="clearAll()">
+                <i class="fas fa-trash"></i>
+                Limpiar Todo
+            </button>
+        </div>
+
+        <div class="preview-grid">
+            <div class="preview-item" *ngFor="let photo of capturedPhotos; let i = index">
+                <img [src]="photo.preview" [alt]="photo.file.name">
+                <div class="preview-overlay">
+                    <button class="btn-remove" (click)="removePhoto(i)" title="Eliminar">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="preview-info">
+                    <span class="file-name">{{ photo.file.name }}</span>
+                    <span class="file-size">{{ (photo.file.size / 1024).toFixed(2) }} KB</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Cámara Web -->
+    <div class="camera-modal" *ngIf="showCameraModal" (click)="closeCameraModal()">
+        <div class="camera-modal-content" (click)="$event.stopPropagation()">
+            <div class="camera-header">
+                <h5>
+                    <i class="fas fa-camera"></i>
+                    Capturar Foto
+                </h5>
+                <button class="btn-close-modal" (click)="closeCameraModal()" title="Cerrar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="camera-body">
+                <div class="video-container" *ngIf="!capturedImage">
+                    <video #videoElement autoplay playsinline></video>
+                    <div class="camera-error" *ngIf="cameraError">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>{{ cameraError }}</p>
+                    </div>
+                </div>
+
+                <div class="image-preview" *ngIf="capturedImage">
+                    <img [src]="capturedImage" alt="Foto capturada">
+                </div>
+
+                <canvas #canvasElement style="display: none;"></canvas>
+            </div>
+
+            <div class="camera-footer">
+                <button *ngIf="!capturedImage && !cameraError" class="btn btn-primary btn-capture"
+                    (click)="capturePhoto()">
+                    <i class="fas fa-camera"></i>
+                    Capturar Foto
+                </button>
+
+                <div *ngIf="capturedImage" class="captured-actions">
+                    <button class="btn btn-outline-secondary" (click)="retakePhoto()">
+                        <i class="fas fa-redo"></i>
+                        Tomar Otra
+                    </button>
+                    <button class="btn btn-success" (click)="confirmPhoto()">
+                        <i class="fas fa-check"></i>
+                        Usar Esta Foto
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

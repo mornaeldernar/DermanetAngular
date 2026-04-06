@@ -1,0 +1,228 @@
+// Modern Medical History UI Styles
+
+.modern-upload-section {
+    margin-bottom: 2rem;
+
+    .section-title {
+        color: #2d3436;
+        font-weight: 600;
+        font-size: 1.5rem;
+    }
+}
+
+// Drag & Drop Zone
+.drag-drop-zone {
+    border: 3px dashed #dfe6e9;
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+        border-color: #0d6efd;
+        background: #e7f1ff;
+        transform: translateY(-2px);
+    }
+
+    &.drag-over {
+        border-color: #0d6efd;
+        background: #cfe2ff;
+        border-style: solid;
+        transform: scale(1.02);
+    }
+
+    .upload-icon-wrapper {
+        margin-bottom: 0.5rem;
+    }
+
+    .upload-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #2d3436;
+        margin-bottom: 0.5rem;
+    }
+
+    .upload-subtitle {
+        font-size: 1rem;
+    }
+
+    .btn-upload {
+        padding: 0.75rem 2rem;
+        font-weight: 500;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }
+    }
+
+    .upload-hint {
+        font-size: 0.875rem;
+    }
+}
+
+.file-input-hidden {
+    display: none !important;
+}
+
+// Modern Upload Progress
+.modern-upload-progress {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #dee2e6;
+}
+
+// Documents Preview Grid
+.documents-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.document-preview-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+        .preview-overlay {
+            opacity: 1;
+        }
+    }
+
+    .doc-preview {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+        background: #f8f9fa;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .doc-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .pdf-preview {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+        }
+
+        .preview-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(13, 110, 253, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+    }
+
+    .doc-card-body {
+        padding: 1.25rem;
+    }
+
+    .doc-card-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #2d3436;
+        margin-bottom: 0.75rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .doc-card-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+
+        .meta-item {
+            font-size: 0.875rem;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+
+            i {
+                margin-right: 0.25rem;
+            }
+        }
+    }
+
+    .doc-card-size {
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+}
+
+// Modern Empty State
+.modern-empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+
+    .empty-state-icon {
+        margin-bottom: 1.5rem;
+        color: #adb5bd;
+    }
+
+    .empty-state-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #6c757d;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state-text {
+        color: #adb5bd;
+        font-size: 1rem;
+    }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+    .documents-preview-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1rem;
+    }
+
+    .drag-drop-zone {
+        padding: 2rem 1rem;
+    }
+
+    .document-preview-card .doc-preview {
+        height: 180px;
+    }
+}
+
+@media (max-width: 576px) {
+    .documents-preview-grid {
+        grid-template-columns: 1fr;
+    }
+}

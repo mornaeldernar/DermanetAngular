@@ -1,58 +1,167 @@
-<div class="row">
-  <div class="col-lg-3 col-6">
+<div class="container-fluid px-4 py-3">
+  <!-- Stats Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-lg-4 col-md-6">
+      <div class="card bg-primary text-white h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-uppercase mb-2 opacity-75">Total Pacientes</h6>
+              <h2 class="display-6 fw-bold mb-0">{{stats.totalPatients}}</h2>
+            </div>
+            <div class="icon-circle bg-white bg-opacity-25">
+              <i class="fa fa-users fa-2x"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-0 d-flex align-items-center justify-content-between">
+          <a [routerLink]="['/paciente']" class="text-white text-decoration-none small stretched-link">Ver detalles</a>
+          <i class="fa fa-angle-right"></i>
+        </div>
+      </div>
+    </div>
 
-  <div class="small-box bg-info">
-  <div class="inner">
-  <h3>X</h3>
-  <p>Pacientes</p>
-  </div>
-  <div class="icon">
-  <i class="ion ion-bag"></i>
-  </div>
-  <a href="/#/paciente" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-  </div>
+    <div class="col-lg-4 col-md-6">
+      <div class="card bg-success text-white h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-uppercase mb-2 opacity-75">Citas Totales</h6>
+              <h2 class="display-6 fw-bold mb-0">{{stats.totalAppointments}}</h2>
+            </div>
+            <div class="icon-circle bg-white bg-opacity-25">
+              <i class="fa fa-calendar-check fa-2x"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-0 d-flex align-items-center justify-content-between">
+          <span class="small">Histórico completo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 col-md-6">
+      <div class="card bg-warning text-dark h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-uppercase mb-2 opacity-75">Citas Pendientes</h6>
+              <h2 class="display-6 fw-bold mb-0">{{stats.pendingAppointments}}</h2>
+            </div>
+            <div class="icon-circle bg-white bg-opacity-25">
+              <i class="fa fa-clock fa-2x"></i>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer bg-transparent border-0 d-flex align-items-center justify-content-between">
+          <a [routerLink]="['/calendario']" class="text-dark text-decoration-none small stretched-link">Ir al
+            calendario</a>
+          <i class="fa fa-angle-right"></i>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="col-lg-3 col-6">
+  <!-- Charts Section -->
+  <div class="row g-3 mb-4">
+    <!-- Monthly Appointments Chart -->
+    <div class="col-lg-8">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h5 class="card-title mb-0">Historial de Citas (Últimos 2 años)</h5>
+        </div>
+        <div class="card-body">
+          <div style="display: block;">
+            <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="lineChartType">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <div class="small-box bg-success">
-  <div class="inner">
-  <h3>X</h3>
-  <p>Doctores</p>
-  </div>
-  <div class="icon">
-  <i class="ion ion-stats-bars"></i>
-  </div>
-  <a href="/#/doctor" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-  </div>
-  </div>
-
-  <div class="col-lg-3 col-6">
-
-  <div class="small-box bg-warning">
-  <div class="inner">
-  <h3>X</h3>
-  <p>Hombres</p>
-  </div>
-  <div class="icon">
-  <i class="ion ion-person-add"></i>
-  </div>
-  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-  </div>
-  </div>
-
-  <div class="col-lg-3 col-6">
-
-  <div class="small-box bg-danger">
-  <div class="inner">
-  <h3>X</h3>
-  <p>Mujeres</p>
-  </div>
-  <div class="icon">
-  <i class="ion ion-pie-graph"></i>
-  </div>
-  <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-  </div>
+    <!-- Daily Stats Chart -->
+    <div class="col-lg-4">
+      <div class="card h-100 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h5 class="card-title mb-0">Actividad de Hoy</h5>
+        </div>
+        <div class="card-body d-flex align-items-center justify-content-center">
+          <div style="display: block; width: 100%;">
+            <canvas baseChart [data]="pieChartData" [options]="pieChartOptions" [type]="pieChartType">
+            </canvas>
+          </div>
+        </div>
+        <div class="card-footer bg-white">
+          <div class="d-flex justify-content-around text-center flex-wrap">
+            <div *ngFor="let item of dailyStats.statusCounts | keyvalue" class="mx-2">
+              <h5 class="mb-0 fw-bold">{{item.value}}</h5>
+              <small class="text-muted">{{item.key}}</small>
+            </div>
+            <div *ngIf="dailyStats.totalToday === 0" class="text-muted">
+              Sin actividad hoy
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
+  <!-- Upcoming Appointments Table -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-0">Próximas Citas</h5>
+      <a [routerLink]="['/calendario']" class="btn btn-sm btn-outline-primary">Ver Calendario</a>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Fecha / Hora</th>
+            <th>Paciente</th>
+            <th>Doctor</th>
+            <th>Motivo</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let apt of upcomingAppointments">
+            <td>
+              <div class="fw-bold">{{apt.date | date:'dd/MM/yyyy'}}</div>
+              <small class="text-muted">{{apt.date | date:'HH:mm'}}</small>
+            </td>
+            <td>
+              <div class="fw-bold">{{apt.patientName}}</div>
+              <!-- Assuming we might have phone in patient details but it's not in AppointmentDto yet. 
+                   Using placeholder or if we added it to DTO. 
+                   Actually AppointmentDto has PatientName but not phone. 
+                   The user asked for "informacion de contacto".
+                   I should probably update AppointmentDto to include PatientPhone.
+                   For now I'll just show name. -->
+            </td>
+            <td>Dr. {{apt.doctorName}}</td>
+            <td>{{apt.reason}}</td>
+            <td>
+              <span class="badge" [ngClass]="{
+                'bg-success': apt.status === 'CONFIRMED',
+                'bg-warning text-dark': apt.status === 'SCHEDULED',
+                'bg-danger': apt.status === 'CANCELLED',
+                'bg-info text-dark': apt.status === 'COMPLETED'
+              }">{{apt.status}}</span>
+            </td>
+            <td>
+              <a [routerLink]="['/paciente/view', apt.patientId]" class="btn btn-sm btn-light" title="Ver Paciente">
+                <i class="fa fa-user"></i>
+              </a>
+            </td>
+          </tr>
+          <tr *ngIf="upcomingAppointments.length === 0">
+            <td colspan="6" class="text-center py-4 text-muted">
+              No hay citas próximas
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+</div>

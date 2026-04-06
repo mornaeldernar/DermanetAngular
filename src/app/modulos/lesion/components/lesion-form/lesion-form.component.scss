@@ -1,0 +1,268 @@
+.lesion-form-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+
+    h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        i {
+            color: #1976d2;
+        }
+    }
+}
+
+.stepper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 10%;
+        right: 10%;
+        height: 2px;
+        background: #e0e0e0;
+        z-index: 0;
+    }
+
+    .step {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .step-label {
+            font-size: 12px;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        &.active {
+            .step-number {
+                background: #1976d2;
+                color: white;
+                box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.2);
+            }
+
+            .step-label {
+                color: #1976d2;
+                font-weight: 600;
+            }
+        }
+
+        &.completed {
+            .step-number {
+                background: #4caf50;
+                color: white;
+            }
+
+            .step-label {
+                color: #4caf50;
+            }
+        }
+    }
+}
+
+.step-content {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    min-height: 400px;
+
+    .step-header {
+        margin-bottom: 25px;
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        p {
+            font-size: 14px;
+            color: #666;
+            margin: 0;
+        }
+    }
+}
+
+.lesion-info-form {
+    .form-group {
+        margin-bottom: 20px;
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 8px;
+
+            i {
+                color: #1976d2;
+            }
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+                outline: none;
+                border-color: #1976d2;
+                box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.1);
+            }
+        }
+
+        .invalid-feedback {
+            color: #f44336;
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+        }
+    }
+}
+
+.summary-section {
+    margin-top: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+
+    h4 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        i {
+            color: #4caf50;
+        }
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .summary-item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        .label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .value {
+            font-size: 14px;
+            color: #333;
+            font-weight: 600;
+        }
+    }
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+
+        i {
+            margin: 0 6px;
+        }
+
+        &:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    .step-indicator {
+        font-size: 14px;
+        color: #666;
+        font-weight: 500;
+    }
+}
+
+@media (max-width: 768px) {
+    .stepper {
+        .step-label {
+            display: none;
+        }
+    }
+
+    .form-actions {
+        flex-wrap: wrap;
+        gap: 10px;
+
+        .step-indicator {
+            width: 100%;
+            text-align: center;
+            order: -1;
+            margin-bottom: 10px;
+        }
+    }
+}

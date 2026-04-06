@@ -10,19 +10,23 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: DoctorListaComponent
+        component: DoctorListaComponent,
+        data: { titulo: 'Doctores' }
       },
       {
         path: 'new',
-        component: DoctorFormComponent
+        component: DoctorFormComponent,
+        data: { titulo: 'Nuevo Doctor' }
       },
       {
         path: 'edit/:id',
-        component: DoctorFormComponent
+        component: DoctorFormComponent,
+        data: { titulo: 'Editar Doctor' }
       },
       {
         path: 'view/:id',
-        component: DoctorViewComponent
+        component: DoctorViewComponent,
+        data: { titulo: 'Ver Doctor' }
       }
     ]
   }

@@ -1,0 +1,203 @@
+/* Page Header */
+.page-header {
+    margin-bottom: 30px;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+/* Profile Widget Card */
+.profile-widget {
+    background: #fff;
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.profile-widget:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+/* Doctor Image Container */
+.doctor-img {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+}
+
+.doctor-img img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    padding: 20px;
+    background: #f8f9fa;
+}
+
+.doctor-img a {
+    display: block;
+}
+
+/* Profile Action Dropdown */
+.profile-action {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.action-icon {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    transition: all 0.3s;
+}
+
+.action-icon:hover {
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-menu {
+    min-width: 150px;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-item {
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #333;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.dropdown-item i {
+    margin-right: 8px;
+    color: #777;
+}
+
+/* Doctor Info */
+.doctor-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 15px 15px 5px;
+    text-align: center;
+}
+
+.doctor-name a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.doctor-name a:hover {
+    color: #009efb;
+}
+
+.text-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.doc-prof {
+    color: #777;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 0 15px;
+}
+
+.user-country {
+    color: #999;
+    font-size: 13px;
+    text-align: center;
+    padding: 0 15px 15px;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.user-country i {
+    margin-right: 5px;
+    color: #009efb;
+}
+
+/* Grid Layout */
+.row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+.col-md-6,
+.col-lg-4,
+.col-xl-3 {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Loading Spinner */
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    margin: 50px auto;
+    color: #009efb;
+}
+
+/* Alert */
+.alert-info {
+    background-color: #e7f3ff;
+    border-color: #b3d9ff;
+    color: #004085;
+    padding: 20px;
+    border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 20px;
+    }
+
+    .doctor-img img {
+        height: 180px;
+    }
+
+    .doctor-name {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-widget {
+        margin-bottom: 20px;
+    }
+
+    .doctor-img img {
+        height: 160px;
+    }
+}
+
+/* Utility Classes */
+.m-r-5 {
+    margin-right: 5px;
+}
+
+.text-center {
+    text-align: center;
+}

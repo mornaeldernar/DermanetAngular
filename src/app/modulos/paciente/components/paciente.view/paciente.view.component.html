@@ -1,19 +1,31 @@
 <div class="container-fluid px-4 py-3">
   <!-- Header Section -->
   <div class="patient-header">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <div>
+    <div class="d-flex justify-content-between align-items-end mb-4 flex-wrap gap-3">
+      <div class="header-content">
         <nav aria-label="breadcrumb" class="mb-2">
           <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"><a [routerLink]="['/paciente']" class="text-decoration-none">Pacientes</a></li>
-            <li class="breadcrumb-item active">{{paciente.name}} {{paciente.lastName}}</li>
+            <li class="breadcrumb-item active" aria-current="page">{{paciente.name}} {{paciente.lastName}}</li>
           </ol>
         </nav>
-        <h1 class="patient-name mb-0">{{paciente.name}} {{paciente.lastName}}</h1>
+        <h1 class="patient-name mb-0">
+          <span class="fw-light">Expediente de</span> <br>
+          <strong>{{paciente.name}} {{paciente.lastName}}</strong>
+        </h1>
       </div>
-      <button class="btn btn-primary btn-action" [routerLink]="['/paciente/diagnostico/'+paciente.id]">
-        <i class="fa fa-camera me-2"></i>Nueva Imagen
-      </button>
+
+      <div class="header-actions d-flex gap-3">
+        <button class="btn btn-outline-primary btn-lg btn-action" [routerLink]="['/paciente/editar/'+paciente.id]">
+          <i class="fa fa-pencil me-2"></i>
+          <span>Editar</span>
+        </button>
+        <button class="btn btn-primary btn-lg btn-action shadow-sm"
+          [routerLink]="['/lesion/paciente/'+paciente.id+'/nueva-lesion']">
+          <i class="fa fa-camera me-2"></i>
+          <span>Nueva Imagen</span>
+        </button>
+      </div>
     </div>
 
     <!-- Patient Info Cards -->
@@ -36,7 +48,11 @@
       </div>
       <div class="info-card">
         <div class="info-label">Teléfono</div>
-        <div class="info-value">{{paciente.phone}}</div>
+        <div class="info-value">{{paciente.phone | phoneFormat }}</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Email</div>
+        <div class="info-value">{{paciente.email}}</div>
       </div>
     </div>
   </div>
@@ -46,14 +62,26 @@
     <!-- Tabs Navigation -->
     <div class="tabs-wrapper">
       <ul class="nav nav-tabs custom-tabs" id="patientTabs" role="tablist">
+        <!-- Imágenes Dermatoscópicas Tab - Hidden for Receptionists -->
+        <li class="nav-item" role="presentation" *ngIf="canViewDermatoscopicImages()">
+          <button class="nav-link active" id="macro-tab" data-bs-toggle="tab" data-bs-target="#macro" type="button"
+            role="tab">
+            <i class="fa fa-image me-2"></i>Imágenes Dermatoscópicas
+          </button>
+        </li>
+
+        <!-- Historia Clínica Tab - Visible for All -->
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="historia-tab" data-bs-toggle="tab" data-bs-target="#historia" type="button" role="tab">
+          <button class="nav-link" [class.active]="!canViewDermatoscopicImages()" id="historia-tab" data-bs-toggle="tab"
+            data-bs-target="#historia" type="button" role="tab">
             <i class="fa fa-file-medical me-2"></i>Historia Clínica
           </button>
         </li>
+
+        <!-- Citas Tab - Visible for All -->
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="macro-tab" data-bs-toggle="tab" data-bs-target="#macro" type="button" role="tab">
-            <i class="fa fa-image me-2"></i>Imágenes Dermatoscópicas
+          <button class="nav-link" id="citas-tab" data-bs-toggle="tab" data-bs-target="#citas" type="button" role="tab">
+            <i class="fa fa-calendar me-2"></i>Citas
           </button>
         </li>
       </ul>
@@ -61,112 +89,234 @@
 
     <!-- Tab Content -->
     <div class="tab-content" id="patientTabsContent">
-      <!-- Historia Clínica Tab -->
-      <div class="tab-pane fade show active" id="historia" role="tabpanel">
+
+      <!-- Macros Tab - Hidden for Receptionists -->
+      <div class="tab-pane fade show active" id="macro" role="tabpanel" *ngIf="canViewDermatoscopicImages()">
         <div class="content-card">
-          <!-- Upload Section -->
-          <div class="upload-section">
-            <div class="upload-header">
-              <h5 class="mb-0">Documentos de Historia Clínica</h5>
-              <div class="upload-actions">
-                <input type="file" class="file-input" accept="image/png, image/gif, image/jpeg, application/pdf"
-                       (change)="onFileSelected($event)" #fileUpload id="fileUpload">
-                <label for="fileUpload" class="btn btn-outline-primary btn-sm mb-0">
-                  <i class="fa fa-upload me-2"></i>Subir documento
-                </label>
+          <!-- Lesions Grid -->
+          <div class="row g-4" *ngIf="diagnosticos.length > 0">
+            <div class="col-md-6 col-lg-4" *ngFor="let lesion of diagnosticos">
+              <div class="card lesion-card h-100 shadow-sm" style="cursor: pointer;"
+                [routerLink]="['/lesion/diagnostico', lesion.id]">
+                <!-- Lesion Image -->
+                <div class="lesion-image-container"
+                  style="position: relative; height: 200px; overflow: hidden; background: #f8f9fa;">
+                  <img *ngIf="lesion.latestMacroImage" [src]="getImageUrl(lesion.latestMacroImage.location)"
+                    [alt]="lesion.name" class="w-100 h-100" style="object-fit: cover;">
+                  <div *ngIf="!lesion.latestMacroImage" class="d-flex align-items-center justify-content-center h-100">
+                    <i class="fa fa-image fa-3x text-muted"></i>
+                  </div>
+                  <!-- History Badge -->
+                  <div class="position-absolute top-0 end-0 m-2">
+                    <span class="badge bg-primary" *ngIf="lesion.macroCount > 1">
+                      <i class="fa fa-history me-1"></i>{{lesion.macroCount}} fotos
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Lesion Info -->
+                <div class="card-body">
+                  <h6 class="card-title mb-2 fw-bold text-truncate" [title]="lesion.name">
+                    {{lesion.name}}
+                  </h6>
+
+                  <div class="lesion-details">
+                    <!-- Location -->
+                    <div class="d-flex align-items-center mb-2 text-muted small">
+                      <i class="fa fa-map-marker-alt me-2" style="width: 16px;"></i>
+                      <span class="text-truncate">{{lesion.bodyPart || 'Ubicación no especificada'}}</span>
+                    </div>
+
+                    <!-- Date -->
+                    <div class="d-flex align-items-center mb-2 text-muted small">
+                      <i class="fa fa-calendar me-2" style="width: 16px;"></i>
+                      <span>{{lesion.createdAt | date:'dd/MM/yyyy'}}</span>
+                    </div>
+
+                    <!-- Image Counts -->
+                    <div class="d-flex gap-3 mt-3">
+                      <div class="d-flex align-items-center">
+                        <i class="fa fa-camera text-primary me-1"></i>
+                        <small class="text-muted">{{lesion.macroCount}} macro</small>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <i class="fa fa-microscope text-info me-1"></i>
+                        <small class="text-muted">{{lesion.microCount}} micro</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-state" *ngIf="diagnosticos.length === 0">
+            <i class="fa fa-camera"></i>
+            <p>No hay lesiones registradas</p>
+            <small class="text-muted">Captura la primera lesión con el dermatoscopio</small>
+            <button class="btn btn-primary mt-3" [routerLink]="['/lesion/paciente/'+paciente.id+'/nueva-lesion']">
+              <i class="fa fa-plus me-2"></i>Nueva Lesión
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Historia Clínica Tab -->
+      <div class="tab-pane fade" id="historia" role="tabpanel">
+        <div class="content-card">
+          <!-- Modern Upload Section with Drag & Drop -->
+          <div class="modern-upload-section">
+            <h5 class="section-title mb-4">
+              <i class="fa fa-file-medical me-2"></i>
+              Historia Clínica
+            </h5>
+
+            <div class="drag-drop-zone" [class.drag-over]="isDragOver" (drop)="onFileDrop($event)"
+              (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+              <input type="file" class="file-input-hidden" accept="image/*,application/pdf"
+                (change)="onFileSelected($event)" #fileUpload id="fileUpload">
+
+              <div class="upload-icon-wrapper">
+                <i class="fa fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+              </div>
+
+              <h6 class="upload-title">Arrastra archivos aquí</h6>
+              <p class="upload-subtitle text-muted mb-3">o</p>
+
+              <label for="fileUpload" class="btn btn-primary btn-upload">
+                <i class="fa fa-folder-open me-2"></i>
+                Seleccionar archivos
+              </label>
+
+              <p class="upload-hint text-muted mt-3 mb-0">
+                <small>Formatos soportados: PDF, JPG, PNG (Máx. 100 MB)</small>
+              </p>
             </div>
 
             <!-- Upload Progress -->
-            <div class="upload-progress-wrapper" *ngIf="fileName">
-              <div class="d-flex align-items-center justify-content-between mb-2">
-                <span class="text-muted small">{{fileName}}</span>
-                <button class="btn btn-link btn-sm text-danger p-0" (click)="cancelUpload()" *ngIf="uploadProgress">
-                  <i class="fa fa-times"></i>
-                </button>
-              </div>
-              <div class="progress" style="height: 4px;">
-                <div class="progress-bar" role="progressbar" [style.width.%]="uploadProgress || 0"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Historia Clínica List -->
-          <div class="documents-grid" *ngIf="historiasClinicas.length > 0">
-            <div class="document-card" *ngFor="let historiaClinica of historiasClinicas"
-                 (click)="openFileModal(historiaClinica, historiaClinica.name)">
-              <div class="document-icon">
-                <i class="fa fa-file-image"></i>
-              </div>
-              <div class="document-info">
-                <div class="document-name">{{historiaClinica.name}}</div>
-                <div class="document-date">{{historiaClinica.createdAt | date:"dd/MM/yyyy"}}</div>
+            <div class="modern-upload-progress" *ngIf="fileName && uploading">
+              <div class="d-flex align-items-center mb-2">
+                <div class="spinner-border spinner-border-sm text-primary me-3" role="status">
+                  <span class="visually-hidden">Subiendo...</span>
+                </div>
+                <div class="flex-grow-1">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="fw-medium">{{fileName}}</span>
+                    <span class="text-muted small">Subiendo...</span>
+                  </div>
+                  <div class="progress mt-2" style="height: 6px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                      style="width: 100%"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="empty-state" *ngIf="historiasClinicas.length === 0">
-            <i class="fa fa-folder-open"></i>
-            <p>No hay documentos cargados</p>
-            <small class="text-muted">Sube el primer documento de historia clínica</small>
+          <!-- Documents Grid with Previews -->
+          <div class="documents-preview-grid" *ngIf="historiasClinicas.length > 0">
+            <div class="document-preview-card" *ngFor="let doc of historiasClinicas"
+              (click)="openFileModal(doc, doc.name || 'Documento')">
+
+              <!-- Preview -->
+              <div class="doc-preview">
+                <ng-container *ngIf="isImage(doc.contentType); else pdfPreview">
+                  <img [src]="getImageUrl(doc.location!)" [alt]="doc.name" class="doc-thumbnail" loading="lazy">
+                </ng-container>
+                <ng-template #pdfPreview>
+                  <div class="pdf-preview">
+                    <i class="fa fa-file-pdf fa-4x text-danger"></i>
+                  </div>
+                </ng-template>
+
+                <div class="preview-overlay">
+                  <i class="fa fa-eye fa-2x"></i>
+                </div>
+              </div>
+
+              <!-- Document Info -->
+              <div class="doc-card-body">
+                <h6 class="doc-card-title" [title]="doc.name">
+                  {{doc.name}}
+                </h6>
+
+                <div class="doc-card-meta">
+                  <span class="meta-item">
+                    <i class="fa fa-calendar-alt me-1"></i>
+                    {{doc.createdAt | date:'dd/MM/yyyy'}}
+                  </span>
+                  <span class="meta-item">
+                    <i class="fa fa-clock me-1"></i>
+                    {{doc.createdAt | date:'shortTime'}}
+                  </span>
+                </div>
+
+                <div class="doc-card-size text-muted">
+                  <i class="fa fa-file me-1"></i>
+                  {{formatFileSize(doc.fileSize)}}
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Pagination -->
-          <nav class="pagination-wrapper" *ngIf="hcTotalPages > 1">
-            <ul class="pagination pagination-sm justify-content-center mb-0">
-              <li class="page-item" [class.disabled]="hcFirst">
-                <a class="page-link" (click)="!hcFirst && getHistoriasClinicas(hcPage-1)">
-                  <i class="fa fa-chevron-left"></i>
-                </a>
-              </li>
-              <li class="page-item active">
-                <span class="page-link">{{hcPage + 1}} de {{hcTotalPages}}</span>
-              </li>
-              <li class="page-item" [class.disabled]="hcLast">
-                <a class="page-link" (click)="!hcLast && getHistoriasClinicas(hcPage+1)">
-                  <i class="fa fa-chevron-right"></i>
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <!-- Empty State -->
+          <div class="modern-empty-state" *ngIf="historiasClinicas.length === 0">
+            <div class="empty-state-icon">
+              <i class="fa fa-folder-open fa-4x"></i>
+            </div>
+            <h5 class="empty-state-title">No hay documentos</h5>
+            <p class="empty-state-text">
+              Sube el primer documento de historia clínica del paciente
+            </p>
+          </div>
         </div>
       </div>
-
-      <!-- Macros Tab -->
-      <div class="tab-pane fade" id="macro" role="tabpanel">
+      <!-- Citas Tab -->
+      <div class="tab-pane fade" id="citas" role="tabpanel">
         <div class="content-card">
-          <div class="images-section">
-            <app-bodylist [items]="diagnosticos" [total]="totalPages" [cuantos]="page+1"
-                         [page]="page" [first]="first" [last]="last"
-                         (getMicro)="getMicro($event)"
-                         (onFileSelect)="handleFileSelect($event)">
-            </app-bodylist>
-
-            <div class="empty-state" *ngIf="diagnosticos.length === 0">
-              <i class="fa fa-camera"></i>
-              <p>No hay imágenes dermatoscópicas</p>
-              <small class="text-muted">Captura la primera imagen con el dermatoscopio</small>
-            </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Doctor</th>
+                  <th>Motivo</th>
+                  <th>Estado</th>
+                  <th>Notas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let apt of appointments">
+                  <td>{{apt.date | date:'dd/MM/yyyy'}}</td>
+                  <td>{{apt.date | date:'HH:mm'}} - {{apt.endTime ? (apt.endTime | date:'HH:mm') : ''}}</td>
+                  <td>Dr. {{apt.doctorName}}</td>
+                  <td>{{apt.reason}}</td>
+                  <td>
+                    <span class="badge" [ngClass]="{
+                      'bg-success': apt.status === 'CONFIRMED',
+                      'bg-warning text-dark': apt.status === 'SCHEDULED',
+                      'bg-danger': apt.status === 'CANCELLED',
+                      'bg-info text-dark': apt.status === 'COMPLETED',
+                      'bg-secondary': apt.status === 'NO_SHOW'
+                    }">{{apt.status}}</span>
+                  </td>
+                  <td>
+                    <span class="text-muted text-truncate d-inline-block" style="max-width: 200px;"
+                      [title]="apt.notes || ''">
+                      {{apt.notes || '-'}}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          <!-- Pagination -->
-          <nav class="pagination-wrapper" *ngIf="totalPages > 1">
-            <ul class="pagination pagination-sm justify-content-center mb-0">
-              <li class="page-item" [class.disabled]="first">
-                <a class="page-link" (click)="!first && getDiagnosticPage(page-1)">
-                  <i class="fa fa-chevron-left"></i>
-                </a>
-              </li>
-              <li class="page-item active">
-                <span class="page-link">{{page + 1}} de {{totalPages}}</span>
-              </li>
-              <li class="page-item" [class.disabled]="last">
-                <a class="page-link" (click)="!last && getDiagnosticPage(page+1)">
-                  <i class="fa fa-chevron-right"></i>
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <div class="empty-state" *ngIf="appointments.length === 0">
+            <i class="fa fa-calendar-times"></i>
+            <p>No hay citas registradas</p>
+            <small class="text-muted">Agenda una nueva cita desde el calendario</small>
+          </div>
         </div>
       </div>
     </div>
@@ -179,22 +329,31 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="fileViewerModalLabel">
-          <i class="fa fa-file-image me-2"></i>{{selectedFileName}}
+          <i [class]="getFileIcon(selectedFileType)" class="me-2"></i>{{selectedFileName}}
         </h5>
         <button type="button" class="btn-close" (click)="closeFileModal()" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <div class="file-viewer-modal">
-          <secure-image [src]="selectedFile" [alt]="'selectedFileName'" [class]="'product-image'" *ngIf="selectedFile"/>
+      <div class="modal-body p-0">
+        <div class="file-viewer-container">
+          <!-- PDF Viewer -->
+          <div class="pdf-viewer-wrapper" *ngIf="isPDF(selectedFileType)">
+            <iframe [src]="getSafeUrl(selectedFile!)" class="pdf-iframe" frameborder="0"></iframe>
+          </div>
+
+          <!-- Image Viewer -->
+          <div class="image-viewer-wrapper" *ngIf="!isPDF(selectedFileType)">
+            <img [src]="getImageUrl(selectedFile!)" [alt]="selectedFileName || 'Documento'" class="document-image">
+          </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-secondary" (click)="closeFileModal()">
           <i class="fa fa-times me-2"></i>Cerrar
         </button>
-        <button type="button" class="btn btn-primary" (click)="downloadFile()">
+        <a [href]="getImageUrl(selectedFile!)" [download]="selectedFileName || 'documento'" class="btn btn-primary"
+          *ngIf="selectedFile">
           <i class="fa fa-download me-2"></i>Descargar
-        </button>
+        </a>
       </div>
     </div>
   </div>

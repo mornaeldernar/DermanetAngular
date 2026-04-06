@@ -1,0 +1,149 @@
+<section class="content">
+    <div class="container-fluid">
+        <!-- Search and Stats Header -->
+        <div class="row mb-2">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body py-2">
+                        <div class="row align-items-center">
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-white">
+                                            <i class="fas fa-search"></i>
+                                        </span>
+                                    </div>
+                                    <input type="text" class="form-control border-left-0"
+                                        placeholder="Buscar por nombre, email o rol..." [(ngModel)]="searchTerm"
+                                        (input)="filterStaff()" />
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-right mt-2 mt-md-0">
+                                <div class="info-box mb-0 bg-gradient-info">
+                                    <span class="info-box-icon"><i class="fas fa-users"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Total Personal</span>
+                                        <span class="info-box-number">{{ staffMembers.length }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="row">
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                    <p class="mt-3 text-muted">Cargando personal...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div *ngIf="errorMessage && !isLoading" class="row">
+            <div class="col-12">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-exclamation-triangle"></i> Error!</h5>
+                    {{ errorMessage }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div *ngIf="!isLoading && !errorMessage && filteredStaff.length === 0 && staffMembers.length === 0" class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-users fa-4x text-muted mb-4"></i>
+                        <h4 class="text-muted">No hay personal registrado</h4>
+                        <p class="text-muted">Aún no se ha registrado ningún miembro del personal en el sistema.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Results State -->
+        <div *ngIf="!isLoading && !errorMessage && filteredStaff.length === 0 && staffMembers.length > 0" class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-search fa-4x text-muted mb-4"></i>
+                        <h4 class="text-muted">Sin resultados</h4>
+                        <p class="text-muted">No se encontraron resultados para "{{ searchTerm }}".</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Staff Cards Grid -->
+        <div *ngIf="!isLoading && !errorMessage && filteredStaff.length > 0" class="row">
+            <div class="col-md-6 col-lg-4" *ngFor="let staff of filteredStaff">
+                <div class="card card-widget widget-user-2">
+                    <div class="card-header" [ngClass]="getHeaderClass(staff.role)">
+                        <div class="widget-user-image">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                        <h3 class="widget-user-username mb-1">{{ getFullName(staff) }}</h3>
+                        <h5 class="widget-user-desc">
+                            <span class="badge" [ngClass]="getRoleBadgeClass(staff.role)">
+                                <i [class]="getRoleIcon(staff.role)"></i> {{ staff.role }}
+                            </span>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-3">
+                            <li class="mb-2">
+                                <i class="fas fa-envelope text-primary mr-2"></i>
+                                <span class="text-muted">{{ staff.email }}</span>
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-calendar text-info mr-2"></i>
+                                <span class="text-muted text-sm">Registrado: {{ formatDate(staff.createdAt)
+                                    }}</span>
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-circle mr-2"
+                                    [ngClass]="staff.enabled ? 'text-success' : 'text-danger'"></i>
+                                <span class="badge" [ngClass]="staff.enabled ? 'badge-success' : 'badge-danger'">
+                                    {{ staff.enabled ? 'Activo' : 'Inactivo' }}
+                                </span>
+                            </li>
+                        </ul>
+
+                        <!-- Toggle Button -->
+                        <div class="text-center">
+                            <button class="btn btn-sm w-100"
+                                [ngClass]="staff.enabled ? 'btn-outline-danger' : 'btn-outline-success'"
+                                (click)="toggleStatus(staff)"
+                                title="{{ staff.enabled ? 'Desactivar' : 'Activar' }} personal">
+                                <i class="fas" [ngClass]="staff.enabled ? 'fa-ban' : 'fa-check-circle'"></i>
+                                {{ staff.enabled ? 'Desactivar' : 'Activar' }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Summary -->
+        <div *ngIf="!isLoading && !errorMessage && staffMembers.length > 0" class="row">
+            <div class="col-12">
+                <div class="text-center text-muted">
+                    <small>
+                        Mostrando {{ filteredStaff.length }} de {{ staffMembers.length }}
+                        {{ staffMembers.length === 1 ? 'miembro' : 'miembros' }} del personal
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

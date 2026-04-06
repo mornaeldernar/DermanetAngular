@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarOptions } from '@fullcalendar/core';
+import { CalendarOptions, EventInput } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
@@ -8,6 +8,9 @@ import esLocale from '@fullcalendar/core/locales/es';
 
 import { MatDialog } from '@angular/material/dialog';
 import { AddDialogComponent } from './components/add/add.component';
+import { EditComponent } from './components/edit/edit.component';
+import { AppointmentApiService } from '../../services/api/appointment.api.service';
+import { AppointmentModel, AppointmentStatus } from '../../models/appointment.model';
 
 declare var $: any;
 
@@ -18,6 +21,8 @@ declare var $: any;
 })
 export class CalendarComponent implements OnInit {
   horario: string = '';
+  appointments: AppointmentModel[] = [];
+  loading: boolean = false;
 
   calendarOptions: CalendarOptions = {
     initialView: 'timeGridWeek',
@@ -27,8 +32,8 @@ export class CalendarComponent implements OnInit {
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     },
-    locale: esLocale, // ✅ Usar importación correcta del locale
-    dateClick: this.handleDateClick.bind(this), // ✅ Bind correcto del contexto
+    locale: esLocale,
+    dateClick: this.handleDateClick.bind(this),
     eventClick: this.handleEventClick.bind(this),
     now: new Date(),
     nowIndicator: true,
@@ -37,60 +42,92 @@ export class CalendarComponent implements OnInit {
     selectMirror: true,
     dayMaxEvents: true,
     weekends: true,
-    events: [
-      // Eventos de ejemplo
-      {
-        title: 'Cita Dr. García',
-        start: new Date(),
-        backgroundColor: '#007bff',
-        borderColor: '#007bff'
-      }
-    ]
+    events: []
   };
 
-  constructor(private dialog: MatDialog) {
-    console.log('📅 CalendarComponent - Constructor');
+  constructor(
+    private dialog: MatDialog,
+    private appointmentApi: AppointmentApiService
+  ) {
   }
 
   ngOnInit(): void {
-    console.log('📅 CalendarComponent - ngOnInit');
+    this.loadAppointments();
+  }
+
+  loadAppointments(): void {
+    this.loading = true;
+    this.appointmentApi.listAppointments().subscribe({
+      next: (response) => {
+        this.appointments = response.content;
+        this.calendarOptions.events = this.mapAppointmentsToEvents(this.appointments);
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error loading appointments:', error);
+        this.loading = false;
+      }
+    });
+  }
+
+  mapAppointmentsToEvents(appointments: AppointmentModel[]): EventInput[] {
+    return appointments.map(apt => ({
+      id: apt.id?.toString(),
+      title: `${apt.patientName} ${apt.patientLastName} - Dr. ${apt.doctorName}`,
+      start: apt.date,
+      end: apt.endTime || apt.date,
+      backgroundColor: this.getColorByStatus(apt.status),
+      borderColor: this.getColorByStatus(apt.status),
+      extendedProps: {
+        appointment: apt
+      }
+    }));
+  }
+
+  getColorByStatus(status: AppointmentStatus): string {
+    const colors: Record<AppointmentStatus, string> = {
+      [AppointmentStatus.SCHEDULED]: '#007bff',
+      [AppointmentStatus.CONFIRMED]: '#28a745',
+      [AppointmentStatus.CANCELLED]: '#dc3545',
+      [AppointmentStatus.COMPLETED]: '#6c757d',
+      [AppointmentStatus.NO_SHOW]: '#ffc107'
+    };
+    return colors[status] || '#007bff';
   }
 
   handleDateClick(arg: any): void {
-    console.log('📅 Fecha clickeada:', arg.dateStr);
     this.horario = arg.dateStr;
-
-    // Opción 1: Usar jQuery modal (si tienes Bootstrap)
-    if (typeof $ !== 'undefined') {
-      $('#add-event').modal('show');
-    } else {
-      // Opción 2: Usar Material Dialog (recomendado)
-      this.openAddDialog();
-    }
+    this.openAddDialog();
   }
 
   openAddDialog(): void {
     const dialogRef = this.dialog.open(AddDialogComponent, {
-      width: '500px',
+      width: '600px',
       data: { horario: this.horario }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Dialog cerrado:', result);
       if (result) {
-        // Agregar el evento al calendario
-        this.addEventToCalendar(result);
+        this.loadAppointments(); // Reload appointments after adding
       }
     });
   }
 
   handleEventClick(arg: any): void {
-    console.log('📅 Evento clickeado:', arg.event.title);
-    // Implementar lógica para editar/eliminar evento
+    const appointment = arg.event.extendedProps.appointment;
+    this.openEditDialog(appointment);
   }
 
-  addEventToCalendar(eventData: any): void {
-    // Lógica para agregar evento
-    console.log('Agregando evento:', eventData);
+  openEditDialog(appointment: AppointmentModel): void {
+    const dialogRef = this.dialog.open(EditComponent, {
+      width: '600px',
+      data: { appointment }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadAppointments(); // Reload appointments after editing
+      }
+    });
   }
 }

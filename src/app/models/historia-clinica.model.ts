@@ -1,6 +1,8 @@
 export interface HistoriaClinicaModel {
-  id:number;
-  name:string;
-  location:string;
-  createdAt:Date;
+  id?: number;
+  location?: string;
+  name?: string;
+  createdAt?: Date;
+  fileSize?: number;
+  contentType?: string;
 }

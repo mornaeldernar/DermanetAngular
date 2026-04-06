@@ -1,27 +1,28 @@
 export const environment = {
   production: false,
   title: 'Local Environment Heading',
-  apiUrl : 'http://localhost:8990',
+  apiUrl: 'http://localhost:8990',
   endpoints: {
-    auth:{
-      login : '/login',
+    auth: {
+      login: '/login',
       logout: '/logout',
       refresh: '/auth/refresh',
       register: '/auth/register'
 
     },
-    paciente : '/patient',
-    doctor : '/doctor',
+    paciente: '/patient',
+    doctor: '/doctor',
+    appointment: '/appointment',
     diagnostico: '/diagnostico',
-    image:{
+    image: {
       base: '/image',
-      viewImage : '/image/find',
+      viewImage: '/image/find',
       upload: '/image/upload',
       download: '/image/download',
       macro: '/macro',
       micro: '/micro',
     },
-    file : {
+    file: {
       historiaClinica: '/file',
       upload: '/file/upload',
       download: '/file/download',

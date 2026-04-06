@@ -1,0 +1,31 @@
+<div class="evolution-timeline">
+    <div class="timeline-item" *ngFor="let record of evolutionRecords; let i = index">
+        <div class="timeline-marker">
+            <div class="marker-dot"></div>
+            <div class="marker-line" *ngIf="i < evolutionRecords.length - 1"></div>
+        </div>
+
+        <div class="timeline-content">
+            <div class="timeline-header">
+                <div class="timeline-date">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span class="date-full">{{ formatDate(record.date) }}</span>
+                    <span class="date-relative">{{ getTimeDifference(record.date) }}</span>
+                </div>
+                <div class="timeline-doctor">
+                    <i class="fas fa-user-md"></i>
+                    {{ record.doctorName }}
+                </div>
+            </div>
+
+            <div class="timeline-body">
+                <p>{{ record.observations }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="timeline-empty" *ngIf="evolutionRecords.length === 0">
+        <i class="fas fa-info-circle"></i>
+        <p>No hay registros de evolución aún</p>
+    </div>
+</div>

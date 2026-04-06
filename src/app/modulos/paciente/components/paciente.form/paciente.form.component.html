@@ -2,12 +2,12 @@
   <!-- Header -->
   <div class="form-header">
     <div class="header-content">
-      <button class="btn-back" [routerLink]="['/paciente']" title="Volver a lista">
+      <button class="btn-back" [routerLink]="id ? ['/paciente/view', id] : ['/paciente']" title="Volver">
         <i class="fas fa-arrow-left"></i>
       </button>
       <div class="header-title">
-        <i class="fas fa-user-plus"></i>
-        <h2>Nuevo Paciente</h2>
+        <i class="fas" [class.fa-user-edit]="id" [class.fa-user-plus]="!id"></i>
+        <h2>{{ id ? 'Modificar Paciente' : 'Nuevo Paciente' }}</h2>
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@
   <!-- Form Card -->
   <div class="form-card">
     <form [formGroup]="paciente" (ngSubmit)="save()">
-      
+
       <!-- Sección: Información Personal -->
       <div class="form-section">
         <div class="section-header">
@@ -41,14 +41,10 @@
             <label for="name" class="form-label">
               Nombre <span class="required">*</span>
             </label>
-            <div class="input-wrapper" [class.has-error]="paciente.get('name')?.invalid && paciente.get('name')?.touched">
+            <div class="input-wrapper"
+              [class.has-error]="paciente.get('name')?.invalid && paciente.get('name')?.touched">
               <i class="fas fa-user input-icon"></i>
-              <input 
-                formControlName="name" 
-                type="text" 
-                class="form-control" 
-                id="name" 
-                placeholder="Ingrese el nombre"
+              <input formControlName="name" type="text" class="form-control" id="name" placeholder="Ingrese el nombre"
                 [class.is-invalid]="paciente.get('name')?.invalid && paciente.get('name')?.touched">
             </div>
             <span class="error-message" *ngIf="paciente.get('name')?.invalid && paciente.get('name')?.touched">
@@ -62,13 +58,10 @@
             <label for="lastName" class="form-label">
               Apellidos <span class="required">*</span>
             </label>
-            <div class="input-wrapper" [class.has-error]="paciente.get('lastName')?.invalid && paciente.get('lastName')?.touched">
+            <div class="input-wrapper"
+              [class.has-error]="paciente.get('lastName')?.invalid && paciente.get('lastName')?.touched">
               <i class="fas fa-user-tag input-icon"></i>
-              <input 
-                formControlName="lastName" 
-                type="text" 
-                class="form-control" 
-                id="lastName" 
+              <input formControlName="lastName" type="text" class="form-control" id="lastName"
                 placeholder="Ingrese los apellidos"
                 [class.is-invalid]="paciente.get('lastName')?.invalid && paciente.get('lastName')?.touched">
             </div>
@@ -85,17 +78,14 @@
             <label for="birthdate" class="form-label">
               Fecha de Nacimiento <span class="required">*</span>
             </label>
-            <div class="input-wrapper" [class.has-error]="paciente.get('birthdate')?.invalid && paciente.get('birthdate')?.touched">
+            <div class="input-wrapper"
+              [class.has-error]="paciente.get('birthdate')?.invalid && paciente.get('birthdate')?.touched">
               <i class="fas fa-calendar-alt input-icon"></i>
-              <input 
-                formControlName="birthdate" 
-                type="date" 
-                class="form-control" 
-                id="birthdate"
-                [max]="today"
+              <input formControlName="birthdate" type="date" class="form-control" id="birthdate" [max]="today"
                 [class.is-invalid]="paciente.get('birthdate')?.invalid && paciente.get('birthdate')?.touched">
             </div>
-            <span class="error-message" *ngIf="paciente.get('birthdate')?.invalid && paciente.get('birthdate')?.touched">
+            <span class="error-message"
+              *ngIf="paciente.get('birthdate')?.invalid && paciente.get('birthdate')?.touched">
               <i class="fas fa-exclamation-circle"></i>
               La fecha de nacimiento es requerida
             </span>
@@ -108,10 +98,7 @@
             </label>
             <div class="input-wrapper" [class.has-error]="paciente.get('sex')?.invalid && paciente.get('sex')?.touched">
               <i class="fas fa-venus-mars input-icon"></i>
-              <select 
-                formControlName="sex" 
-                class="form-control form-select" 
-                id="sex"
+              <select formControlName="sex" class="form-control form-select" id="sex"
                 [class.has-value]="paciente.get('sex')?.value"
                 [class.is-invalid]="paciente.get('sex')?.invalid && paciente.get('sex')?.touched">
                 <option value="" disabled selected>Seleccione el sexo</option>
@@ -128,84 +115,72 @@
       </div>
 
       <!-- Sección: Información de Contacto -->
-<div class="form-section">
-  <div class="section-header">
-    <i class="fas fa-address-book"></i>
-    <h3>Información de Contacto</h3>
-  </div>
+      <div class="form-section">
+        <div class="section-header">
+          <i class="fas fa-address-book"></i>
+          <h3>Información de Contacto</h3>
+        </div>
 
-  <div class="form-row">
-    <!-- Teléfono -->
-    <div class="form-group">
-      <label for="phone" class="form-label">
-        Teléfono <span class="required">*</span>
-      </label>
-      <div class="input-wrapper" [class.has-error]="paciente.get('phone')?.invalid && paciente.get('phone')?.touched">
-        <i class="fas fa-phone input-icon"></i>
-        <input 
-          formControlName="phone" 
-          type="text" 
-          class="form-control" 
-          id="phone" 
-          placeholder="(999) 999-9999"
-          appPhoneMask
-          maxlength="14"
-          [class.is-invalid]="paciente.get('phone')?.invalid && paciente.get('phone')?.touched">
+        <div class="form-row">
+          <!-- Teléfono -->
+          <div class="form-group">
+            <label for="phone" class="form-label">
+              Teléfono <span class="required">*</span>
+            </label>
+            <div class="input-wrapper"
+              [class.has-error]="paciente.get('phone')?.invalid && paciente.get('phone')?.touched">
+              <i class="fas fa-phone input-icon"></i>
+              <input formControlName="phone" type="text" class="form-control" id="phone" placeholder="(999) 999-9999"
+                appPhoneMask maxlength="14"
+                [class.is-invalid]="paciente.get('phone')?.invalid && paciente.get('phone')?.touched">
+            </div>
+            <span class="error-message" *ngIf="paciente.get('phone')?.invalid && paciente.get('phone')?.touched">
+              <i class="fas fa-exclamation-circle"></i>
+              El teléfono es requerido
+            </span>
+            <span class="help-text">
+              <i class="fas fa-info-circle"></i>
+              Formato: (999) 999-9999
+            </span>
+          </div>
+
+          <!-- Email - ✅ NUEVO CAMPO -->
+          <div class="form-group">
+            <label for="email" class="form-label">
+              Correo Electrónico <span class="required">*</span>
+            </label>
+            <div class="input-wrapper"
+              [class.has-error]="paciente.get('email')?.invalid && paciente.get('email')?.touched">
+              <i class="fas fa-envelope input-icon"></i>
+              <input formControlName="email" type="email" class="form-control" id="email"
+                placeholder="ejemplo@correo.com"
+                [class.is-invalid]="paciente.get('email')?.invalid && paciente.get('email')?.touched">
+            </div>
+            <span class="error-message" *ngIf="paciente.get('email')?.invalid && paciente.get('email')?.touched">
+              <i class="fas fa-exclamation-circle"></i>
+              <span *ngIf="paciente.get('email')?.errors?.['required']">El correo electrónico es requerido</span>
+              <span *ngIf="paciente.get('email')?.errors?.['email']">El formato del correo no es válido</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <!-- Profesión -->
+          <div class="form-group">
+            <label for="profesion" class="form-label">
+              Profesión
+            </label>
+            <div class="input-wrapper">
+              <i class="fas fa-briefcase input-icon"></i>
+              <input formControlName="profession" type="text" class="form-control" id="profesion"
+                placeholder="Ingrese la profesión (opcional)">
+            </div>
+          </div>
+
+          <!-- Campo vacío para mantener el grid balanceado -->
+          <div class="form-group"></div>
+        </div>
       </div>
-      <span class="error-message" *ngIf="paciente.get('phone')?.invalid && paciente.get('phone')?.touched">
-        <i class="fas fa-exclamation-circle"></i>
-        El teléfono es requerido
-      </span>
-      <span class="help-text">
-        <i class="fas fa-info-circle"></i>
-        Formato: (999) 999-9999
-      </span>
-    </div>
-
-    <!-- Email - ✅ NUEVO CAMPO -->
-    <div class="form-group">
-      <label for="email" class="form-label">
-        Correo Electrónico <span class="required">*</span>
-      </label>
-      <div class="input-wrapper" [class.has-error]="paciente.get('email')?.invalid && paciente.get('email')?.touched">
-        <i class="fas fa-envelope input-icon"></i>
-        <input 
-          formControlName="email" 
-          type="email" 
-          class="form-control" 
-          id="email" 
-          placeholder="ejemplo@correo.com"
-          [class.is-invalid]="paciente.get('email')?.invalid && paciente.get('email')?.touched">
-      </div>
-      <span class="error-message" *ngIf="paciente.get('email')?.invalid && paciente.get('email')?.touched">
-        <i class="fas fa-exclamation-circle"></i>
-        <span *ngIf="paciente.get('email')?.errors?.['required']">El correo electrónico es requerido</span>
-        <span *ngIf="paciente.get('email')?.errors?.['email']">El formato del correo no es válido</span>
-      </span>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <!-- Profesión -->
-    <div class="form-group">
-      <label for="profesion" class="form-label">
-        Profesión
-      </label>
-      <div class="input-wrapper">
-        <i class="fas fa-briefcase input-icon"></i>
-        <input 
-          formControlName="profesion" 
-          type="text" 
-          class="form-control" 
-          id="profesion" 
-          placeholder="Ingrese la profesión (opcional)">
-      </div>
-    </div>
-
-    <!-- Campo vacío para mantener el grid balanceado -->
-    <div class="form-group"></div>
-  </div>
-</div>
 
       <!-- Botones de Acción -->
       <div class="form-actions">
@@ -213,11 +188,9 @@
           <i class="fas fa-times"></i>
           <span>Cancelar</span>
         </button>
-        <button 
-          type="submit" 
-          class="btn btn-save" 
-          [disabled]="paciente.invalid || isSubmitting">
-          <i class="fas" [class.fa-spinner]="isSubmitting" [class.fa-spin]="isSubmitting" [class.fa-save]="!isSubmitting"></i>
+        <button type="submit" class="btn btn-save" [disabled]="paciente.invalid || isSubmitting">
+          <i class="fas" [class.fa-spinner]="isSubmitting" [class.fa-spin]="isSubmitting"
+            [class.fa-save]="!isSubmitting"></i>
           <span>{{ isSubmitting ? 'Guardando...' : 'Guardar Paciente' }}</span>
         </button>
       </div>

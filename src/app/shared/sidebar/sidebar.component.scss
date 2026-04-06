@@ -1,21 +1,8 @@
-// Variables de color
-$primary-purple: #6f42c1;
-$primary-purple-light: #8b5cf6;
-$primary-purple-dark: #5a32a3;
-$secondary-purple: #9d7aea;
-$background-dark: #2c2f3e;
-$background-darker: #1a1d2e;
-$text-light: #e2e8f0;
-$text-muted: #94a3b8;
-$border-color: rgba(255, 255, 255, 0.1);
-$hover-bg: rgba(111, 66, 193, 0.15);
-$active-bg: rgba(111, 66, 193, 0.25);
-
 // Sidebar principal
 .main-sidebar {
-  background: linear-gradient(180deg, $background-dark 0%, $background-darker 100%);
+  background: linear-gradient(180deg, var(--primary-color) 0%, var(--primary-purple) 100%);
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-  border-right: 1px solid $border-color;
+  border-right: 1px solid var(--border-color);
 }
 
 // Efecto glassmorphism opcional (comentado por defecto)
@@ -31,12 +18,12 @@ $active-bg: rgba(111, 66, 193, 0.25);
 .brand-link {
   text-align: center;
   padding: 1.5rem 1rem;
-  background: linear-gradient(135deg, $primary-purple 0%, $primary-purple-dark 100%);
-  border-bottom: 3px solid $primary-purple-light;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-dark) 100%);
+  border-bottom: 3px solid var(--primary-color-light);
   transition: all 0.3s ease;
 
   &:hover {
-    background: linear-gradient(135deg, $primary-purple-light 0%, $primary-purple 100%);
+    background: linear-gradient(135deg, var(--primary-color-light) 0%, var(--primary-color) 100%);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3);
   }
@@ -53,7 +40,7 @@ $active-bg: rgba(111, 66, 193, 0.25);
   margin-top: 0.5rem;
 
   span {
-    color: $secondary-purple;
+    color: var(--secondary-color);
     font-weight: 300;
   }
 }
@@ -82,12 +69,12 @@ $active-bg: rgba(111, 66, 193, 0.25);
   display: flex;
   align-items: center;
   gap: 1rem;
-  border: 1px solid $border-color;
+  border: 1px solid var(--border-color);
   transition: all 0.3s ease;
 
   &:hover {
     background: rgba(111, 66, 193, 0.2);
-    border-color: $primary-purple-light;
+    border-color: var(--primary-color-light);
     transform: translateX(5px);
   }
 
@@ -98,12 +85,12 @@ $active-bg: rgba(111, 66, 193, 0.25);
       width: 45px;
       height: 45px;
       border-radius: 50%;
-      border: 2px solid $primary-purple-light;
+      border: 2px solid var(--primary-color-light);
       box-shadow: 0 2px 8px rgba(111, 66, 193, 0.4);
       transition: all 0.3s ease;
 
       &:hover {
-        border-color: $secondary-purple;
+        border-color: var(--secondary-color);
         transform: scale(1.1);
       }
     }
@@ -116,20 +103,20 @@ $active-bg: rgba(111, 66, 193, 0.25);
       font-family: 'Segoe UI', sans-serif;
       font-size: 1rem;
       font-weight: 600;
-      color: $text-light;
+      color: var(--text-light);
       text-decoration: none;
       display: block;
       transition: color 0.3s ease;
 
       &:hover {
-        color: $primary-purple-light;
+        color: var(--primary-color-light);
         text-decoration: none;
       }
     }
 
     .status {
       font-size: 0.8rem;
-      color: $text-muted;
+      color: var(--text-muted);
       margin-top: 0.25rem;
 
       .badge {
@@ -151,7 +138,7 @@ $active-bg: rgba(111, 66, 193, 0.25);
   }
 
   .nav-link {
-    color: $text-light;
+    color: var(--text-light);
     font-family: 'Segoe UI', sans-serif;
     font-size: 0.95rem;
     font-weight: 500;
@@ -164,33 +151,33 @@ $active-bg: rgba(111, 66, 193, 0.25);
     border: 1px solid transparent;
 
     &:hover {
-      background: $hover-bg;
-      color: $primary-purple-light;
+      background: var(--hover-bg);
+      color: var(--primary-purple-light);
       border-color: rgba(111, 66, 193, 0.3);
       transform: translateX(5px);
 
       .nav-icon {
-        color: $primary-purple-light;
+        color: var(--primary-purple-light);
         transform: scale(1.15);
       }
     }
 
     &.active {
-      background: $active-bg;
+      background: var(--active-bg);
       color: #ffffff;
-      border-left: 4px solid $primary-purple-light;
+      border-left: 4px solid var(--primary-purple-light);
       font-weight: 600;
       box-shadow: 0 2px 8px rgba(111, 66, 193, 0.3);
 
       .nav-icon {
-        color: $primary-purple-light;
+        color: var(--primary-purple-light);
       }
     }
   }
 
   .nav-icon {
     font-size: 1.25rem;
-    color: $secondary-purple;
+    color: var(--secondary-purple);
     transition: all 0.3s ease;
     width: 24px;
     text-align: center;
@@ -223,7 +210,7 @@ $active-bg: rgba(111, 66, 193, 0.25);
 
       &::before {
         content: '•';
-        color: $secondary-purple;
+        color: var(--secondary-purple);
         margin-right: 0.5rem;
         font-weight: bold;
       }
@@ -233,21 +220,21 @@ $active-bg: rgba(111, 66, 193, 0.25);
 
 // Sección de categorías
 .nav-header {
-  color: $text-muted;
+  color: var(--text-muted);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 700;
   padding: 1rem 1.5rem 0.5rem;
   margin-top: 1rem;
-  border-top: 1px solid $border-color;
+  border-top: 1px solid var(--border-color);
 }
 
 // Sistema
 .sistema-section {
   margin-top: auto;
   padding-top: 1rem;
-  border-top: 2px solid $border-color;
+  border-top: 2px solid var(--border-color);
 
   .nav-link {
     color: #f87171;
@@ -274,11 +261,11 @@ $active-bg: rgba(111, 66, 193, 0.25);
   }
 
   &::-webkit-scrollbar-thumb {
-    background: $primary-purple;
+    background: var (--primary-purple);
     border-radius: 3px;
 
     &:hover {
-      background: $primary-purple-light;
+      background: var(--primary-purple-light);
     }
   }
 }
@@ -357,6 +344,7 @@ $active-bg: rgba(111, 66, 193, 0.25);
     opacity: 0;
     transform: translateX(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);

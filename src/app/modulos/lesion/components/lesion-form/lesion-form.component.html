@@ -1,0 +1,134 @@
+<div class="lesion-form-container">
+    <div class="form-header">
+        <h2>
+            <i class="fas fa-plus-circle"></i>
+            Nueva Lesión Dermatológica
+        </h2>
+        <button class="btn btn-outline-secondary" (click)="cancel()">
+            <i class="fas fa-times"></i>
+            Cancelar
+        </button>
+    </div>
+
+    <!-- Progress Stepper -->
+    <div class="stepper">
+        <div class="step" *ngFor="let step of [1, 2, 3, 4]" [class.active]="currentStep === step"
+            [class.completed]="currentStep > step">
+            <div class="step-number">
+                <i *ngIf="currentStep > step" class="fas fa-check"></i>
+                <span *ngIf="currentStep <= step">{{ step }}</span>
+            </div>
+            <div class="step-label">Paso {{ step }}</div>
+        </div>
+    </div>
+
+    <!-- Step Content -->
+    <div class="step-content">
+        <div class="step-header">
+            <h3>{{ getStepTitle() }}</h3>
+            <p>{{ getStepDescription() }}</p>
+        </div>
+
+        <!-- Step 1: Body Part Selection -->
+        <div class="step-body" *ngIf="currentStep === 1">
+            <app-body-selector (bodyPartSelected)="onBodyPartSelected($event)">
+            </app-body-selector>
+        </div>
+
+        <!-- Step 2: Macroscopic Photo -->
+        <div class="step-body" *ngIf="currentStep === 2">
+            <app-photo-capture mode="macroscopic" [pacienteId]="pacienteId"
+                (photosCaptured)="onMacroscopicPhotosCaptured($event)">
+            </app-photo-capture>
+        </div>
+
+        <!-- Step 3: Microscopic Photos -->
+        <div class="step-body" *ngIf="currentStep === 3">
+            <app-photo-capture mode="microscopic" [multiple]="true" [pacienteId]="pacienteId"
+                (photosCaptured)="onMicroscopicPhotosCaptured($event)">
+            </app-photo-capture>
+        </div>
+
+        <!-- Step 4: Lesion Information -->
+        <div class="step-body" *ngIf="currentStep === 4">
+            <form [formGroup]="lesionForm" class="lesion-info-form">
+                <div class="form-group">
+                    <label for="name">
+                        <i class="fas fa-tag"></i>
+                        Nombre de la Lesión *
+                    </label>
+                    <input type="text" id="name" class="form-control" formControlName="name"
+                        placeholder="Ej: Lunar en brazo izquierdo">
+                    <div class="invalid-feedback"
+                        *ngIf="lesionForm.get('name')?.invalid && lesionForm.get('name')?.touched">
+                        El nombre es requerido (mínimo 3 caracteres)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="observations">
+                        <i class="fas fa-notes-medical"></i>
+                        Observaciones
+                    </label>
+                    <textarea id="observations" class="form-control" formControlName="observations" rows="4"
+                        placeholder="Describe cualquier característica relevante de la lesión..."></textarea>
+                </div>
+
+                <div class="summary-section">
+                    <h4><i class="fas fa-clipboard-check"></i> Resumen</h4>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="label">Ubicación:</span>
+                            <span class="value">{{ selectedBodyPart?.bodyPart?.displayName ||
+                                lesionForm.get('bodyPart')?.value || 'No seleccionada' }}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Fotos Macroscópicas:</span>
+                            <span class="value">{{ macroscopicPhotos.length }}</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Fotos Microscópicas:</span>
+                            <span class="value">{{ microscopicPhotos.length }}</span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <div class="alert alert-danger" *ngIf="errorMessage">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ errorMessage }}
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="form-actions">
+        <button class="btn btn-secondary" (click)="previousStep()" [disabled]="currentStep === 1 || isLoading">
+            <i class="fas fa-arrow-left"></i>
+            Anterior
+        </button>
+
+        <div class="step-indicator">
+            Paso {{ currentStep }} de {{ totalSteps }}
+        </div>
+
+        <button *ngIf="currentStep < totalSteps" class="btn btn-primary" (click)="nextStep()"
+            [disabled]="!canProceedToNextStep() || isLoading">
+            Siguiente
+            <i class="fas fa-arrow-right"></i>
+        </button>
+
+        <button *ngIf="currentStep === totalSteps" class="btn btn-success" (click)="onSubmit()"
+            [disabled]="!lesionForm.valid || isLoading">
+            <span *ngIf="!isLoading">
+                <i class="fas fa-save"></i>
+                Guardar Lesión
+            </span>
+            <span *ngIf="isLoading">
+                <i class="fas fa-spinner fa-spin"></i>
+                Guardando...
+            </span>
+        </button>
+    </div>
+</div>

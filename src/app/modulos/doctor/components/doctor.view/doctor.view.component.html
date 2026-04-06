@@ -1,1 +1,257 @@
-<p>doctor.view works!</p>
+<div class="content" *ngIf="!loading && doctor">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box profile-header">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="profile-view">
+                            <div class="profile-img-wrap">
+                                <div class="profile-img">
+                                    <img src="assets/user.png" alt="Doctor Profile"
+                                        onerror="this.src='assets/user.png'">
+                                </div>
+                            </div>
+                            <div class="profile-basic">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="profile-info-left">
+                                            <h3 class="user-name m-t-0 mb-0">{{ doctor.name }} {{ doctor.lastName }}
+                                            </h3>
+                                            <small class="text-muted">{{ doctor.speciality?.name || 'Especialidad no
+                                                asignada' }}</small>
+                                            <div class="staff-id">ID Doctor: DR-{{ (doctor.id ||
+                                                0).toString().padStart(4, '0') }}</div>
+                                            <div class="staff-msg">
+                                                <button class="btn btn-primary" (click)="editDoctor()">
+                                                    <i class="fa fa-edit"></i> Editar Perfil
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <ul class="personal-info">
+                                            <li>
+                                                <span class="title">Email:</span>
+                                                <span class="text">
+                                                    <a [href]="'mailto:' + doctor.email">{{ doctor.email || 'No
+                                                        disponible' }}</a>
+                                                </span>
+                                            </li>
+                                            <li>
+                                                <span class="title">ID Usuario:</span>
+                                                <span class="text">{{ doctor.userId || 'N/A' }}</span>
+                                            </li>
+                                            <li>
+                                                <span class="title">Especialidad:</span>
+                                                <span class="text">{{ doctor.speciality?.name || 'No asignada' }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-tabs">
+                <ul class="nav nav-tabs nav-tabs-bottom">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#about" data-toggle="tab">Acerca de</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#profile" data-toggle="tab">Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#citas" data-toggle="tab">Citas</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="about">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card-box">
+                                    <h3 class="card-title">Información del Doctor</h3>
+                                    <div class="experience-box">
+                                        <ul class="experience-list">
+                                            <li>
+                                                <div class="experience-content">
+                                                    <div class="timeline-content">
+                                                        <span class="name">{{ doctor.name }} {{ doctor.lastName
+                                                            }}</span>
+                                                        <div>Especialidad: {{ doctor.speciality?.name || 'No asignada'
+                                                            }}</div>
+                                                        <div>Email: {{ doctor.email || 'No disponible' }}</div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="profile">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card-box">
+                                    <h3 class="card-title">Información de Perfil</h3>
+                                    <ul class="personal-info">
+                                        <li>
+                                            <span class="title">Nombre:</span>
+                                            <span class="text">{{ doctor.name }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title">Apellido:</span>
+                                            <span class="text">{{ doctor.lastName }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title">Email:</span>
+                                            <span class="text">{{ doctor.email || 'No disponible' }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title">Especialidad:</span>
+                                            <span class="text">{{ doctor.speciality?.name || 'No asignada' }}</span>
+                                        </li>
+                                        <li>
+                                            <span class="title">ID Doctor:</span>
+                                            <span class="text">DR-{{ (doctor.id || 0).toString().padStart(4, '0')
+                                                }}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="citas">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Upcoming Appointments -->
+                                <div class="card-box mb-4">
+                                    <h3 class="card-title text-primary">Próximas Citas</h3>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Paciente</th>
+                                                    <th>Motivo</th>
+                                                    <th>Estado</th>
+                                                    <th>Notas</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let apt of upcomingAppointments">
+                                                    <td>
+                                                        <div>{{apt.date | date:'dd/MM/yyyy'}}</div>
+                                                        <small class="text-muted">{{apt.date | date:'HH:mm'}} -
+                                                            {{apt.endTime ? (apt.endTime | date:'HH:mm') : ''}}</small>
+                                                    </td>
+                                                    <td>{{apt.patientName}}</td>
+                                                    <td>{{apt.reason}}</td>
+                                                    <td>
+                                                        <span class="badge" [ngClass]="{
+                                                            'bg-success': apt.status === 'CONFIRMED',
+                                                            'bg-warning text-dark': apt.status === 'SCHEDULED',
+                                                            'bg-danger': apt.status === 'CANCELLED',
+                                                            'bg-info text-dark': apt.status === 'COMPLETED',
+                                                            'bg-secondary': apt.status === 'NO_SHOW'
+                                                        }">{{apt.status}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted text-truncate d-inline-block"
+                                                            style="max-width: 150px;" [title]="apt.notes || ''">
+                                                            {{apt.notes || '-'}}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="upcomingAppointments.length === 0">
+                                                    <td colspan="5" class="text-center text-muted py-3">
+                                                        No hay citas próximas programadas
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Past Appointments -->
+                                <div class="card-box">
+                                    <h3 class="card-title text-muted">Citas Pasadas</h3>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Fecha</th>
+                                                    <th>Paciente</th>
+                                                    <th>Motivo</th>
+                                                    <th>Estado</th>
+                                                    <th>Notas</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let apt of pastAppointments">
+                                                    <td>
+                                                        <div>{{apt.date | date:'dd/MM/yyyy'}}</div>
+                                                        <small class="text-muted">{{apt.date | date:'HH:mm'}} -
+                                                            {{apt.endTime ? (apt.endTime | date:'HH:mm') : ''}}</small>
+                                                    </td>
+                                                    <td>{{apt.patientName}}</td>
+                                                    <td>{{apt.reason}}</td>
+                                                    <td>
+                                                        <span class="badge" [ngClass]="{
+                                                            'bg-success': apt.status === 'CONFIRMED',
+                                                            'bg-warning text-dark': apt.status === 'SCHEDULED',
+                                                            'bg-danger': apt.status === 'CANCELLED',
+                                                            'bg-info text-dark': apt.status === 'COMPLETED',
+                                                            'bg-secondary': apt.status === 'NO_SHOW'
+                                                        }">{{apt.status}}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="text-muted text-truncate d-inline-block"
+                                                            style="max-width: 150px;" [title]="apt.notes || ''">
+                                                            {{apt.notes || '-'}}
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="pastAppointments.length === 0">
+                                                    <td colspan="5" class="text-center text-muted py-3">
+                                                        No hay historial de citas pasadas
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content" *ngIf="loading">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Cargando...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content" *ngIf="error && !loading">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-danger">
+                {{ error }}
+            </div>
+            <button class="btn btn-primary" (click)="goBack()">Volver a la lista</button>
+        </div>
+    </div>
+</div>

@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'phoneFormat'
 })
 export class PhoneFormatPipe implements PipeTransform {
-  
+
   transform(value: string | null | undefined): string {
     if (!value) {
       return 'Sin teléfono';
@@ -12,8 +12,7 @@ export class PhoneFormatPipe implements PipeTransform {
 
     // Limpiar el teléfono: quitar espacios, guiones, paréntesis, etc.
     const cleaned = value.toString().replace(/\D/g, '');
-    
-    console.log('📱 Formateando teléfono:', value, '→ Limpio:', cleaned);
+
 
     // Validar que tenga dígitos
     if (cleaned.length === 0) {
